@@ -1,14 +1,15 @@
-﻿using Fantasy.Engine.Physics;
+﻿using Fantasy.Engine.Drawing.Animating.Frames.interfaces;
+using Fantasy.Engine.Physics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Fantasy.Engine.Drawing.Animating.Frames
 {
-	/// <summary>
-	/// Represents a single independent frame of an animation.
-	/// Does not require information from a greater <see cref="Animation"/> object to be drawn.
-	/// </summary>
-	public readonly struct IndependentFrame : IFrame
+    /// <summary>
+    /// Represents a single independent frame of an animation.
+    /// Does not require information from a greater <see cref="Animation"/> object to be drawn.
+    /// </summary>
+    public readonly struct IndependentFrame : IFrame
 	{
 		private readonly int minDurationMili;
 		private readonly int maxDurationExtension;

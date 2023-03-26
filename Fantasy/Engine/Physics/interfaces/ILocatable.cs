@@ -1,14 +1,14 @@
-﻿namespace Fantasy.Engine.Physics
+﻿namespace Fantasy.Engine.Physics.interfaces
 {
-	/// <summary>
-	/// Represents an object that has a location and can calculate the distance to other locations.
-	/// </summary>
-	public interface ILocatable
+    /// <summary>
+    /// Represents an object that has a location and can calculate the distance to other locations.
+    /// </summary>
+    public interface ILocatable
     {
-		/// <summary>
-		/// Gets the BoundingBox2 of the object.
-		/// </summary>
-		BoundingBox2 BoundingBox2 { get; }
+        /// <summary>
+        /// Gets the BoundingBox2 of the object.
+        /// </summary>
+        BoundingBox2 BoundingBox2 { get; }
         /// <summary>
         /// Determines if this ILocatable object intersects with another ILocatable object.
         /// </summary>

@@ -1,6 +1,7 @@
 ﻿using Fantasy.Engine.Drawing;
 using Fantasy.Engine.Drawing.Interfaces;
 using Fantasy.Engine.Physics;
+using Fantasy.Engine.Physics.interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
