@@ -1,0 +1,102 @@
+
+#----------------------------- Global Properties ----------------------------#
+
+/outputDir:bin/$(Platform)
+/intermediateDir:obj/$(Platform)
+/platform:DesktopGL
+/config:
+/profile:Reach
+/compress:False
+
+#-------------------------------- References --------------------------------#
+
+
+#---------------------------------- Content ---------------------------------#
+
+#begin spritesheets/brickwall_spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:spritesheets/brickwall_spritesheet.png
+
+#begin spritesheets/DEBUG.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:spritesheets/DEBUG.png
+
+#begin spritesheets/EMPTY.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:spritesheets/EMPTY.png
+
+#begin spritesheets/grass_spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:spritesheets/grass_spritesheet.png
+
+#begin spritesheets/woodfloor_spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:spritesheets/woodfloor_spritesheet.png
+
+#begin tilemaps/animated_test_map.xml
+/copy:tilemaps/animated_test_map.xml
+
+#begin tilemaps/large_grass_water_map.xml
+/copy:tilemaps/large_grass_water_map.xml
+
+#begin tilemaps/large_light_test_map.xml
+/copy:tilemaps/large_light_test_map.xml
+
+#begin tilemaps/large_test_map.xml
+/copy:tilemaps/large_test_map.xml
+
+#begin tilemaps/new_test_map.xml
+/copy:tilemaps/new_test_map.xml
+
+#begin tilemaps/original_map.xml
+/copy:tilemaps/original_map.xml
+
+#begin tilemaps/spaced_test_map.xml
+/copy:tilemaps/spaced_test_map.xml
+
+#begin tilemaps/test_map.xml
+/copy:tilemaps/test_map.xml
+
+#begin tilemaps/water_grass_map.xml
+/copy:tilemaps/water_grass_map.xml
+
