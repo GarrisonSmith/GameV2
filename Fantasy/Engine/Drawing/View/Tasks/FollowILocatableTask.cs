@@ -5,7 +5,7 @@ using Fantasy.Engine.Physics.interfaces;
 namespace Fantasy.Engine.Drawing.View.Tasks
 {
     /// <summary>
-    /// Defines a camera task for following a provided ILocatable object.
+    /// A camera task for following a provided ILocatable object.
     /// </summary>
     public class FollowILocatableTask : ICameraTask
     {
@@ -29,11 +29,13 @@ namespace Fantasy.Engine.Drawing.View.Tasks
             this.locatable = locatable;
         }
 
-        /// <summary>
-        /// Centers the camera on the center of the current locatable. 
-        /// </summary>
-        public void ProgressTask() {
-            Camera.CenterCamera(locatable.BoundingBox2.Center);    
+		/// <summary>
+		/// Centers the camera on the center of the current locatable. 
+		/// </summary>
+		/// <returns>False as this task never auto completes.</returns>
+		public bool ProgressTask() {
+            Camera.CenterCamera(locatable.BoundingBox2.Center);
+            return false;
         }
     }
 }

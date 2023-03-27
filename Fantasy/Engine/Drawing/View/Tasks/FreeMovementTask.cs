@@ -3,6 +3,9 @@ using Fantasy.Engine.Drawing.View.Tasks.interfaces;
 
 namespace Fantasy.Engine.Drawing.View.Tasks
 {
+    /// <summary>
+    /// Camera task that allows for free movement of the camera based off user input.
+    /// </summary>
     public class FreeMovementTask : ICameraTask
     {
         /// <summary>
@@ -15,11 +18,12 @@ namespace Fantasy.Engine.Drawing.View.Tasks
         /// </summary>
         public FreeMovementTask() { }
 
-        /// <summary>
-        /// Moves the camera freely based off user input.
-        /// </summary>
-        /// <exception cref="System.NotImplementedException">TODO</exception>
-        public void ProgressTask()
+		/// <summary>
+		/// Moves the camera freely based off user input.
+		/// </summary>
+		/// <returns>False as this task never auto completes.</returns>
+		/// <exception cref="System.NotImplementedException">TODO</exception>
+		public bool ProgressTask()
         {
             throw new System.NotImplementedException();
         }

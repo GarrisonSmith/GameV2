@@ -8,8 +8,7 @@
         FollowILocatable,
         FreeMovement,
         PanTo,
-        ZoomOutByIncrements,
-        ZoomInByIncrements,
+        ZoomByIncrements,
         ZoomOutPanZoomInByIncrements
     }
 }

@@ -15,6 +15,7 @@ namespace Fantasy.Engine.Drawing.View.Tasks.interfaces
         /// <summary>
         /// Carries out the camera task.
         /// </summary>
-        void ProgressTask();
+        /// <returns>True if the task is completed, False if not.</returns>
+        bool ProgressTask();
     }
 }
