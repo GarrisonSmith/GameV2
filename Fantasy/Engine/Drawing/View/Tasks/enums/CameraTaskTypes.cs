@@ -9,6 +9,6 @@
         FreeMovement,
         PanTo,
         ZoomByIncrements,
-        ZoomOutPanZoomInByIncrements
+        ZoomOutPanZoomIn
     }
 }
