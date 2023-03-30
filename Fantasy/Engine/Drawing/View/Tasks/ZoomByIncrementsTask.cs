@@ -1,13 +1,13 @@
 ﻿using Fantasy.Engine.Drawing.View.Tasks.enums;
 using Fantasy.Engine.Drawing.View.Tasks.interfaces;
-using System.Numerics;
+using Microsoft.Xna.Framework;
 
 namespace Fantasy.Engine.Drawing.View.Tasks
 {
 	/// <summary>
 	/// A camera task that zooms the camera by increments.
 	/// </summary>
-	public class ZoomByIncrements : ICameraTask
+	public class ZoomByIncrementsTask : ICameraTask
 	{
 		private byte speed;
 		private byte destinationZoom;
@@ -22,7 +22,7 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// </summary>
 		public byte DestinationZoom { get => destinationZoom; }
 		/// <summary>
-		/// The point which the camera will zoom out to until it is within the view of the camera.
+		/// The point which the camera will zoom out to until it is within the view of the camera or the camera's max zoom is reached.
 		/// </summary>
 		public Vector2? ViewPoint { get => viewPoint; }
 		/// <summary>
@@ -33,8 +33,9 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// <summary>
 		/// Creates a new zoom by increments task.
 		/// </summary>
+		/// <param name="speed">The speed the task will zoom with.</param>
 		/// <param name="destinationZoom">The destination zoom of the task.</param>
-		public ZoomByIncrements(byte speed, byte destinationZoom)
+		public ZoomByIncrementsTask(byte speed, byte destinationZoom)
 		{ 
 			this.speed = speed;
 			this.destinationZoom = destinationZoom;
@@ -43,11 +44,12 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// <summary>
 		/// Creates a new zoom by increments tasks.
 		/// </summary>
-		/// <param name="speed"></param>
-		/// <param name="viewPoint"></param>
-		public ZoomByIncrements(byte speed, Vector2 viewPoint)
-		{ 
-		
+		/// <param name="speed">The speed the task will zoom with.</param>
+		/// <param name="viewPoint">The point which the camera will zoom out to until it is within the view of the camera or the camera's max zoom is reached.</param>
+		public ZoomByIncrementsTask(byte speed, Vector2 viewPoint)
+		{
+			this.speed = speed;
+			this.viewPoint = viewPoint;
 		}
 
 		/// <summary>

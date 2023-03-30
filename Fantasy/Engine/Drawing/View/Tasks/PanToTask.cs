@@ -34,6 +34,7 @@ namespace Fantasy.Engine.Drawing.View.Tasks
         /// <summary>
         /// Creates a new pan to task.
         /// </summary>
+        /// <param name="speed">The speed the task will pan with.</param>
         /// <param name="destination">The destination for this pan to task.</param>
         public PanToTask(float speed, Vector2 destination)
         { 

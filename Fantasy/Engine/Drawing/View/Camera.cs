@@ -40,7 +40,16 @@ namespace Fantasy.Engine.Drawing.View
         public static byte Zoom
         {
             get => zoom;
-            set => zoom = value;
+            set
+            {
+                if (value <= MinZoom && value >= MaxZoom)
+                {
+                    Zoom = value;
+                    Stretch = Zoom / Tile.TILE_HEIGHT;
+                    CameraViewBoundingBox.Width = (int)Math.Ceiling((Game._Graphics.PreferredBackBufferWidth / Stretch));
+                    CameraViewBoundingBox.Height = (int)Math.Ceiling((Game._Graphics.PreferredBackBufferHeight / Stretch));
+                }
+            }
         }
         /// <summary>
         /// The max zoom of the camera.
@@ -182,20 +191,5 @@ namespace Fantasy.Engine.Drawing.View
                 CameraViewBoundingBox.Height = (int)Math.Ceiling((Game._Graphics.PreferredBackBufferHeight / Stretch));
             }
         }
-        /// <summary>
-        /// Sets the zoom to be the provided amount if it is within the bounds of min and max zoom.
-        /// </summary>
-        /// <param name="zoom">The zoom for the camera to be set to.</param>
-        public static void SetZoom(byte zoom)
-        {
-            if (zoom <= MinZoom && zoom >= MaxZoom)
-            {
-                Zoom = zoom;
-                Stretch = Zoom / Tile.TILE_HEIGHT;
-                CameraViewBoundingBox.Width = (int)Math.Ceiling((Game._Graphics.PreferredBackBufferWidth / Stretch));
-                CameraViewBoundingBox.Height = (int)Math.Ceiling((Game._Graphics.PreferredBackBufferHeight / Stretch));
-            }
-        }
-
     }
 }

@@ -8,6 +8,12 @@ namespace Fantasy.Engine.Drawing.View.Tasks
     /// </summary>
     public class FreeMovementTask : ICameraTask
     {
+        private byte speed;
+
+        /// <summary>
+        /// The speed the camera will move with.
+        /// </summary>
+        public byte Speed { get => speed; }
         /// <summary>
         /// Gets the camera tasks type of this tasks.
         /// </summary>
@@ -25,7 +31,7 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// <exception cref="System.NotImplementedException">TODO</exception>
 		public bool ProgressTask()
         {
-            throw new System.NotImplementedException();
+            return false;
         }
     }
 }
