@@ -19,9 +19,32 @@ namespace Fantasy.Engine.Drawing.View
         private static Game1 game;
 
         /// <summary>
-        /// Determines if vertical camera movement is restricted.
+        /// The unmodified position matrix of the camera. 
         /// </summary>
-        public static bool VerticalMovementLocked
+        private static Matrix positionMatrix = new()
+		{
+			M11 = 1f,
+			M12 = 0f,
+			M13 = 0f,
+			M14 = 0f,
+			M21 = 0f,
+			M22 = 1f,
+			M23 = 0f,
+			M24 = 0f,
+			M31 = 0f,
+			M32 = 0f,
+			M33 = 1f,
+			M34 = 0f,
+			M41 = 0f,
+			M42 = 0f,
+			M43 = 0f,
+			M44 = 1f
+		};
+
+		/// <summary>
+		/// Determines if vertical camera movement is restricted.
+		/// </summary>
+		public static bool VerticalMovementLocked
         {
             get => verticalMovementLocked;
             set => verticalMovementLocked = value;
@@ -130,27 +153,10 @@ namespace Fantasy.Engine.Drawing.View
         /// <returns>Matrix used to apply camera effects (Camera movement, Camera rotation) when drawing in Scene.</returns>
         public static Matrix GetTransformationMatrix()
         {
-            Matrix positionMatrix = new()
-            {
-                M11 = 1f,
-                M12 = 0f,
-                M13 = 0f,
-                M14 = 0f,
-                M21 = 0f,
-                M22 = 1f,
-                M23 = 0f,
-                M24 = 0f,
-                M31 = 0f,
-                M32 = 0f,
-                M33 = 1f,
-                M34 = 0f,
-                M41 = -CameraViewBoundingBox.TopLeft.X,
-                M42 = -CameraViewBoundingBox.TopLeft.Y,
-                M43 = 0f,
-                M44 = 1f
-            };
+			positionMatrix.M41 = -CameraViewBoundingBox.TopLeft.X;
+			positionMatrix.M42 = -CameraViewBoundingBox.TopLeft.Y;
 
-            return positionMatrix * Matrix.CreateRotationZ(Rotation) * Matrix.CreateScale(Stretch);
+			return positionMatrix * Matrix.CreateRotationZ(Rotation) * Matrix.CreateScale(Stretch);
         }
         /// <summary>
         /// Centers the camera on the provided Vector2.
