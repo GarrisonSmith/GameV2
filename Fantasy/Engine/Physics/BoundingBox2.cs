@@ -58,7 +58,7 @@ namespace Fantasy.Engine.Physics
             get => (Center.X - TopLeft.X) * 2;
             set
             {
-                center.X = topLeft.X + (value / 2);
+				topLeft.X = center.X - (value / 2);
             }
         }
         /// <summary>
@@ -69,7 +69,7 @@ namespace Fantasy.Engine.Physics
             get => (Center.Y - TopLeft.Y) * 2;
             set
             {
-                center.Y = topLeft.Y + (value / 2);
+				topLeft.Y = center.Y - (value / 2);
             }
         }
 
@@ -128,7 +128,7 @@ namespace Fantasy.Engine.Physics
         public bool Contains(Vector2 foo)
         {
             return foo.X >= TopLeft.X && foo.X <= BottomRight.X &&
-                   foo.Y >= BottomRight.Y && foo.Y <= TopLeft.Y;
+                   foo.Y >= TopLeft.Y && foo.Y <= BottomRight.Y;
         }
         /// <summary>
         /// Determines if the provided BoundingBox2 intersects this BoundingBox2.
@@ -237,13 +237,31 @@ namespace Fantasy.Engine.Physics
             return HashCode.Combine(topLeft, center);
         }
 
-        public static bool operator ==(BoundingBox2 foo, BoundingBox2 bar)
+        public static bool operator == (BoundingBox2 foo, BoundingBox2 bar)
         {
-            return (foo.topLeft == bar.topLeft && foo.center == bar.center);
+			if (foo is null)
+			{
+				return (bar is null);
+			}
+			else if (bar is null)
+			{
+				return false;
+			}
+
+			return (foo.topLeft == bar.topLeft && foo.center == bar.center);
         }
 
-        public static bool operator !=(BoundingBox2 foo, BoundingBox2 bar)
+        public static bool operator != (BoundingBox2 foo, BoundingBox2 bar)
         {
+            if (foo is null)
+            {
+                return (bar is not null);
+            }
+            else if (bar is null)
+            {
+                return true;
+            }
+
             return (foo.topLeft != bar.topLeft || foo.center != bar.center);
         }
     }

@@ -13,6 +13,11 @@ namespace Fantasy.Engine.Drawing.View.Tasks.interfaces
         CameraTaskTypes CameraTaskTypes { get; }
 
         /// <summary>
+        /// Configures internal values for the task. 
+        /// </summary>
+        void StartTask();
+
+        /// <summary>
         /// Carries out the camera task.
         /// </summary>
         /// <returns>True if the task is completed, False if not.</returns>

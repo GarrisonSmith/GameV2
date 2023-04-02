@@ -7,7 +7,7 @@ namespace Fantasy.Engine.Drawing.View.Tasks
     /// <summary>
     /// A camera task for following a provided ILocatable object.
     /// </summary>
-    public class FollowILocatableTask : ICameraTask
+    public readonly struct FollowILocatableTask : ICameraTask
     {
         private readonly ILocatable locatable;
 
@@ -29,6 +29,13 @@ namespace Fantasy.Engine.Drawing.View.Tasks
             this.locatable = locatable;
         }
 
+        /// <summary>
+        /// Configures internal values for the task. 
+        /// </summary>
+        public void StartTask() 
+        {
+            //nothing needed.
+        }
 		/// <summary>
 		/// Centers the camera on the center of the current locatable. 
 		/// </summary>

@@ -7,20 +7,20 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 	/// <summary>
 	/// A camera task that zooms the camera by increments.
 	/// </summary>
-	public class ZoomByIncrementsTask : ICameraTask
+	public struct ZoomByIncrementsTask : ICameraTask
 	{
-		private byte speed;
-		private byte destinationZoom;
-		private Vector2? viewPoint;
+		private readonly byte zoomSpeed;
+		private readonly byte? destinationZoom;
+		private readonly Vector2? viewPoint;
 
 		/// <summary>
 		/// The speed of the zoom task.
 		/// </summary>
-		public byte Speed { get => speed; }
+		public byte ZoomSpeed { get => zoomSpeed; }
 		/// <summary>
 		/// The destination zoom for the task.
 		/// </summary>
-		public byte DestinationZoom { get => destinationZoom; }
+		public byte? DestinationZoom { get => destinationZoom; }
 		/// <summary>
 		/// The point which the camera will zoom out to until it is within the view of the camera or the camera's max zoom is reached.
 		/// </summary>
@@ -37,7 +37,7 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// <param name="destinationZoom">The destination zoom of the task.</param>
 		public ZoomByIncrementsTask(byte speed, byte destinationZoom)
 		{ 
-			this.speed = speed;
+			this.zoomSpeed = speed;
 			this.destinationZoom = destinationZoom;
 			this.viewPoint = null;
 		}
@@ -48,10 +48,18 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// <param name="viewPoint">The point which the camera will zoom out to until it is within the view of the camera or the camera's max zoom is reached.</param>
 		public ZoomByIncrementsTask(byte speed, Vector2 viewPoint)
 		{
-			this.speed = speed;
+			this.zoomSpeed = speed;
+			this.destinationZoom = null;
 			this.viewPoint = viewPoint;
 		}
 
+		/// <summary>
+		/// Configures internal values for the task. 
+		/// </summary>
+		public void StartTask()
+		{
+			//nothing needed.
+		}
 		/// <summary>
 		/// Progress the task by zooming the camera in or out by one.
 		/// </summary>
@@ -65,29 +73,29 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 					return true;
 				}
 
-				if (Camera.Zoom + Speed < Camera.MaxZoom)
+				if (Camera.Zoom - ZoomSpeed > Camera.MinZoom)
 				{
-					Camera.Zoom += Speed;
+					Camera.Zoom -= ZoomSpeed;
 				}
 				else
 				{
-					Camera.Zoom = Camera.MaxZoom;
+					Camera.Zoom = Camera.MinZoom;
 					return true;
 				}
 				return false;
 			}
 
-			if (Camera.Zoom + Speed < DestinationZoom)
+			if (Camera.Zoom + ZoomSpeed < DestinationZoom)
 			{
-				Camera.Zoom += Speed;
+				Camera.Zoom += ZoomSpeed;
 			}
-			else if (Camera.Zoom - Speed > DestinationZoom)
+			else if (Camera.Zoom - ZoomSpeed > DestinationZoom)
 			{
-				Camera.Zoom -= Speed;
+				Camera.Zoom -= ZoomSpeed;
 			}
 			else
 			{
-				Camera.Zoom = DestinationZoom;
+				Camera.Zoom = (byte)DestinationZoom;
 			}
 
 			return Camera.Zoom == DestinationZoom;
