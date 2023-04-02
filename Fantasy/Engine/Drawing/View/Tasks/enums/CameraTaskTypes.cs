@@ -5,10 +5,10 @@
     /// </summary>
     public enum CameraTaskTypes
     {
-        FollowILocatable,
-        FreeMovement,
-        PanTo,
-        ZoomByIncrements,
-        ZoomOutPanZoomIn
+        FollowILocatable = 0,
+        FreeMovement = 1,
+        PanTo = 2,
+        ZoomByIncrements = 3,
+        ZoomOutPanZoomIn = 4
     }
 }
