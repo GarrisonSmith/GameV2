@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Fantasy.Engine.Drawing.Animating.Frames;
 using System;
-using Fantasy.Engine.Drawing.Interfaces;
+using Fantasy.Engine.SubGameComponents.interfaces.components;
 
 namespace Fantasy.Engine.Drawing.Animating
 {

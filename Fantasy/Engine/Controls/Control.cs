@@ -1,4 +1,5 @@
 ﻿using Fantasy.Engine.Controls.enums;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Net;
@@ -34,6 +35,11 @@ namespace Fantasy.Engine.Controls
 			heldDuration = TimeSpan.Zero;
 			this.controlActionType = controlActionType;
 			this.key = key;
+		}
+
+		public void Update()
+		{ 
+		
 		}
 	}
 }

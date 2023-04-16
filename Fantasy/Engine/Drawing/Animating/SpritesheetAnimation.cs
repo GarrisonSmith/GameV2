@@ -1,7 +1,7 @@
 ﻿using Fantasy.Engine.ContentManagement;
 using Fantasy.Engine.Drawing.Animating.Frames;
-using Fantasy.Engine.Drawing.Interfaces;
 using Fantasy.Engine.Physics;
+using Fantasy.Engine.SubGameComponents.interfaces.components;
 using Microsoft.Xna.Framework;
 using System;
 using System.Xml;

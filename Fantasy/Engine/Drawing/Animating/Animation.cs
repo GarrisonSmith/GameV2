@@ -1,4 +1,4 @@
-﻿using Fantasy.Engine.Drawing.Interfaces;
+﻿using Fantasy.Engine.SubGameComponents.interfaces.components;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;

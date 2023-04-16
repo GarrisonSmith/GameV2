@@ -1,5 +1,4 @@
 ﻿using Fantasy.Engine.Drawing;
-using Fantasy.Engine.Drawing.Interfaces;
 using Fantasy.Engine.Physics;
 using Fantasy.Engine.Physics.interfaces;
 using Microsoft.Xna.Framework;
@@ -11,7 +10,7 @@ namespace Fantasy.Engine.Mapping.Tiling
     /// <summary>
     /// Represents a collection of tiles on a specific map layer.
     /// </summary>
-    public struct TileCollection : ILocatable, ISubDrawableCollection<Location, Tile>
+    public struct TileCollection
 	{
 		private bool isVisible;
 		private bool useCombinedTexture;
@@ -54,7 +53,7 @@ namespace Fantasy.Engine.Mapping.Tiling
 		/// The tiles in the TileCollection, with the keys being a Location struct describing the row and column of the BoundingBox2 of the layer 
 		/// and the values being the tiles themselves.
 		/// </summary>
-		public Dictionary<Location, Tile> Tiles
+		public Dictionary<Location, Tile> SubDrawables
 		{
 			get => tiles;
 		}
@@ -87,9 +86,9 @@ namespace Fantasy.Engine.Mapping.Tiling
 		/// <returns>The tile at the specified location.</returns>
 		public Tile LookUpTile(Location foo)
 		{
-			if (Tiles.ContainsKey(foo))
+			if (SubDrawables.ContainsKey(foo))
 			{
-				return Tiles[foo];
+				return SubDrawables[foo];
 			}
 			return null;
 		}
@@ -117,7 +116,7 @@ namespace Fantasy.Engine.Mapping.Tiling
 			);
 			SpriteBatchHandler.SpriteBatch.GraphicsDevice.SetRenderTarget(foo);
 			SpriteBatchHandler.Begin();
-			foreach (Tile tile in Tiles.Values)
+			foreach (Tile tile in SubDrawables.Values)
 			{
 				if (tile is not AnimatedTile)
 				{
@@ -147,7 +146,7 @@ namespace Fantasy.Engine.Mapping.Tiling
 			if (useCombinedTexture)
 			{
 				SpriteBatchHandler.Draw(combinedTexture, BoundingBox2.Rectangle, Color.White);
-                foreach (Tile tile in Tiles.Values)
+                foreach (Tile tile in SubDrawables.Values)
                 {
 					if (tile is AnimatedTile animatedTile)
 					{
@@ -157,7 +156,7 @@ namespace Fantasy.Engine.Mapping.Tiling
                 return;
 			}
 
-			foreach (Tile tile in Tiles.Values)
+			foreach (Tile tile in SubDrawables.Values)
 			{
 				if (tile is AnimatedTile animatedTile)
 				{
