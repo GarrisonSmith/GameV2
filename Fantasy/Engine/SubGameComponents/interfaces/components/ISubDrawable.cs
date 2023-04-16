@@ -18,26 +18,17 @@ namespace Fantasy.Engine.SubGameComponents.interfaces.components
         /// </summary>
         bool IsAnimated { get; }
 
-        /// <summary>
-        /// Gets the top left point of this subcomponent's starting texture on its spritesheet.
-        /// </summary>
-        Point TextureSourceTopLeft { get; }
-
-        /// <summary>
-        /// Gets the area of the spritesheet from which the subcomponent's texture is taken.
-        /// </summary>
-        Rectangle SheetBox { get; }
-
-        /// <summary>
-        /// Gets the spritesheet that the subcomponent's texture is taken from.
-        /// </summary>
-        Texture2D Spritesheet { get; }
+		/// <summary>
+		/// Describes the priority this subcomponent will be drawn with in its <c>ISubDrawableCollection</c> collection.
+		/// Lower numbers are higher priority.
+		/// 0 priority values are reserved for invisible subcomponent.
+		/// </summary>
+		byte DrawOrder { get; set; }
 
         /// <summary>
         /// Draws the subcomponent using the specified <c>GameTime</c>.
         /// </summary>
         /// <param name="gameTime">The elapsed game time since the last update.</param>
-        /// <param name="layer">The layer to be drawn to.</param>
-        void Draw(GameTime gameTime, int layer);
+        void Draw(GameTime gameTime);
     }
 }

@@ -7,13 +7,17 @@ using System.Collections.Generic;
 
 namespace Fantasy.Engine.SubGameComponents.collections
 {
-	public class SubComponentCollection<T> : ISubComponentCollection, ISubUpdateableCollection, ISubDrawableCollection<T>
+	public class SubComponentCollection<T> : ISubComponentCollection, ISubUpdateableCollection, ISubDrawableCollection, ISubComponent
 	{
+		public List<ISubComponent> Components => throw new System.NotImplementedException();
+
 		public bool IsActive { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
-		public Dictionary<byte, ISubUpdateable> SubUpdateables => throw new System.NotImplementedException();
+		public Dictionary<byte, List<ISubUpdateable>> SubUpdateables => throw new System.NotImplementedException();
 
 		public bool IsVisible { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
+		public bool IsAnimated => throw new System.NotImplementedException();
 
 		public bool ContainsAnimations => throw new System.NotImplementedException();
 
@@ -21,13 +25,11 @@ namespace Fantasy.Engine.SubGameComponents.collections
 
 		public Texture2D CombinedTexture => throw new System.NotImplementedException();
 
-		public Dictionary<T, ISubDrawable> SubDrawables => throw new System.NotImplementedException();
+		public Dictionary<byte, List<ISubDrawable>> SubDrawables => throw new System.NotImplementedException();
 
-		public Dictionary<T, Animation> AnimatedSubDrawables => throw new System.NotImplementedException();
+		public Dictionary<byte, List<Animation>> AnimatedSubDrawables => throw new System.NotImplementedException();
 
-		public Dictionary<T, ISubDrawable> StaticSubDrawables => throw new System.NotImplementedException();
-
-		public List<ISubComponent> Components => throw new System.NotImplementedException();
+		public Dictionary<byte, List<ISubDrawable>> StaticSubDrawables => throw new System.NotImplementedException();
 
 		public void CreateCombinedTexture()
 		{

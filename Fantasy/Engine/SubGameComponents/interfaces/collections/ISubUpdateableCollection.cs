@@ -15,11 +15,11 @@ namespace Fantasy.Engine.SubGameComponents.interfaces.collections
         bool IsActive { get; set; }
 
         /// <summary>
-        /// Gets the dictionary of type <c>ISubUpdateable</c> in the <c>ISubUpdateableCollection</c>, identified by keys of type <c>byte</c>.
-        /// Lower keys are higher priority.
+        /// Gets the dictionary <c>ISubUpdateable</c> lists in the <c>ISubUpdateableCollection</c>, identified by keys of type <c>byte</c>.
+        /// Lower keys have higher update priority.
         /// 0 priority keys are reserved for inactive subcomponent.
         /// </summary>
-        Dictionary<byte, ISubUpdateable> SubUpdateables { get; }
+        Dictionary<byte, List<ISubUpdateable>> SubUpdateables { get; }
 
         /// <summary>
         /// Updates the <c>ISubUpdateableCollection</c> using the specified <c>GameTime</c>.

@@ -1,5 +1,4 @@
 ﻿using Fantasy.Engine.Drawing.Animating;
-using Fantasy.Engine.Mapping;
 using Fantasy.Engine.SubGameComponents.interfaces.components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,18 +9,22 @@ namespace Fantasy.Engine.SubGameComponents.interfaces.collections
     /// <summary>
     /// Represents of collection of drawable subcomponents that can be used inside a <c>DrawableGameComponent</c>. 
     /// </summary>
-    /// <typeparam name="T">The type of keys used to identify the subcomponents in the <c>ISubDrawableCollection</c>.</typeparam>
-    public interface ISubDrawableCollection<T>
+    public interface ISubDrawableCollection
     {
-        /// <summary>
-        /// Gets a value indicating whether this <c>ISubDrawableCollection</c> is visible or not.
-        /// </summary>
-        bool IsVisible { get; set; }
+		/// <summary>
+		/// Gets or sets a value indicating whether this <c>DrawableGameComponent</c> is visible or not.
+		/// </summary>
+		bool IsVisible { get; set; }
 
-        /// <summary>
-        /// Gets a value indicating whether this <c>ISubDrawableCollection</c> contains animations or not.
-        /// </summary>
-        bool ContainsAnimations { get; }
+		/// <summary>
+		/// Gets a value indicating whether this <c>DrawableGameComponent</c> is animated or not.
+		/// </summary>
+		bool IsAnimated { get; }
+
+		/// <summary>
+		/// Gets a value indicating whether this <c>ISubDrawableCollection</c> contains animations or not.
+		/// </summary>
+		bool ContainsAnimations { get; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to use a combined texture for all elements in the <c>ISubDrawableCollection</c>.
@@ -33,20 +36,26 @@ namespace Fantasy.Engine.SubGameComponents.interfaces.collections
         /// </summary>
         Texture2D CombinedTexture { get; }
 
-        /// <summary>
-        /// Gets the dictionary of type <c>ISubDrawable</c> in the <c>ISubDrawableCollection</c>, identified by keys of type <c>T</c>.
-        /// </summary>
-        Dictionary<T, ISubDrawable> SubDrawables { get; }
+		/// <summary>
+		/// Gets the dictionary <c>ISubDrawable</c> lists in the <c>ISubDrawableCollection</c>, identified by keys of type <c>byte</c>.
+		/// Lower keys have higher draw priority.
+		/// 0 priority keys are reserved for invisible subcomponent.
+		/// </summary>
+		Dictionary<byte, List<ISubDrawable>> SubDrawables { get; }
 
-        /// <summary>
-        /// Gets the dictionary of type <c>Animation</c> in the <c>ISubDrawableCollection</c>, identified by keys of type <c>T</c>.
-        /// </summary>
-        Dictionary<T, Animation> AnimatedSubDrawables { get; }
+		/// <summary>
+		/// Gets the dictionary <c>Animation</c> lists in the <c>ISubDrawableCollection</c> which are of type <c>Animation</c>, identified by keys of type <c>byte</c>.
+		/// Lower keys have higher draw priority.
+		/// 0 priority keys are reserved for invisible subcomponent.
+		/// </summary>
+		Dictionary<byte, List<Animation>> AnimatedSubDrawables { get; }
 
-        /// <summary>
-        /// Gets the dictionary of type <c>ISubDrawable</c> in the <c>ISubDrawableCollection</c>, identified by keys of type <c>T</c> that are static drawings.
-        /// </summary>
-        Dictionary<T, ISubDrawable> StaticSubDrawables { get; }
+		/// <summary>
+		/// Gets the dictionary <c>Animation</c> lists in the <c>ISubDrawableCollection</c> which are not of type <c>Animation</c>, identified by keys of type <c>byte</c>.
+		/// Lower keys have higher draw priority.
+		/// 0 priority keys are reserved for invisible subcomponent.
+		/// </summary>
+		Dictionary<byte, List<ISubDrawable>> StaticSubDrawables { get; }
 
         /// <summary>
         /// Creates the combined texture for the entire <c>ISubDrawableCollection</c>.

@@ -6,11 +6,13 @@ using System.Collections.Generic;
 
 namespace Fantasy.Engine.SubGameComponents.collections
 {
-	public class SubUpdateableCollection : ISubUpdateableCollection
+	public class SubUpdateableCollection : ISubUpdateableCollection, ISubUpdateable
 	{
 		public bool IsActive { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-		public Dictionary<byte, ISubUpdateable> SubUpdateables => throw new NotImplementedException();
+		public Dictionary<byte, List<ISubUpdateable>> SubUpdateables => throw new NotImplementedException();
+
+		public byte UpdateOrder { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
 		public void Update(GameTime gameTime)
 		{

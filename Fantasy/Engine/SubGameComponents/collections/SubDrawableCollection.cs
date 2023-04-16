@@ -3,35 +3,38 @@ using Fantasy.Engine.SubGameComponents.interfaces.collections;
 using Fantasy.Engine.SubGameComponents.interfaces.components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 
 namespace Fantasy.Engine.SubGameComponents.collections
 {
-	public class SubDrawableCollection<T> : ISubDrawableCollection<T>
+	public class SubDrawableCollection : ISubDrawableCollection, ISubDrawable
 	{
-		public bool IsVisible { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public bool IsVisible { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
-		public bool ContainsAnimations => throw new NotImplementedException();
+		public bool IsAnimated => throw new System.NotImplementedException();
 
-		public bool UseCombinedTexture { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public bool ContainsAnimations => throw new System.NotImplementedException();
 
-		public Texture2D CombinedTexture => throw new NotImplementedException();
+		public bool UseCombinedTexture { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
-		public Dictionary<T, ISubDrawable> SubDrawables => throw new NotImplementedException();
+		public Texture2D CombinedTexture => throw new System.NotImplementedException();
 
-		public Dictionary<T, Animation> AnimatedSubDrawables => throw new NotImplementedException();
+		public Dictionary<byte, List<ISubDrawable>> SubDrawables => throw new System.NotImplementedException();
 
-		public Dictionary<T, ISubDrawable> StaticSubDrawables => throw new NotImplementedException();
+		public Dictionary<byte, List<Animation>> AnimatedSubDrawables => throw new System.NotImplementedException();
+
+		public Dictionary<byte, List<ISubDrawable>> StaticSubDrawables => throw new System.NotImplementedException();
+
+		public byte DrawOrder { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
 		public void CreateCombinedTexture()
 		{
-			throw new NotImplementedException();
+			throw new System.NotImplementedException();
 		}
 
 		public void Draw(GameTime gameTime)
 		{
-			throw new NotImplementedException();
+			throw new System.NotImplementedException();
 		}
 	}
 }
