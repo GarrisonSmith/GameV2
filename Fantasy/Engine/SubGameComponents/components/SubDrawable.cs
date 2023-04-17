@@ -1,14 +1,12 @@
 ﻿using Fantasy.Engine.SubGameComponents.interfaces.components;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 
 namespace Fantasy.Engine.SubGameComponents.components
 {
 	/// <summary>
 	/// Represents a subcomponent that can updated inside a <c>ISubDrawableCollection</c>.
 	/// </summary>
-	public class SubDrawable : SubComponent, ISubDrawable
+	public abstract class SubDrawable : SubComponent, ISubDrawable
 	{
 		protected bool isVisible;
 		protected bool isAnimated;
@@ -30,19 +28,9 @@ namespace Fantasy.Engine.SubGameComponents.components
 		public byte DrawOrder { get => drawOrder; set => drawOrder = value; }
 
 		/// <summary>
-		/// Initializes the subcomponent.
-		/// </summary>
-		public override void Initialize()
-		{
-
-		}
-		/// <summary>
 		/// Draws the subcomponent using the specified <c>GameTime</c>.
 		/// </summary>
 		/// <param name="gameTime">The elapsed game time since the last update.</param>
-		public void Draw(GameTime gameTime)
-		{
-
-		}
+		public abstract void Draw(GameTime gameTime);
 	}
 }

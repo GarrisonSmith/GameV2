@@ -6,7 +6,7 @@ namespace Fantasy.Engine.SubGameComponents.components
 	/// <summary>
 	/// Represents a subcomponent that can updated inside a <c>ISubUpdateableCollection</c>
 	/// </summary>
-	public class SubUpdateable : SubComponent, ISubUpdateable
+	public abstract class SubUpdateable : SubComponent, ISubUpdateable
 	{
 		protected bool isActive;
 		protected byte updateOrder;
@@ -24,19 +24,9 @@ namespace Fantasy.Engine.SubGameComponents.components
 		public byte UpdateOrder { get => updateOrder; set => updateOrder = value; }
 
 		/// <summary>
-		/// Initializes the subcomponent.
-		/// </summary>
-		public override void Initialize()
-		{
-
-		}
-		/// <summary>
 		/// Updates the subcomponent using the specified <c>GameTime</c>.
 		/// </summary>
 		/// <param name="gameTime">The elapsed game time since the last update.</param>
-		public void Update(GameTime gameTime)
-		{
-
-		}
+		public abstract void Update(GameTime gameTime);
 	}
 }

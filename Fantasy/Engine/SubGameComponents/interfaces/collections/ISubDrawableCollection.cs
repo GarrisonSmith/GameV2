@@ -21,11 +21,6 @@ namespace Fantasy.Engine.SubGameComponents.interfaces.collections
 		/// </summary>
 		bool IsAnimated { get; }
 
-		/// <summary>
-		/// Gets a value indicating whether this <c>ISubDrawableCollection</c> contains animations or not.
-		/// </summary>
-		bool ContainsAnimations { get; }
-
         /// <summary>
         /// Gets or sets a value indicating whether to use a combined texture for all elements in the <c>ISubDrawableCollection</c>.
         /// </summary>
