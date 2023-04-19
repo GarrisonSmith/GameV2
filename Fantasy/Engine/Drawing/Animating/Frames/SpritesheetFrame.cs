@@ -58,7 +58,7 @@ namespace Fantasy.Engine.Drawing.Animating.Frames
 		/// <param name="BoundingBox2">The BoundingBox2 at which to draw the frame.</param>
 		/// <param name="sourceBox">The source rectangle of the frame on the sprite sheet.</param>
 		/// <param name="color">The color to use when drawing the frame.</param>
-		public void DrawFrame(Texture2D spritesheet, BoundingBox2 BoundingBox2, Rectangle sourceBox, Color color)
+		public void DrawFrame(Texture2D spritesheet, AreaBox BoundingBox2, Rectangle sourceBox, Color color)
 		{
 			SpriteBatchHandler.Draw(spritesheet, BoundingBox2.TopLeft + OffSet, sourceBox, color);
 		}

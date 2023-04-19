@@ -17,7 +17,7 @@ namespace Fantasy.Engine.Mapping.Tiling
 		private Texture2D combinedTexture;
 		private readonly MapLayer map;
 		private readonly Dictionary<Location, Tile> tiles;
-		private readonly BoundingBox2 boundingBox2;
+		private readonly AreaBox boundingBox2;
 
 		/// <summary>
 		/// Indicates whether the TileCollection is visible or not.
@@ -60,7 +60,7 @@ namespace Fantasy.Engine.Mapping.Tiling
 		/// <summary>
 		/// The BoundingBox2 of the TileCollection.
 		/// </summary>
-		public BoundingBox2 BoundingBox2
+		public AreaBox BoundingBox2
 		{
 			get => boundingBox2;
 		}
@@ -97,7 +97,7 @@ namespace Fantasy.Engine.Mapping.Tiling
 		/// </summary>
 		/// <param name="foo">The BoundingBox2 of the tile to look up.</param>
 		/// <returns>The tile at the specified BoundingBox2.</returns>
-		public Tile LookUpTile(BoundingBox2 foo)
+		public Tile LookUpTile(AreaBox foo)
 		{
 			return LookUpTile(new Location(foo));
 		}
@@ -120,8 +120,8 @@ namespace Fantasy.Engine.Mapping.Tiling
 			{
 				if (tile is not AnimatedTile)
 				{
-					tile.DrawBoundingBoxes.TryGetValue(Map.Layer, out HashSet<BoundingBox2> layerDrawBoundingBox2);
-					foreach (BoundingBox2 boundBox in layerDrawBoundingBox2)
+					tile.DrawBoundingBoxes.TryGetValue(Map.Layer, out HashSet<AreaBox> layerDrawBoundingBox2);
+					foreach (AreaBox boundBox in layerDrawBoundingBox2)
 					{
                         SpriteBatchHandler.Draw(tile.Spritesheet, boundBox.TopLeft - BoundingBox2.TopLeft, tile.SheetBox, Color.White);
 					}

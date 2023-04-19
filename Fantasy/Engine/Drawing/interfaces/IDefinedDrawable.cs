@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework;
 namespace Fantasy.Engine.Drawing.interfaces
 {
 	/// <summary>
-	/// Represents a single item that be drawn.
+	/// Represents a single item that can be drawn.
 	/// </summary>
-	public interface ISingleDrawable
+	public interface IDefinedDrawable
 	{
 		/// <summary>
 		/// Gets the top left point of this item's starting texture on its spritesheet.

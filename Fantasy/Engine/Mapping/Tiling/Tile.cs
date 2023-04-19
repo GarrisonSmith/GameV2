@@ -90,7 +90,7 @@ namespace Fantasy.Engine.Mapping.Tiling
 		/// <param name="BoundingBox2">An out parameter that will contain the BoundingBox2 of the top left and bottom left of the tiles on the specified layer</param>
 		/// <returns>A dictionary containing the tiles on the specified layer, with the keys being a Location struct describing the row and column of the BoundingBox2 of the layer
 		/// and the values being the tiles themselves.</returns>
-		public static Dictionary<Location, Tile> GetLayerDictionary(int layer, out BoundingBox2 BoundingBox2)
+		public static Dictionary<Location, Tile> GetLayerDictionary(int layer, out AreaBox BoundingBox2)
 		{
 			Dictionary<Location, Tile> foo = new();
 			foreach (Tile tile in UNIQUE_TILES.Values)
@@ -122,7 +122,7 @@ namespace Fantasy.Engine.Mapping.Tiling
 			}
 			bottomLeft.X += 1; bottomLeft.Y += 1; bottomLeft.X *= TILE_WIDTH; bottomLeft.Y *= TILE_HEIGHT;
 			topLeft.X *= TILE_WIDTH; topLeft.Y *= TILE_HEIGHT;
-			BoundingBox2 = new BoundingBox2(topLeft, new Vector2((topLeft.X + (bottomLeft.X - topLeft.X) / 2), ((topLeft.Y + (bottomLeft.Y - topLeft.Y) / 2)) + .5f));
+			BoundingBox2 = new AreaBox(topLeft, new Vector2((topLeft.X + (bottomLeft.X - topLeft.X) / 2), ((topLeft.Y + (bottomLeft.Y - topLeft.Y) / 2)) + .5f));
 
 			return foo;
 		}
@@ -190,8 +190,8 @@ namespace Fantasy.Engine.Mapping.Tiling
 		private bool isVisible = true; //TODO implement
 		private Rectangle sheetBox;
 		private readonly Texture2D spritesheet;
-		private readonly Dictionary<int, HashSet<BoundingBox2>> layerBoundingBoxes;
-		private readonly Dictionary<int, HashSet<BoundingBox2>> drawBoundingBoxes;
+		private readonly Dictionary<int, HashSet<AreaBox>> layerBoundingBoxes;
+		private readonly Dictionary<int, HashSet<AreaBox>> drawBoundingBoxes;
 		private readonly string id;
 
 		/// <summary>
@@ -226,14 +226,14 @@ namespace Fantasy.Engine.Mapping.Tiling
 		/// <summary>
 		/// A dictionary that maps layer numbers to HashSets of BoundingBox2 for the tile on the current map.
 		/// </summary>
-		public Dictionary<int, HashSet<BoundingBox2>> LayerBoundingBoxes
+		public Dictionary<int, HashSet<AreaBox>> LayerBoundingBoxes
 		{
 			get => layerBoundingBoxes;
 		}
 		/// <summary>
 		/// A dictionary that maps layer numbers to HashSets of BoundingBox2 that describe draw locations on the current map.
 		/// </summary>
-		public Dictionary<int, HashSet<BoundingBox2>> DrawBoundingBoxes
+		public Dictionary<int, HashSet<AreaBox>> DrawBoundingBoxes
 		{
 			get => drawBoundingBoxes;
 		}
@@ -253,8 +253,8 @@ namespace Fantasy.Engine.Mapping.Tiling
 		protected Tile(XmlElement tileElement)
 		{
 			id = tileElement.GetAttribute("id");
-            layerBoundingBoxes = new Dictionary<int, HashSet<BoundingBox2>>();
-            drawBoundingBoxes = new Dictionary<int, HashSet<BoundingBox2>>();
+            layerBoundingBoxes = new Dictionary<int, HashSet<AreaBox>>();
+            drawBoundingBoxes = new Dictionary<int, HashSet<AreaBox>>();
 			foreach (XmlElement foo in tileElement)
 			{
 				if (foo.Name.Equals("spritesheet"))
@@ -277,13 +277,13 @@ namespace Fantasy.Engine.Mapping.Tiling
 						throw new Exception("Tile XmlElement contains duplicate layer: " + layer + " " + tileElement);
 					}
 
-                    HashSet<BoundingBox2> layerSet = new();
-                    HashSet<BoundingBox2> drawSet = new();
+                    HashSet<AreaBox> layerSet = new();
+                    HashSet<AreaBox> drawSet = new();
 					foreach (XmlElement location in foo)
 					{
 						float x = float.Parse(location.GetAttribute("x"));
 						float y = float.Parse(location.GetAttribute("y"));
-                        BoundingBox2 boundBox = new(x, y, x + TILE_WIDTH / 2 + .5f, y + TILE_HEIGHT / 2 + .5f);
+                        AreaBox boundBox = new(x, y, x + TILE_WIDTH / 2 + .5f, y + TILE_HEIGHT / 2 + .5f);
 						layerSet.Add(boundBox);
 						drawSet.Add(boundBox);
 					}
@@ -307,12 +307,12 @@ namespace Fantasy.Engine.Mapping.Tiling
 		/// <returns>A bool value indicating whether or not the tile is present on the specified layer.</returns>
 		public bool GetLocationDictionary(int layer, Dictionary<Location, Tile> foo)
 		{
-			if (!LayerBoundingBoxes.TryGetValue(layer, out HashSet<BoundingBox2> set))
+			if (!LayerBoundingBoxes.TryGetValue(layer, out HashSet<AreaBox> set))
 			{
 				return false;
 			}
 
-			foreach (BoundingBox2 boundBox in set)
+			foreach (AreaBox boundBox in set)
 			{
 				foo.Add(new Location(boundBox), this);
 			}
@@ -331,7 +331,7 @@ namespace Fantasy.Engine.Mapping.Tiling
 		/// Removes the draw location of the tile from the specified layer.
 		/// </summary>
 		/// <param name="layer">The layer number to remove the draw location from.</param>
-		public void RemoveDrawLocation(int layer, BoundingBox2 boundBox)
+		public void RemoveDrawLocation(int layer, AreaBox boundBox)
 		{
 			if (!IsInLayer(layer))
 			{
@@ -359,7 +359,7 @@ namespace Fantasy.Engine.Mapping.Tiling
 					continue;
 				}
 
-				foreach (BoundingBox2 boundBox in DrawBoundingBoxes[startLayer])
+				foreach (AreaBox boundBox in DrawBoundingBoxes[startLayer])
 				{
 					map.TileLayer.LookUpTile(boundBox)?.RemoveDrawLocation(map.Layer, boundBox);
 				}
@@ -373,8 +373,8 @@ namespace Fantasy.Engine.Mapping.Tiling
 		/// <param name="layer">The layer to be drawn.</param>
 		public void Draw(GameTime gameTime, int layer)
 		{
-            DrawBoundingBoxes.TryGetValue(layer, out HashSet<BoundingBox2> layerDrawBoundingBox2);
-			foreach (BoundingBox2 boundBox in layerDrawBoundingBox2)
+            DrawBoundingBoxes.TryGetValue(layer, out HashSet<AreaBox> layerDrawBoundingBox2);
+			foreach (AreaBox boundBox in layerDrawBoundingBox2)
 			{
 				if (Camera.CameraViewBoundingBox.Intersects(boundBox))
 				{

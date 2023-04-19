@@ -16,8 +16,8 @@ namespace Fantasy.Engine.Drawing.View
         private static float stretch;
         private static float rotation;
 		private static Matrix positionMatrix;
-		private static BoundingBox2 cameraMovementBoundingBox;
-        private static BoundingBox2 cameraViewBoundingBox;
+		private static AreaBox cameraMovementBoundingBox;
+        private static AreaBox cameraViewBoundingBox;
         private static TaskStack taskStack;
         private static Game1 game;
 
@@ -97,7 +97,7 @@ namespace Fantasy.Engine.Drawing.View
 		/// <summary>
 		/// The bounding box the camera center cannot leave.
 		/// </summary>
-		public static BoundingBox2 CameraMovementBoundingBox
+		public static AreaBox CameraMovementBoundingBox
         {
             get => cameraMovementBoundingBox;
             set => cameraMovementBoundingBox = value;
@@ -105,7 +105,7 @@ namespace Fantasy.Engine.Drawing.View
         /// <summary>
         /// The bounding box that describes what is inside the camera's view.
         /// </summary>
-        public static BoundingBox2 CameraViewBoundingBox
+        public static AreaBox CameraViewBoundingBox
         {
             get => cameraViewBoundingBox;
             set => cameraViewBoundingBox = value;
@@ -132,7 +132,7 @@ namespace Fantasy.Engine.Drawing.View
 		public static void Initialize(Game1 game) {
 			Game = game;
 			//CameraMovementBoundingBox;
-			CameraViewBoundingBox = new BoundingBox2(new Vector2(192, 64), game._Graphics.PreferredBackBufferWidth, game._Graphics.PreferredBackBufferHeight);
+			CameraViewBoundingBox = new AreaBox(new Vector2(192, 64), game._Graphics.PreferredBackBufferWidth, game._Graphics.PreferredBackBufferHeight);
 			VerticalMovementLocked = true;
             HorizontalMovementLocked = true;
 			MaxZoom = 192;

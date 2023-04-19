@@ -88,7 +88,7 @@ namespace Fantasy.Engine.Drawing.Animating
 		/// </summary>
 		/// <param name="BoundingBox2">The BoundingBox2 at which to draw the frame.</param>
 		/// <param name="color">The color to apply to the frame.</param>
-		public void DrawCurrentFrame(BoundingBox2 BoundingBox2, Color color)
+		public void DrawCurrentFrame(AreaBox BoundingBox2, Color color)
 		{
 			frames[ActiveFrameIndex].DrawFrame(AnimatedSubject.Spritesheet, BoundingBox2, sheetBox, color);
 		}

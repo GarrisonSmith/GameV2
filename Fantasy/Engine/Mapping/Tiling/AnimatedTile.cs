@@ -14,7 +14,7 @@ namespace Fantasy.Engine.Mapping.Tiling
 	public class AnimatedTile : Tile
 	{
 		private readonly XmlElement spritesheetAnimationElement;
-		private readonly Dictionary<int, Dictionary<BoundingBox2, SpritesheetAnimation>> animations;
+		private readonly Dictionary<int, Dictionary<AreaBox, SpritesheetAnimation>> animations;
 
 		/// <summary>
 		/// The XmlElement the describes the spritesheet animation of this tile.
@@ -27,7 +27,7 @@ namespace Fantasy.Engine.Mapping.Tiling
 		/// The dictionary of animations for this tile. 
 		/// The first key describes the layer of the animation, the second key describes the BoundingBox2 of the animation.
 		/// </summary>
-		public Dictionary<int, Dictionary<BoundingBox2, SpritesheetAnimation>> Animations
+		public Dictionary<int, Dictionary<AreaBox, SpritesheetAnimation>> Animations
 		{
 			get => animations;
 		}
@@ -55,7 +55,7 @@ namespace Fantasy.Engine.Mapping.Tiling
         /// <exception cref="Exception">Throws an exception if the XML element is invalid or if the spritesheet, id, locations, or animations elements are missing.</exception>
         private AnimatedTile(XmlElement animatedTileElement) : base(animatedTileElement)
 		{
-            animations = new Dictionary<int, Dictionary<BoundingBox2, SpritesheetAnimation>>();
+            animations = new Dictionary<int, Dictionary<AreaBox, SpritesheetAnimation>>();
 			foreach (XmlElement foo in animatedTileElement)
 			{
 				if (foo.Name.Equals("spritesheetAnimation"))
@@ -67,11 +67,11 @@ namespace Fantasy.Engine.Mapping.Tiling
 
 			foreach (int key in LayerBoundingBoxes.Keys)
 			{ 
-				foreach (BoundingBox2 coord in LayerBoundingBoxes[key]) 
+				foreach (AreaBox coord in LayerBoundingBoxes[key]) 
 				{
                     if (!Animations.TryGetValue(key, out var coordDict))
                     {
-                        coordDict = new Dictionary<BoundingBox2, SpritesheetAnimation>();
+                        coordDict = new Dictionary<AreaBox, SpritesheetAnimation>();
                         Animations[key] = coordDict;
                     }
 
@@ -89,7 +89,7 @@ namespace Fantasy.Engine.Mapping.Tiling
 		/// Removes the draw location of the tile from the specified layer.
 		/// </summary>
 		/// <param name="layer">The layer number to remove the draw location from.</param>
-		public new void RemoveDrawLocation(int layer, BoundingBox2 boundBox)
+		public new void RemoveDrawLocation(int layer, AreaBox boundBox)
 		{
 			if (!IsInLayer(layer))
 			{
@@ -105,8 +105,8 @@ namespace Fantasy.Engine.Mapping.Tiling
 		/// <param name="layer">The layer on which to draw the tile.</param>
 		public new void Draw(GameTime gameTime, int layer)
 		{
-            DrawBoundingBoxes.TryGetValue(layer, out HashSet<BoundingBox2> layerDrawBoundingBox2);
-			foreach (BoundingBox2 boundBox in layerDrawBoundingBox2)
+            DrawBoundingBoxes.TryGetValue(layer, out HashSet<AreaBox> layerDrawBoundingBox2);
+			foreach (AreaBox boundBox in layerDrawBoundingBox2)
 			{
 				if (Camera.CameraViewBoundingBox.Intersects(boundBox))
 				{

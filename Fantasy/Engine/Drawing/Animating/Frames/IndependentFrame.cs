@@ -104,7 +104,7 @@ namespace Fantasy.Engine.Drawing.Animating.Frames
 		/// </summary>
 		/// <param name="BoundingBox2">The BoundingBox2 at which to draw the frame.</param>
 		/// <param name="color">The color to use when drawing the frame.</param>
-		public void DrawFrame(BoundingBox2 BoundingBox2, Color color)
+		public void DrawFrame(AreaBox BoundingBox2, Color color)
 		{
 			SpriteBatchHandler.Draw(Spritesheet, BoundingBox2.TopLeft + OffSet, SheetBox, color);
 		}

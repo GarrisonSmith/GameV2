@@ -61,7 +61,7 @@ namespace Fantasy.Engine.Mapping.Tiling
         /// Column and row values less than 0 will be set to 0.
         /// </summary>
         /// <param name="boundBox">The BoundingBox2 to base the location on.</param>
-        public Location(BoundingBox2 boundBox)
+        public Location(AreaBox boundBox)
         {
             if (boundBox.TopLeft.X < 0)
             {

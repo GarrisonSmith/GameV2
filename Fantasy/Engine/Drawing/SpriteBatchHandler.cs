@@ -66,11 +66,11 @@ namespace Fantasy.Engine.Drawing
         /// </summary>
         /// <param name="texture2D">The Texture2D object to draw.</param>
         /// <param name="destination">The destination position of the Texture2D object, describes the top left position of the graphic.</param>
-        /// <param name="sourceBox">The source rectangle of the Texture2D object.</param>
+        /// <param name="sheetBox">The source rectangle of the Texture2D object.</param>
         /// <param name="color">The color of the Texture2D object.</param>
-        public static void Draw(Texture2D texture2D, Vector2 destination, Rectangle sourceBox, Color color)
+        public static void Draw(Texture2D texture2D, Vector2 destination, Rectangle sheetBox, Color color)
         {
-            SpriteBatch.Draw(texture2D, destination, sourceBox, color);
+            SpriteBatch.Draw(texture2D, destination, sheetBox, color);
         }
     }
 }
