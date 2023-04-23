@@ -1,5 +1,4 @@
 ﻿using Fantasy.Engine.Drawing.Animating;
-using Fantasy.Engine.SubGameComponents.interfaces.components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -57,10 +56,11 @@ namespace Fantasy.Engine.SubGameComponents.interfaces.collections
         /// </summary>
         void CreateCombinedTexture();
 
-        /// <summary>
-        /// Draws the <c>ISubDrawableCollection</c> using the specified <c>GameTime</c>.
-        /// </summary>
-        /// <param name="gameTime">The elapsed game time since the last update.</param>
-        void Draw(GameTime gameTime);
-    }
+		/// <summary>
+		/// Draws the <c>ISubDrawableCollection</c> using the specified <c>GameTime</c>.
+		/// </summary>
+		/// <param name="gameTime">The elapsed game time since the last update.</param>
+		/// <param name="color">The color to be drawn with.</param>
+		void Draw(GameTime gameTime, Color? color = null);
+	}
 }

@@ -1,56 +1,60 @@
 ﻿using Fantasy.Engine.Drawing.interfaces;
-using Fantasy.Engine.SubGameComponents.components;
+using Fantasy.Engine.Physics.interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Fantasy.Engine.Drawing
 {
-	public abstract class DefinedDrawable : SubDrawable, IDefinedDrawable
+	/// <summary>
+	/// Represents a single item that can be drawn.
+	/// </summary>
+	public abstract class DefinedDrawable : IDefinedDrawable
 	{
-		protected Point textureSourceTopLeft;
-		protected Rectangle textureSourceTopRight;
+		protected Rectangle sheetBox;
 		protected Texture2D spritesheet;
+		protected ILocation location;
 
 		/// <summary>
-		/// Gets the top left point of this item's starting texture on its spritesheet.
+		/// Gets the texture area of the spritesheet from which this <c>IDefinedDrawable</c>.
 		/// </summary>
-		public Point TextureSourceTopLeft { get => textureSourceTopLeft; }
+		public Rectangle SheetBox { get => this.sheetBox; }
 		/// <summary>
-		/// Gets the area of the spritesheet from which the item's texture is taken.
+		/// Gets the spritesheet for this <c>IDefinedDrawable</c>.
 		/// </summary>
-		public Rectangle SheetBox { get => textureSourceTopRight; }
+		public Texture2D Spritesheet { get => this.spritesheet; }
 		/// <summary>
-		/// Gets the spritesheet that the item's texture is taken from.
+		/// Gets or sets the location of this <c>DefinedDrawable</c>.
 		/// </summary>
-		public Texture2D Spritesheet { get => spritesheet; }
+		public ILocation Location { get => this.location; }
 
 		/// <summary>
-		/// 
+		/// Creates a new <c>DefinedDrawable</c> with the provided parameters.
 		/// </summary>
-		/// <param name="drawOrder"></param>
-		/// <param name="isVisible"></param>
-		public DefinedDrawable(byte drawOrder, bool isVisible = true) 
+		/// <param name="sheetBox">The sheet box.</param>
+		/// <param name="spritesheet">The spritesheet.</param>
+		/// <param name="location">The location.</param>
+		public DefinedDrawable(Rectangle sheetBox, Texture2D spritesheet, ILocation location) 
 		{
-			this.DrawOrder = drawOrder;
-			this.isVisible = isVisible;
-			this.isAnimated = false;
+			this.sheetBox = sheetBox;
+			this.spritesheet = spritesheet;
+			this.location = location;
 		}
 
 		/// <summary>
-		/// 
-		/// </summary>
-		/// <exception cref="System.NotImplementedException"></exception>
-		public override void Initialize()
-		{
-			throw new System.NotImplementedException();
-		}
-		/// <summary>
-		/// Draws the item using the specified <c>GameTime</c>.
+		/// Draws the <c>DefinedDrawable</c> using the specified <c>GameTime</c>.
 		/// </summary>
 		/// <param name="gameTime">The elapsed game time since the last update.</param>
-		public override void Draw(GameTime gameTime)
+		/// <param name="color">The color to be drawn with.</param>
+		public void Draw(GameTime gameTime, Color? color = null)
 		{
-			SpriteBatchHandler.Draw()
+			if (color.HasValue)
+			{
+				SpriteBatchHandler.Draw(this.Spritesheet, this.Location.VectorPosition, this.SheetBox, color.Value);
+			}
+			else 
+			{
+				SpriteBatchHandler.Draw(this.Spritesheet, this.Location.VectorPosition, this.SheetBox, Color.White);
+			}
 		}
 	}
 }

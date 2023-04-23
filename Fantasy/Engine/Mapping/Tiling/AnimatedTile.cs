@@ -96,7 +96,7 @@ namespace Fantasy.Engine.Mapping.Tiling
 				return;
 			}
 			DrawBoundingBoxes[layer].RemoveWhere(drawBoundBox => boundBox == drawBoundBox); //TODO could be optimized. probably. probably doesn't need to be.
-			Animations[layer][boundBox].IsActive = false;
+			Animations[layer][boundBox].IsPaused = false;
 		}
 		/// <summary>
 		/// Draws the tile on the specified layer using the current frame of each animation.

@@ -1,13 +1,13 @@
-﻿using Fantasy.Engine.SubGameComponents.interfaces.collections;
-using Fantasy.Engine.SubGameComponents.interfaces.components;
+﻿using Fantasy.Engine.SubGameComponents.interfaces;
+using Fantasy.Engine.SubGameComponents.interfaces.collections;
 using System.Collections.Generic;
 
 namespace Fantasy.Engine.SubGameComponents.collections
 {
-	/// <summary>
-	/// Represents of collection of subcomponents that can be used inside a <c>GameComponent</c>. 
-	/// </summary>
-	public abstract class SubComponentCollection : ISubComponentCollection, ISubComponent
+    /// <summary>
+    /// Represents of collection of subcomponents that can be used inside a <c>GameComponent</c>. 
+    /// </summary>
+    public abstract class SubComponentCollection : ISubComponentCollection, ISubComponent
 	{
 		protected List<ISubComponent> components;
 

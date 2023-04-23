@@ -169,17 +169,17 @@ namespace Fantasy.Engine.Mapping.Tiling
 			}
 		}
 
-        public bool Intersects(ILocatable foo)
+        public bool Intersects(ILocation foo)
         {
             throw new System.NotImplementedException();
         }
 
-		public bool Contains(ILocatable foo)
+		public bool Contains(ILocation foo)
 		{
             throw new System.NotImplementedException();
         }
 
-        public float Distance(ILocatable foo)
+        public float Distance(ILocation foo)
         {
             throw new System.NotImplementedException();
         }

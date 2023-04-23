@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Fantasy.Engine.Physics.interfaces;
 
 namespace Fantasy.Engine.Drawing.interfaces
 {
@@ -9,24 +10,25 @@ namespace Fantasy.Engine.Drawing.interfaces
 	public interface IDefinedDrawable
 	{
 		/// <summary>
-		/// Gets the top left point of this item's starting texture on its spritesheet.
-		/// </summary>
-		Point TextureSourceTopLeft { get; }
-
-		/// <summary>
-		/// Gets the area of the spritesheet from which the item's texture is taken.
+		/// Gets the texture area of the spritesheet from which this <c>IDefinedDrawable</c>.
 		/// </summary>
 		Rectangle SheetBox { get; }
 
 		/// <summary>
-		/// Gets the spritesheet that the item's texture is taken from.
+		/// Gets the spritesheet for this <c>IDefinedDrawable</c>.
 		/// </summary>
 		Texture2D Spritesheet { get; }
 
 		/// <summary>
-		/// Draws the item using the specified <c>GameTime</c>.
+		/// Gets or sets the location of this <c>IDefinedDrawable</c>.
+		/// </summary>
+		ILocation Location { get; }
+
+		/// <summary>
+		/// Draws the <c>IDefinedDrawable</c> using the specified <c>GameTime</c>.
 		/// </summary>
 		/// <param name="gameTime">The elapsed game time since the last update.</param>
-		void Draw(GameTime gameTime);
+		/// <param name="color">The color to be drawn with.</param>
+		void Draw(GameTime gameTime, Color? color = null);
 	}
 }

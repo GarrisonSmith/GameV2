@@ -1,14 +1,14 @@
-﻿using Fantasy.Engine.SubGameComponents.interfaces.collections;
-using Fantasy.Engine.SubGameComponents.interfaces.components;
+﻿using Fantasy.Engine.SubGameComponents.interfaces;
+using Fantasy.Engine.SubGameComponents.interfaces.collections;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace Fantasy.Engine.SubGameComponents.collections
 {
-	/// <summary>
-	/// Represents of collection of updateable subcomponents that can be used inside a <c>GameComponent</c>. 
-	/// </summary>
-	public abstract class SubUpdateableCollection : SubComponentCollection, ISubUpdateableCollection, ISubUpdateable
+    /// <summary>
+    /// Represents of collection of updateable subcomponents that can be used inside a <c>GameComponent</c>. 
+    /// </summary>
+    public abstract class SubUpdateableCollection : SubComponentCollection, ISubUpdateableCollection, ISubUpdateable
 	{
 		protected bool isActive;
 		protected byte updateOrder;
@@ -19,7 +19,7 @@ namespace Fantasy.Engine.SubGameComponents.collections
 		/// </summary>
 		public bool IsActive { get => isActive; set => isActive = value; }
 		/// <summary>
-		/// Describes the priority this subcomponent will be updated with in its <c>ISubUpdateableCollection</c> collection.
+		/// Gets or sets a value indicating the priority this subcomponent will be updated with in its <c>ISubUpdateableCollection</c> collection.
 		/// Lower numbers are higher priority.
 		/// 0 priority values are reserved for inactive subcomponent.
 		/// </summary>

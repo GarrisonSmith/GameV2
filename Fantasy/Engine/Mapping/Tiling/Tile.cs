@@ -15,7 +15,7 @@ namespace Fantasy.Engine.Mapping.Tiling
     /// <summary>
     /// Represents a tile in a MapLayer.
     /// </summary>
-    public class Tile : ISubDrawable
+    public class Tile
 	{
 		private static readonly int TileWidth = 64;
 		private static readonly int TileHeight = 64;

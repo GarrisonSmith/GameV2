@@ -1,5 +1,8 @@
-﻿using Fantasy.Engine.SubGameComponents.interfaces.components;
+﻿using Fantasy.Engine.Drawing.interfaces;
+using Fantasy.Engine.Physics.interfaces;
+using Fantasy.Engine.SubGameComponents.interfaces;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
@@ -8,40 +11,9 @@ namespace Fantasy.Engine.Drawing.Animating
     /// <summary>
     /// An abstract class representing an animation for a <see cref="ISubDrawable"/> subject.
     /// </summary>
-    public abstract class Animation
+    public abstract class Animation : DefinedDrawable
 	{
-		private readonly static Random random = new();
-		private readonly static List<Animation> activeAnimations = new();
-
-		/// <summary>
-		/// Random object used throughout animation and frame logic.
-		/// </summary>
-		public static Random Random
-		{
-			get => random;
-		}
-		/// <summary>
-		/// List containing all active animations that currently exist.
-		/// </summary>
-		public static List<Animation> ActiveAnimations {
-			get => activeAnimations;
-		}
-		/// <summary>
-		/// Updates all active animations.
-		/// </summary>
-		public static void UpdateActiveAnimations(GameTime gameTime)
-		{
-			foreach (Animation foo in ActiveAnimations)
-			{
-				if (foo is SpritesheetAnimation)
-				{
-					((SpritesheetAnimation)foo).Update(gameTime);
-				}
-			}
-		}
-
-		protected bool isActive;
-		protected ISubDrawable animatedSubject;
+		protected bool isPaused;
 		protected byte activeFrameIndex;
 		protected TimeSpan currentFrameDuration;
 		protected TimeSpan currentFrameMaxDuration;
@@ -50,63 +22,32 @@ namespace Fantasy.Engine.Drawing.Animating
         /// Describes if the animation is active and being updated.
         /// Initialized to true when all Animation object are created.
         /// </summary>
-        public bool IsActive
-		{
-			get => isActive;
-			set 
-			{
-				if (isActive == value)
-				{
-					return;
-				}
-				
-				isActive = value;
-                if (isActive)
-                {
-                    ActiveAnimations.Add(this);
-                }
-                else
-                {
-                    ActiveAnimations.Remove(this);
-                }
-            }
-		}
-		/// <summary>
-		/// The subject being animated.
-		/// </summary>
-		public ISubDrawable AnimatedSubject
-		{
-			get => animatedSubject;
-		}
+        public bool IsPaused { get => this.isPaused; set => this.isPaused = value; }
 		/// <summary>
 		/// The index of the currently active frame in the animation.
 		/// </summary>
-		public byte ActiveFrameIndex
-		{
-			get => activeFrameIndex;
-		}
+		public byte ActiveFrameIndex { get => activeFrameIndex; }
 		/// <summary>
 		/// The amount of time the current frame has been active.
 		/// </summary>
-		public TimeSpan CurrentFrameDuration
-		{
-			get => currentFrameDuration;
-		}
+		public TimeSpan CurrentFrameDuration { get => currentFrameDuration; }
 		/// <summary>
 		/// The total amount of time the current frame will be active for.
 		/// </summary>
-		public TimeSpan CurrentFrameMaxDuration
-		{ 
-			get => currentFrameMaxDuration;
-		}
-		
+		public TimeSpan CurrentFrameMaxDuration { get => currentFrameMaxDuration; }
+
 		/// <summary>
 		/// Generic inherited constructor.
 		/// </summary>
 		public Animation()
 		{
-			isActive = true;
+			isPaused = true;
 			ActiveAnimations.Add(this);
+		}
+
+		public void Draw(GameTime gameTime, Color? color = null)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

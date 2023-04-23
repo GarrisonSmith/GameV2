@@ -1,16 +1,16 @@
 ﻿using Fantasy.Engine.Drawing.Animating;
+using Fantasy.Engine.SubGameComponents.interfaces;
 using Fantasy.Engine.SubGameComponents.interfaces.collections;
-using Fantasy.Engine.SubGameComponents.interfaces.components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
 namespace Fantasy.Engine.SubGameComponents.collections
 {
-	/// <summary>
-	/// Represents of collection of drawable subcomponents that can be used inside a <c>DrawableGameComponent</c>. 
-	/// </summary>
-	public abstract class SubDrawableCollection : SubComponentCollection, ISubDrawableCollection, ISubDrawable
+    /// <summary>
+    /// Represents of collection of drawable subcomponents that can be used inside a <c>DrawableGameComponent</c>. 
+    /// </summary>
+    public abstract class SubDrawableCollection : SubComponentCollection, ISubDrawableCollection, ISubDrawable
 	{
 		protected bool isVisible;
 		protected bool isAnimated;
@@ -34,7 +34,7 @@ namespace Fantasy.Engine.SubGameComponents.collections
 		/// </summary>
 		public bool UseCombinedTexture { get => useCombinedTexture; set => useCombinedTexture = value; }
 		/// <summary>
-		/// Describes the priority this subcomponent will be drawn with in its <c>ISubDrawableCollection</c> collection.
+		/// Gets or sets a value indicating the priority this subcomponent will be drawn with in its <c>ISubDrawableCollection</c> collection.
 		/// Lower numbers are higher priority.
 		/// 0 priority values are reserved for invisible subcomponent.
 		/// </summary>
@@ -67,9 +67,10 @@ namespace Fantasy.Engine.SubGameComponents.collections
 		/// </summary>
 		public abstract void CreateCombinedTexture();
 		/// <summary>
-		/// Draws the <c>ISubDrawableCollection</c> using the specified <c>GameTime</c>.
+		/// Draws the item using the specified <c>GameTime</c>.
 		/// </summary>
 		/// <param name="gameTime">The elapsed game time since the last update.</param>
-		public abstract void Draw(GameTime gameTime);
+		/// <param name="color">The color to be drawn with.</param>
+		public abstract void Draw(GameTime gameTime, Color? color = null);
 	}
 }

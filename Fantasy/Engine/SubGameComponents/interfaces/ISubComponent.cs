@@ -1,4 +1,4 @@
-﻿namespace Fantasy.Engine.SubGameComponents.interfaces.components
+﻿namespace Fantasy.Engine.SubGameComponents.interfaces
 {
     /// <summary>
     /// Represents a subcomponent that can updated inside a <c>ISubComponentCollection</c>

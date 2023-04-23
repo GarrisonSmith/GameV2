@@ -5,7 +5,7 @@
     /// </summary>
     public enum CameraTaskTypes
     {
-        FollowILocatable = 0,
+        FollowILocation = 0,
         FreeMovement = 1,
         PanTo = 2,
         ZoomByIncrements = 3,

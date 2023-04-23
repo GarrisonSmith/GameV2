@@ -1,5 +1,4 @@
-﻿using Fantasy.Engine.SubGameComponents.interfaces.components;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace Fantasy.Engine.SubGameComponents.interfaces.collections
