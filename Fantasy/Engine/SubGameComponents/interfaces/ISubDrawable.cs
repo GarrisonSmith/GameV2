@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 namespace Fantasy.Engine.SubGameComponents.interfaces
 {
     /// <summary>
-    /// Represents a subcomponent that can updated inside a <c>ISubDrawableCollection</c>.
+    /// Represents a subcomponent that can be drawn inside a <c>ISubDrawableCollection</c>.
     /// </summary>
     public interface ISubDrawable
     {
@@ -24,11 +24,6 @@ namespace Fantasy.Engine.SubGameComponents.interfaces
         /// 0 priority values are reserved for invisible subcomponent.
         /// </summary>
         byte DrawOrder { get; set; }
-
-        /// <summary>
-        /// Gets the defined drawable for this subcomponent.
-        /// </summary>
-        DefinedDrawable DefinedDrawable { get; }
 
         /// <summary>
         /// Draws the <c>ISubDrawableCollection</c> using the specified <c>GameTime</c>.

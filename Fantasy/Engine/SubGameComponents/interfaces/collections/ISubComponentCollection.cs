@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Fantasy.Engine.SubGameComponents.interfaces.components;
 
 namespace Fantasy.Engine.SubGameComponents.interfaces.collections
 {

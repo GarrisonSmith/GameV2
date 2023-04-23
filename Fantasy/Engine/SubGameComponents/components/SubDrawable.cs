@@ -1,5 +1,7 @@
-﻿using Fantasy.Engine.Drawing;
+﻿
+using Fantasy.Engine.Drawing.interfaces;
 using Fantasy.Engine.SubGameComponents.interfaces;
+using Fantasy.Engine.SubGameComponents.interfaces.components;
 using Microsoft.Xna.Framework;
 
 namespace Fantasy.Engine.SubGameComponents.components
@@ -7,12 +9,12 @@ namespace Fantasy.Engine.SubGameComponents.components
     /// <summary>
     /// Represents a subcomponent that can drawn inside a <c>ISubDrawableCollection</c>.
     /// </summary>
-    public abstract class SubDrawable : SubComponent, ISubDrawable
+    public abstract class SubDrawable : SubComponent, ISubDrawable, ISubDrawableComponent
 	{
 		protected bool isVisible;
 		protected bool isAnimated;
 		protected byte drawOrder;
-		protected DefinedDrawable definedDrawable;
+		protected IDefinedDrawable definedDrawable;
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this subcomponent is visible or not.
@@ -31,7 +33,7 @@ namespace Fantasy.Engine.SubGameComponents.components
 		/// <summary>
 		/// Gets the defined drawable for this subcomponent.
 		/// </summary>
-		public DefinedDrawable DefinedDrawable { get => definedDrawable; }
+		public IDefinedDrawable DefinedDrawable { get => definedDrawable; }
 
 		/// <summary>
 		/// Draws the subcomponent using the specified <c>GameTime</c>.

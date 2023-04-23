@@ -1,5 +1,5 @@
-﻿using Fantasy.Engine.SubGameComponents.interfaces;
-using Fantasy.Engine.SubGameComponents.interfaces.collections;
+﻿using Fantasy.Engine.SubGameComponents.interfaces.collections;
+using Fantasy.Engine.SubGameComponents.interfaces.components;
 using System.Collections.Generic;
 
 namespace Fantasy.Engine.SubGameComponents.collections

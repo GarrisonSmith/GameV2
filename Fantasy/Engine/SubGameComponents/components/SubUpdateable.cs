@@ -1,4 +1,5 @@
 ﻿using Fantasy.Engine.SubGameComponents.interfaces;
+using Fantasy.Engine.SubGameComponents.interfaces.components;
 using Microsoft.Xna.Framework;
 
 namespace Fantasy.Engine.SubGameComponents.components
@@ -6,7 +7,7 @@ namespace Fantasy.Engine.SubGameComponents.components
     /// <summary>
     /// Represents a subcomponent that can updated inside a <c>ISubUpdateableCollection</c>
     /// </summary>
-    public abstract class SubUpdateable : SubComponent, ISubUpdateable
+    public abstract class SubUpdateable : SubComponent, ISubUpdateable, ISubUpdateableComponent
 	{
 		protected bool isActive;
 		protected byte updateOrder;

@@ -1,4 +1,4 @@
-﻿using Fantasy.Engine.SubGameComponents.interfaces;
+﻿using Fantasy.Engine.SubGameComponents.interfaces.components;
 
 namespace Fantasy.Engine.SubGameComponents.components
 {
