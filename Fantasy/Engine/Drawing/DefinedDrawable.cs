@@ -10,9 +10,9 @@ namespace Fantasy.Engine.Drawing
 	/// </summary>
 	public abstract class DefinedDrawable : IDefinedDrawable
 	{
-		protected Rectangle sheetBox;
-		protected Texture2D spritesheet;
-		protected ILocation location;
+		protected readonly Rectangle sheetBox;
+		protected readonly Texture2D spritesheet;
+		protected readonly ILocation location;
 
 		/// <summary>
 		/// Gets the texture area of the spritesheet from which this <c>IDefinedDrawable</c>.

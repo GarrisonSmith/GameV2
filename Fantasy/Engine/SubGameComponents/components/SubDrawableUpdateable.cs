@@ -17,32 +17,32 @@ namespace Fantasy.Engine.SubGameComponents.components
 		/// <summary>
 		/// Gets or sets a value indicating whether this subcomponent is visible or not.
 		/// </summary>
-		public bool IsVisible { get => isVisible; set => isVisible = value; }
+		public bool IsVisible { get => this.isVisible; set => this.isVisible = value; }
 		/// <summary>
 		/// Gets a value indicating whether this subcomponent is animated or not.
 		/// </summary>
-		public bool IsAnimated { get => isAnimated; }
+		public bool IsAnimated { get => this.isAnimated; }
 		/// <summary>
 		/// Gets or sets a value indicating if this subcomponent is being updated or not. 
 		/// Inactive subcomponent are defined as those with a <cref>UpdateOrder</cref> of 0.
 		/// </summary>
-		public bool IsActive { get => isActive; set => isActive = value; }
+		public bool IsActive { get => this.isActive; set => this.isActive = value; }
 		/// <summary>
 		/// Gets or sets a value indicating the priority this subcomponent will be drawn with in its <c>ISubDrawableCollection</c> collection.
 		/// Lower numbers are higher priority.
 		/// 0 priority values are reserved for inactive subcomponent.
 		/// </summary>
-		public byte DrawOrder { get => drawOrder; set => drawOrder = value; }
+		public byte DrawOrder { get => this.drawOrder; set => this.drawOrder = value; }
 		/// <summary>
 		/// Gets or sets a value indicating the priority this subcomponent will be updated with in its <c>ISubUpdateableCollection</c> collection.
 		/// Lower numbers are higher priority.
 		/// 0 priority values are reserved for inactive subcomponent.
 		/// </summary>
-		public byte UpdateOrder { get => updateOrder; set => updateOrder = value; }
+		public byte UpdateOrder { get => this.updateOrder; set => this.updateOrder = value; }
 		/// <summary>
 		/// Gets the defined drawable for this subcomponent.
 		/// </summary>
-		public IDefinedDrawable DefinedDrawable { get => definedDrawable; }
+		public IDefinedDrawable DefinedDrawable { get => this.definedDrawable; }
 
 		/// <summary>
 		/// Updates the subcomponent using the specified <c>GameTime</c>.

@@ -14,7 +14,7 @@ namespace Fantasy.Engine.SubGameComponents.collections
 		/// <summary>
 		/// Gets the list of type <c>ISubComponent</c>.
 		/// </summary>
-		public List<ISubComponent> Components { get => components; }
+		public List<ISubComponent> Components { get => this.components; }
 
 		/// <summary>
 		/// Initializes the <c>ISubComponentCollection</c>.

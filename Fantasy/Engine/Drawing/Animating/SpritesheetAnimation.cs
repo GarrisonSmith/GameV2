@@ -1,96 +1,146 @@
-﻿using Fantasy.Engine.ContentManagement;
-using Fantasy.Engine.Drawing.Animating.Frames;
+﻿using Fantasy.Engine.Drawing.Animating.Frames;
 using Fantasy.Engine.Physics;
-using Fantasy.Engine.SubGameComponents.interfaces;
+using Fantasy.Engine.Physics.interfaces;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Xml;
 
 namespace Fantasy.Engine.Drawing.Animating
 {
-    /// <summary>
-    /// A class that defines a collection of <see cref="SpritesheetFrame"/> for an animation and manages the animation logic.
-    /// </summary>
-    public class SpritesheetAnimation : Animation
+	/// <summary>
+	/// Represents a sprite sheet animation.
+	/// </summary>
+	public class SpritesheetAnimation : Animation
 	{
 		private readonly int minDurationMili;
 		private readonly int maxDurationExtensionMili;
-		private Rectangle sheetBox;
+		private Rectangle currentSheetBox;
+		private Vector2 currentOffSetPosition;
 		private readonly SpritesheetFrame[] frames;
 
 		/// <summary>
-		/// Gets the array of frames that define the animation.
+		/// Describes if the <c>Animation</c> is paused.
+		/// Initialized to false when all <c>Animation</c> objects are created.
 		/// </summary>
-		public SpritesheetFrame[] Frames
+		public new bool IsPaused
 		{
-			get => frames;
-		}
+			get => this.isPaused;
+			set
+			{
+				if (value == this.isPaused)
+				{
+					return;
+				}
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SpritesheetAnimation"/> class.
-        /// </summary>
-        /// <param name="animatedSubject">The subject being animated.</param>
-        /// <param name="animationElement">A XmlElement describing this SpritesheetAnimation.</param>
-        public SpritesheetAnimation(ISubDrawable animatedSubject, XmlElement animationElement) : base()
+				if (!value)
+				{
+					this.CurrentFrameDuration = TimeSpan.Zero;
+					this.CurrentFrameMaxDuration = new TimeSpan(0, 0, 0, 0, RandomNumberGenerator.Random.Next(this.MinDurationMili));
+				}
+
+				this.isPaused = value;
+			}
+		}
+		/// <summary>
+		/// Gets the minimum duration a frame will persist for in this <c>SpritesheetAnimation</c>.
+		/// </summary>
+		public int MinDurationMili { get => this.minDurationMili; }
+		/// <summary>
+		/// Gets the maximum duration a frame will randomly be extended for beyond the minimum duration in this <c>SpritesheetAnimation</c>.
+		/// </summary>
+		public int MaxDurationExtensionMili { get => this.maxDurationExtensionMili; }
+		/// <summary>
+		/// Gets the current sheet box used by the <c>SpritesheetAnimation</c>.
+		/// </summary>
+		public Rectangle CurrentSheetBox { get => this.currentSheetBox; }
+		/// <summary>
+		/// Gets the currently off set position of this <c>SpritesheetAnimation</c>.
+		/// </summary>
+		public Vector2 CurrentOffSetPosition { get => this.currentOffSetPosition; }
+		/// <summary>
+		/// Gets the array of frames that define the <c>SpritesheetAnimation</c>.
+		/// </summary>
+		public SpritesheetFrame[] Frames { get => this.frames; }
+
+		/// <summary>
+		/// Creates a new <c>SpritesheetAnimation</c> with the provided parameters.
+		/// </summary>
+		/// <param name="sheetBox"></param>
+		/// <param name="spritesheet"></param>
+		/// <param name="location"></param>
+		/// <param name="animationElement"></param>
+		public SpritesheetAnimation(Rectangle sheetBox, Texture2D spritesheet, ILocation location, XmlElement animationElement) : base(sheetBox, spritesheet, location)
 		{
-			this.animatedSubject = animatedSubject;
-			sheetBox = animatedSubject.SheetBox;
 			foreach (XmlElement foo in animationElement)
 			{
-                if (foo.Name.Equals("activeFrameIndex"))
-                {
-					activeFrameIndex = byte.Parse(foo.InnerText);
-                    continue;
-                }
+				if (foo.Name.Equals("activeFrameIndex"))
+				{
+					this.activeFrameIndex = byte.Parse(foo.InnerText);
+					continue;
+				}
 				if (foo.Name.Equals("minDurationMili"))
-				{ 
-					minDurationMili = int.Parse(foo.InnerText);
+				{
+					this.minDurationMili = int.Parse(foo.InnerText);
 					continue;
 				}
 				if (foo.Name.Equals("maxDurationExtensionMili"))
-				{ 
-					maxDurationExtensionMili = int.Parse(foo.InnerText);
+				{
+					this.maxDurationExtensionMili = int.Parse(foo.InnerText);
 					continue;
 				}
-                if (foo.Name.Equals("frames"))
-                {
-                    frames = new SpritesheetFrame[int.Parse(foo.GetAttribute("length"))];
+				if (foo.Name.Equals("frames"))
+				{
+					this.frames = new SpritesheetFrame[int.Parse(foo.GetAttribute("length"))];
 					int index = 0;
 					foreach (XmlElement bar in foo)
 					{
-						frames[index++] = new SpritesheetFrame(bar);
+						this.frames[index++] = new SpritesheetFrame(bar);
 					}
 					continue;
-                }
-            }
-		}
-		/// <summary>
-		/// Updates the current animation frame based on the elapsed game time.
-		/// </summary>
-		/// <param name="gameTime">The game time elapsed since the last update.</param>
-		public void Update(GameTime gameTime)
-		{
-			currentFrameDuration += gameTime.ElapsedGameTime;
-			if (CurrentFrameDuration >= CurrentFrameMaxDuration)
-			{
-				activeFrameIndex++;
-				if (activeFrameIndex >= frames.Length)
-				{
-					activeFrameIndex = 0;
 				}
-				sheetBox.X = AnimatedSubject.TextureSourceTopLeft.X + (activeFrameIndex * sheetBox.Width);
-                currentFrameDuration = TimeSpan.Zero;
-                currentFrameMaxDuration = new TimeSpan(0, 0, 0, 0, minDurationMili + Random.Next(maxDurationExtensionMili));
-            }
+
+				this.currentSheetBox = new Rectangle(this.SheetBox.X + (this.ActiveFrameIndex * this.SheetBox.Width), this.SheetBox.Y, this.SheetBox.Width, this.SheetBox.Height);
+				this.currentOffSetPosition = this.Location.VectorPosition + this.Frames[this.ActiveFrameIndex].OffSet;
+				this.CurrentFrameDuration = TimeSpan.Zero;
+				this.CurrentFrameMaxDuration = new TimeSpan(0, 0, 0, 0, this.MinDurationMili + RandomNumberGenerator.Random.Next(this.MaxDurationExtensionMili));
+			}
 		}
+
 		/// <summary>
-		/// Draws the currently active frame of the animation at the specified BoundingBox2 and color.
+		/// 
 		/// </summary>
-		/// <param name="BoundingBox2">The BoundingBox2 at which to draw the frame.</param>
-		/// <param name="color">The color to apply to the frame.</param>
-		public void DrawCurrentFrame(AreaBox BoundingBox2, Color color)
+		/// <param name="gameTime"></param>
+		/// <param name="color"></param>
+		public override void Draw(GameTime gameTime, Color? color = null)
 		{
-			frames[ActiveFrameIndex].DrawFrame(AnimatedSubject.Spritesheet, BoundingBox2, sheetBox, color);
+			if (IsPaused)
+			{
+				return;
+			}
+
+			this.CurrentFrameDuration += gameTime.ElapsedGameTime;
+			if (this.CurrentFrameDuration >= this.CurrentFrameMaxDuration)
+			{
+				this.ActiveFrameIndex++;
+				if (this.ActiveFrameIndex >= this.Frames.Length)
+				{
+					this.ActiveFrameIndex = 0;
+				}
+				this.currentSheetBox.X = this.SheetBox.X + (this.ActiveFrameIndex * this.SheetBox.Width);
+				this.currentOffSetPosition = this.Location.VectorPosition + this.Frames[this.ActiveFrameIndex].OffSet;
+				this.CurrentFrameDuration = TimeSpan.Zero;
+				this.CurrentFrameMaxDuration = new TimeSpan(0, 0, 0, 0, this.MinDurationMili + RandomNumberGenerator.Random.Next(this.MaxDurationExtensionMili));
+			}
+
+			if (color.HasValue)
+			{
+				SpriteBatchHandler.Draw(this.Spritesheet, this.CurrentOffSetPosition, this.CurrentSheetBox, color.Value);
+			}
+			else
+			{
+				SpriteBatchHandler.Draw(this.Spritesheet, this.CurrentOffSetPosition, this.CurrentSheetBox, Color.White);
+			}
 		}
 	}
 }

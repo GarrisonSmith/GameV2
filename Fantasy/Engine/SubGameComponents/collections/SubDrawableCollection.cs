@@ -24,43 +24,43 @@ namespace Fantasy.Engine.SubGameComponents.collections
 		/// <summary>
 		/// Gets or sets a value indicating whether this <c>DrawableGameComponent</c> is visible or not.
 		/// </summary>
-		public bool IsVisible { get => isVisible; set => isVisible = value; }
+		public bool IsVisible { get => this.isVisible; set => this.isVisible = value; }
 		/// <summary>
 		/// Gets a value indicating whether this <c>DrawableGameComponent</c> is animated or not.
 		/// </summary>
-		public bool IsAnimated { get => isAnimated; }
+		public bool IsAnimated { get => this.isAnimated; }
 		/// <summary>
 		/// Gets or sets a value indicating whether to use a combined texture for all elements in the <c>ISubDrawableCollection</c>.
 		/// </summary>
-		public bool UseCombinedTexture { get => useCombinedTexture; set => useCombinedTexture = value; }
+		public bool UseCombinedTexture { get => this.useCombinedTexture; set => this.useCombinedTexture = value; }
 		/// <summary>
 		/// Gets or sets a value indicating the priority this subcomponent will be drawn with in its <c>ISubDrawableCollection</c> collection.
 		/// Lower numbers are higher priority.
 		/// 0 priority values are reserved for invisible subcomponent.
 		/// </summary>
-		public byte DrawOrder { get => drawOrder; set => drawOrder = value; }
+		public byte DrawOrder { get => this.drawOrder; set => this.drawOrder = value; }
 		/// <summary>
 		/// Gets the combined texture used for all elements in the <c>ISubDrawableCollection</c>.
 		/// </summary>
-		public Texture2D CombinedTexture { get => combinedTexture; }
+		public Texture2D CombinedTexture { get => this.combinedTexture; }
 		/// <summary>
 		/// Gets the dictionary <c>ISubDrawable</c> lists in the <c>ISubDrawableCollection</c>, identified by keys of type <c>byte</c>.
 		/// Lower keys have higher draw priority.
 		/// 0 priority keys are reserved for invisible subcomponent.
 		/// </summary>
-		public Dictionary<byte, List<ISubDrawable>> SubDrawables { get => subDrawables; }
+		public Dictionary<byte, List<ISubDrawable>> SubDrawables { get => this.subDrawables; }
 		/// <summary>
 		/// Gets the dictionary <c>Animation</c> lists in the <c>ISubDrawableCollection</c> which are of type <c>Animation</c>, identified by keys of type <c>byte</c>.
 		/// Lower keys have higher draw priority.
 		/// 0 priority keys are reserved for invisible subcomponent.
 		/// </summary>
-		public Dictionary<byte, List<Animation>> AnimatedSubDrawables { get => animatedSubDrawables; }
+		public Dictionary<byte, List<Animation>> AnimatedSubDrawables { get => this.animatedSubDrawables; }
 		/// <summary>
 		/// Gets the dictionary <c>Animation</c> lists in the <c>ISubDrawableCollection</c> which are not of type <c>Animation</c>, identified by keys of type <c>byte</c>.
 		/// Lower keys have higher draw priority.
 		/// 0 priority keys are reserved for invisible subcomponent.
 		/// </summary>
-		public Dictionary<byte, List<ISubDrawable>> StaticSubDrawables { get => staticSubDrawables; }
+		public Dictionary<byte, List<ISubDrawable>> StaticSubDrawables { get => this.staticSubDrawables; }
 
 		/// <summary>
 		/// Creates the combined texture for the entire <c>ISubDrawableCollection</c>.

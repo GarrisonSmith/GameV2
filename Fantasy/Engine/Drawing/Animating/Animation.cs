@@ -1,53 +1,54 @@
-﻿using Fantasy.Engine.Drawing.interfaces;
-using Fantasy.Engine.Physics.interfaces;
-using Fantasy.Engine.SubGameComponents.interfaces;
+﻿using Fantasy.Engine.Physics.interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 
 namespace Fantasy.Engine.Drawing.Animating
 {
-    /// <summary>
-    /// An abstract class representing an animation for a <see cref="ISubDrawable"/> subject.
-    /// </summary>
-    public abstract class Animation : DefinedDrawable
+	/// <summary>
+	/// Represents an animation.
+	/// </summary>
+	public abstract class Animation : DefinedDrawable
 	{
 		protected bool isPaused;
 		protected byte activeFrameIndex;
 		protected TimeSpan currentFrameDuration;
 		protected TimeSpan currentFrameMaxDuration;
 
-        /// <summary>
-        /// Describes if the animation is active and being updated.
-        /// Initialized to true when all Animation object are created.
-        /// </summary>
-        public bool IsPaused { get => this.isPaused; set => this.isPaused = value; }
 		/// <summary>
-		/// The index of the currently active frame in the animation.
+		/// Describes if the <c>Animation</c> is paused.
+		/// Initialized to false when all <c>Animation</c> objects are created.
 		/// </summary>
-		public byte ActiveFrameIndex { get => activeFrameIndex; }
+		public bool IsPaused { get => this.isPaused; set => this.isPaused = value; }
 		/// <summary>
-		/// The amount of time the current frame has been active.
+		/// The index of the currently drawn frame in the <c>Animation</c>.
 		/// </summary>
-		public TimeSpan CurrentFrameDuration { get => currentFrameDuration; }
+		public byte ActiveFrameIndex { get => this.activeFrameIndex; protected set => this.activeFrameIndex = value; }
 		/// <summary>
-		/// The total amount of time the current frame will be active for.
+		/// The amount of time the current frame has been drawn for.
 		/// </summary>
-		public TimeSpan CurrentFrameMaxDuration { get => currentFrameMaxDuration; }
+		public TimeSpan CurrentFrameDuration { get => this.currentFrameDuration; protected set => this.currentFrameDuration = value; }
+		/// <summary>
+		/// The total amount of time the current frame will be drawn for.
+		/// </summary>
+		public TimeSpan CurrentFrameMaxDuration { get => this.currentFrameMaxDuration; protected set => this.currentFrameMaxDuration = value; }
 
 		/// <summary>
-		/// Generic inherited constructor.
+		/// Creates a new <c>Animation</c> with the provided parameters.
 		/// </summary>
-		public Animation()
+		/// <param name="sheetBox">The sheet box.</param>
+		/// <param name="spritesheet">The spritesheet.</param>
+		/// <param name="location">The location.</param>
+		public Animation(Rectangle sheetBox, Texture2D spritesheet, ILocation location) : base(sheetBox, spritesheet, location)
 		{
-			isPaused = true;
-			ActiveAnimations.Add(this);
+			this.IsPaused = false;
 		}
 
-		public void Draw(GameTime gameTime, Color? color = null)
-		{
-			throw new NotImplementedException();
-		}
+		/// <summary>
+		/// Draws the <c>Animation</c> using the specified <c>GameTime</c>.
+		/// </summary>
+		/// <param name="gameTime">The elapsed game time since the last update.</param>
+		/// <param name="color">The color to be drawn with.</param>
+		public new abstract void Draw(GameTime gameTime, Color? color = null);
 	}
 }

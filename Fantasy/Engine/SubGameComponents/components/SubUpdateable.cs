@@ -16,13 +16,13 @@ namespace Fantasy.Engine.SubGameComponents.components
 		/// Gets or sets a value indicating if this subcomponent is being updated or not. 
 		/// Inactive subcomponent are defined as those with a <cref>UpdateOrder</cref> of 0.
 		/// </summary>
-		public bool IsActive { get => isActive; set => isActive = value; }
+		public bool IsActive { get => this.isActive; set => this.isActive = value; }
 		/// <summary>
 		/// Gets or sets a value indicating the priority this subcomponent will be updated with in its <c>ISubUpdateableCollection</c> collection.
 		/// Lower numbers are higher priority.
 		/// 0 priority values are reserved for inactive subcomponent.
 		/// </summary>
-		public byte UpdateOrder { get => updateOrder; set => updateOrder = value; }
+		public byte UpdateOrder { get => this.updateOrder; set => this.updateOrder = value; }
 
 		/// <summary>
 		/// Updates the subcomponent using the specified <c>GameTime</c>.
