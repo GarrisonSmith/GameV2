@@ -56,5 +56,10 @@ namespace Fantasy.Engine.Drawing
 				SpriteBatchHandler.Draw(this.Spritesheet, this.Location.VectorPosition, this.SheetBox, Color.White);
 			}
 		}
+
+		void IDefinedDrawable.Draw(GameTime gameTime, Color? color)
+		{
+			throw new System.NotImplementedException();
+		}
 	}
 }

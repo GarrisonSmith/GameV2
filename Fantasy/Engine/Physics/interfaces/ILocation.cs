@@ -3,7 +3,7 @@
 namespace Fantasy.Engine.Physics.interfaces
 {
 	/// <summary>
-	/// Represents an object that is a location.
+	/// Represents a location.
 	/// </summary>
 	public interface ILocation
     {

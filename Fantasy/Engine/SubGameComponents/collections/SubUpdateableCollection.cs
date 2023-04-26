@@ -29,7 +29,7 @@ namespace Fantasy.Engine.SubGameComponents.collections
 		/// Lower keys have higher update priority.
 		/// 0 priority keys are reserved for inactive subcomponent.
 		/// </summary>
-		public Dictionary<byte, List<ISubUpdateable>> SubUpdateables { get => this.subUpdateables; }
+		public Dictionary<byte, List<ISubUpdateable>> SubUpdateables { get => this.subUpdateables; protected set => this.subUpdateables = value; }
 
 		/// <summary>
 		/// Updates the <c>ISubUpdateableCollection</c> using the specified <c>GameTime</c>.

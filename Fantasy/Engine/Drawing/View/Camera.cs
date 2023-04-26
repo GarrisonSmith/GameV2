@@ -48,7 +48,7 @@ namespace Fantasy.Engine.Drawing.View
                 if (MinZoom <= value && value <= MaxZoom)
                 {
                     zoom = value;
-                    Stretch = Zoom / (float)Tile.TILE_HEIGHT;
+                    Stretch = Zoom / (float)Tile.TILE_DIMENSIONS;
                     CameraViewBoundingBox.Width = (int)Math.Ceiling(Game._Graphics.PreferredBackBufferWidth / Stretch);
                     CameraViewBoundingBox.Height = (int)Math.Ceiling(Game._Graphics.PreferredBackBufferHeight / Stretch);
 				}

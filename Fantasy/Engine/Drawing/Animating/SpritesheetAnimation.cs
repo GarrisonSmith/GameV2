@@ -13,11 +13,11 @@ namespace Fantasy.Engine.Drawing.Animating
 	/// </summary>
 	public class SpritesheetAnimation : Animation
 	{
-		private readonly int minDurationMili;
-		private readonly int maxDurationExtensionMili;
-		private Rectangle currentSheetBox;
-		private Vector2 currentOffSetPosition;
-		private readonly SpritesheetFrame[] frames;
+		protected readonly int minDurationMili;
+		protected readonly int maxDurationExtensionMili;
+		protected Rectangle currentSheetBox;
+		protected Vector2 currentOffSetPosition;
+		protected readonly SpritesheetFrame[] frames;
 
 		/// <summary>
 		/// Describes if the <c>Animation</c> is paused.
@@ -53,11 +53,11 @@ namespace Fantasy.Engine.Drawing.Animating
 		/// <summary>
 		/// Gets the current sheet box used by the <c>SpritesheetAnimation</c>.
 		/// </summary>
-		public Rectangle CurrentSheetBox { get => this.currentSheetBox; }
+		public Rectangle CurrentSheetBox { get => this.currentSheetBox; protected set => this.currentSheetBox = value; }
 		/// <summary>
 		/// Gets the currently off set position of this <c>SpritesheetAnimation</c>.
 		/// </summary>
-		public Vector2 CurrentOffSetPosition { get => this.currentOffSetPosition; }
+		public Vector2 CurrentOffSetPosition { get => this.currentOffSetPosition; protected set => this.currentOffSetPosition = value; }
 		/// <summary>
 		/// Gets the array of frames that define the <c>SpritesheetAnimation</c>.
 		/// </summary>
@@ -76,7 +76,7 @@ namespace Fantasy.Engine.Drawing.Animating
 			{
 				if (foo.Name.Equals("activeFrameIndex"))
 				{
-					this.activeFrameIndex = byte.Parse(foo.InnerText);
+					this.ActiveFrameIndex = byte.Parse(foo.InnerText);
 					continue;
 				}
 				if (foo.Name.Equals("minDurationMili"))
@@ -100,8 +100,8 @@ namespace Fantasy.Engine.Drawing.Animating
 					continue;
 				}
 
-				this.currentSheetBox = new Rectangle(this.SheetBox.X + (this.ActiveFrameIndex * this.SheetBox.Width), this.SheetBox.Y, this.SheetBox.Width, this.SheetBox.Height);
-				this.currentOffSetPosition = this.Location.VectorPosition + this.Frames[this.ActiveFrameIndex].OffSet;
+				this.CurrentSheetBox = new Rectangle(this.SheetBox.X + (this.ActiveFrameIndex * this.SheetBox.Width), this.SheetBox.Y, this.SheetBox.Width, this.SheetBox.Height);
+				this.CurrentOffSetPosition = this.Location.VectorPosition + this.Frames[this.ActiveFrameIndex].OffSet;
 				this.CurrentFrameDuration = TimeSpan.Zero;
 				this.CurrentFrameMaxDuration = new TimeSpan(0, 0, 0, 0, this.MinDurationMili + RandomNumberGenerator.Random.Next(this.MaxDurationExtensionMili));
 			}
@@ -128,7 +128,7 @@ namespace Fantasy.Engine.Drawing.Animating
 					this.ActiveFrameIndex = 0;
 				}
 				this.currentSheetBox.X = this.SheetBox.X + (this.ActiveFrameIndex * this.SheetBox.Width);
-				this.currentOffSetPosition = this.Location.VectorPosition + this.Frames[this.ActiveFrameIndex].OffSet;
+				this.CurrentOffSetPosition = this.Location.VectorPosition + this.Frames[this.ActiveFrameIndex].OffSet;
 				this.CurrentFrameDuration = TimeSpan.Zero;
 				this.CurrentFrameMaxDuration = new TimeSpan(0, 0, 0, 0, this.MinDurationMili + RandomNumberGenerator.Random.Next(this.MaxDurationExtensionMili));
 			}

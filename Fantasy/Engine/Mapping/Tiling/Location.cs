@@ -69,7 +69,7 @@ namespace Fantasy.Engine.Mapping.Tiling
             }
             else
             {
-                col = (int)(boundBox.TopLeft.X / Tile.TILE_WIDTH);
+                col = (int)(boundBox.TopLeft.X / Tile.TILE_DIMENSIONS);
             }
 
             if (boundBox.TopLeft.Y < 0)
@@ -78,7 +78,7 @@ namespace Fantasy.Engine.Mapping.Tiling
             }
             else
             {
-                row = (int)(boundBox.TopLeft.Y / Tile.TILE_HEIGHT);
+                row = (int)(boundBox.TopLeft.Y / Tile.TILE_DIMENSIONS);
             }
         }
     }

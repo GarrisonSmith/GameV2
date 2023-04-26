@@ -1,5 +1,4 @@
-﻿using Fantasy.Engine.Drawing;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace Fantasy.Engine.SubGameComponents.interfaces
 {

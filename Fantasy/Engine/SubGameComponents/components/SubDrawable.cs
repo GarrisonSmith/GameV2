@@ -23,7 +23,7 @@ namespace Fantasy.Engine.SubGameComponents.components
 		/// <summary>
 		/// Gets a value indicating whether this subcomponent is animated or not.
 		/// </summary>
-		public bool IsAnimated { get => this.isAnimated; }
+		public bool IsAnimated { get => this.isAnimated; protected set => this.isAnimated = value; }
 		/// <summary>
 		/// Describes the priority this subcomponent will be updated with in its <c>ISubUpdateableCollection</c> collection.
 		/// Lower numbers are higher priority.
@@ -33,7 +33,7 @@ namespace Fantasy.Engine.SubGameComponents.components
 		/// <summary>
 		/// Gets the defined drawable for this subcomponent.
 		/// </summary>
-		public IDefinedDrawable DefinedDrawable { get => this.definedDrawable; }
+		public IDefinedDrawable DefinedDrawable { get => this.definedDrawable; protected set => this.definedDrawable = value; }
 
 		/// <summary>
 		/// Draws the subcomponent using the specified <c>GameTime</c>.
