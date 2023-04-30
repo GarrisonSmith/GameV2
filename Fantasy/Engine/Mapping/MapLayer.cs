@@ -1,4 +1,5 @@
 ﻿using Fantasy.Engine.Mapping.Tiling;
+using Fantasy.Engine.SubGameComponents.collections;
 using Microsoft.Xna.Framework;
 using System;
 
@@ -7,32 +8,24 @@ namespace Fantasy.Engine.Mapping
 	/// <summary>
 	/// Represents a layer of tiles in a game map.
 	/// </summary>
-	public class MapLayer : DrawableGameComponent
+	public class MapLayer : SubDrawableUpdateableCollection
 	{
-		private readonly int layer;
+		private readonly byte layer;
 		private readonly TileCollection tileLayer;
-		private MapLayer next;
 
 		/// <summary>
-		/// The layer number.
+		/// Gets the layer number.
 		/// </summary>
-		public int Layer
+		public byte Layer
 		{
 			get => layer;
 		}
 		/// <summary>
-		/// The collection of tiles in the layer.
+		/// Gets the collection of tiles in the layer.
 		/// </summary>
 		public TileCollection TileLayer
 		{
 			get => tileLayer;
-		}
-		/// <summary>
-		/// The next layer in the map. This will be the layer with the next lowest layer value or null if no such layer exists.
-		/// </summary>
-		public MapLayer Next
-		{
-			get => next;
 		}
 
 		/// <summary>
@@ -41,51 +34,29 @@ namespace Fantasy.Engine.Mapping
 		/// <param name="game">The game object to which the layer will be added.</param>
 		/// <param name="layer">The layer number of the new MapLayer.</param>
 		/// <exception cref="Exception">Thrown if a layer with the same number already exists in the ActiveGameMap.</exception>
-		public MapLayer(Game game, int layer) : base(game)
+		public MapLayer(byte layer)
 		{
-			if (ActiveGameMap.MapLayers.ContainsKey(layer))
-			{
-				throw new Exception("A layer with the value of " + layer + " already exists in the ActiveGameMap.");
-			}
-			
-			this.layer = layer;
-			DrawOrder = layer;
-			UpdateOrder = layer;
-			tileLayer = new TileCollection(this);
-			tileLayer.CreateCombinedTexture(true);
 
-			if (ActiveGameMap.HIGHEST_LAYER == null || ActiveGameMap.HIGHEST_LAYER.Layer < layer)
-			{
-				next = ActiveGameMap.HIGHEST_LAYER;
-				ActiveGameMap.HIGHEST_LAYER = this;
-				return;
-			}
-
-			MapLayer current = ActiveGameMap.HIGHEST_LAYER;
-			while (current != null)
-			{
-				if (current.Next == null)
-				{
-					current.next = this;
-					next = null;
-					return;
-				}
-				if (current.Next.Layer < layer)
-				{ 
-					next = current.Next;
-					current.next = this;
-					return;
-				}
-				current = current.Next;
-			}
 		}
-		/// <summary>
-		/// Draws the layer.
-		/// </summary>
-		/// <param name="gameTime">The current game time.</param>
-		public override void Draw(GameTime gameTime)
+
+		public override void CreateCombinedTexture()
 		{
-			tileLayer.Draw(gameTime);
+			throw new NotImplementedException();
+		}
+
+		public override void Initialize()
+		{
+			throw new NotImplementedException();
+		}
+
+		public override void Update(GameTime gameTime)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override void Draw(GameTime gameTime, Color? color = null)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

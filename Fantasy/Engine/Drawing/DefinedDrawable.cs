@@ -8,7 +8,7 @@ namespace Fantasy.Engine.Drawing
 	/// <summary>
 	/// Represents a single item that can be drawn.
 	/// </summary>
-	public abstract class DefinedDrawable : IDefinedDrawable
+	public class DefinedDrawable : IDefinedDrawable
 	{
 		protected readonly Rectangle sheetBox;
 		protected readonly Texture2D spritesheet;
@@ -55,11 +55,6 @@ namespace Fantasy.Engine.Drawing
 			{
 				SpriteBatchHandler.Draw(this.Spritesheet, this.Location.VectorPosition, this.SheetBox, Color.White);
 			}
-		}
-
-		void IDefinedDrawable.Draw(GameTime gameTime, Color? color)
-		{
-			throw new System.NotImplementedException();
 		}
 	}
 }

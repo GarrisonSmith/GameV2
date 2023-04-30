@@ -9,7 +9,7 @@ namespace Fantasy.Engine.SubGameComponents.components
     /// <summary>
     /// Represents a subcomponent that can drawn inside a <c>ISubDrawableCollection</c>.
     /// </summary>
-    public abstract class SubDrawable : SubComponent, ISubDrawable, ISubDrawableComponent
+    public abstract class SubDrawableComponent : SubComponent, ISubDrawable, ISubDrawableComponent
 	{
 		protected bool isVisible;
 		protected bool isAnimated;
@@ -34,6 +34,19 @@ namespace Fantasy.Engine.SubGameComponents.components
 		/// Gets the defined drawable for this subcomponent.
 		/// </summary>
 		public IDefinedDrawable DefinedDrawable { get => this.definedDrawable; protected set => this.definedDrawable = value; }
+
+		/// <summary>
+		/// Creates a new <c>SubDrawableComponent</c> with the provided parameters.
+		/// </summary>
+		/// <param name="isVisible">A value indicating whether this subcomponent is visible or not.</param>
+		/// <param name="drawOrder">The draw order.</param>
+		/// <param name="definedDrawable">The defined drawable.</param>
+		public SubDrawableComponent(bool isVisible, byte drawOrder, IDefinedDrawable definedDrawable) 
+		{
+			this.IsVisible = isVisible;
+			this.DrawOrder = drawOrder;
+			this.DefinedDrawable = definedDrawable;
+		}
 
 		/// <summary>
 		/// Draws the subcomponent using the specified <c>GameTime</c>.

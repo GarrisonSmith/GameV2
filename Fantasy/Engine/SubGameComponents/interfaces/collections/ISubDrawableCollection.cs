@@ -1,5 +1,4 @@
-﻿using Fantasy.Engine.Drawing.Animating;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
@@ -14,11 +13,6 @@ namespace Fantasy.Engine.SubGameComponents.interfaces.collections
 		/// Gets or sets a value indicating whether this <c>DrawableGameComponent</c> is visible or not.
 		/// </summary>
 		bool IsVisible { get; set; }
-
-		/// <summary>
-		/// Gets a value indicating whether this <c>DrawableGameComponent</c> is animated or not.
-		/// </summary>
-		bool IsAnimated { get; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to use a combined texture for all elements in the <c>ISubDrawableCollection</c>.
@@ -35,21 +29,7 @@ namespace Fantasy.Engine.SubGameComponents.interfaces.collections
 		/// Lower keys have higher draw priority.
 		/// 0 priority keys are reserved for invisible subcomponent.
 		/// </summary>
-		Dictionary<byte, List<ISubDrawable>> SubDrawables { get; }
-
-		/// <summary>
-		/// Gets the dictionary <c>Animation</c> lists in the <c>ISubDrawableCollection</c> which are of type <c>Animation</c>, identified by keys of type <c>byte</c>.
-		/// Lower keys have higher draw priority.
-		/// 0 priority keys are reserved for invisible subcomponent.
-		/// </summary>
-		Dictionary<byte, List<Animation>> AnimatedSubDrawables { get; }
-
-		/// <summary>
-		/// Gets the dictionary <c>Animation</c> lists in the <c>ISubDrawableCollection</c> which are not of type <c>Animation</c>, identified by keys of type <c>byte</c>.
-		/// Lower keys have higher draw priority.
-		/// 0 priority keys are reserved for invisible subcomponent.
-		/// </summary>
-		Dictionary<byte, List<ISubDrawable>> StaticSubDrawables { get; }
+		SortedDictionary<byte, List<ISubDrawable>> SubDrawables { get; }
 
         /// <summary>
         /// Creates the combined texture for the entire <c>ISubDrawableCollection</c>.

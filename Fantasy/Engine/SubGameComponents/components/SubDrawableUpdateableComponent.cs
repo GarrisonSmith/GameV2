@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace Fantasy.Engine.SubGameComponents.components
 {
-    public abstract class SubDrawableUpdateable : SubComponent, ISubDrawable, ISubUpdateable, ISubDrawableComponent, ISubUpdateableComponent
+    public abstract class SubDrawableUpdateableComponent : SubComponent, ISubDrawable, ISubUpdateable, ISubDrawableComponent, ISubUpdateableComponent
 	{
 		protected bool isActive;
 		protected bool isVisible;
@@ -43,6 +43,23 @@ namespace Fantasy.Engine.SubGameComponents.components
 		/// Gets the defined drawable for this subcomponent.
 		/// </summary>
 		public IDefinedDrawable DefinedDrawable { get => this.definedDrawable; protected set => this.definedDrawable = value; }
+
+		/// <summary>
+		/// Creates a new <c>SubDrawableUpdateableComponent</c> with the provided parameters.
+		/// </summary>
+		/// <param name="isVisible">A value indicating whether this subcomponent is visible or not.</param>
+		/// <param name="isActive">A value indicating if this subcomponent is being updated or not. </param>
+		/// <param name="drawOrder">The draw order.</param>
+		/// <param name="updateOrder">The update order.</param>
+		/// <param name="definedDrawable">The defined drawable.</param>
+		public SubDrawableUpdateableComponent(bool isVisible, bool isActive, byte drawOrder, byte updateOrder, IDefinedDrawable definedDrawable)
+		{
+			this.IsVisible = isVisible;
+			this.IsActive = isActive;
+			this.DrawOrder = drawOrder;
+			this.UpdateOrder = updateOrder;
+			this.DefinedDrawable = definedDrawable;
+		}
 
 		/// <summary>
 		/// Updates the subcomponent using the specified <c>GameTime</c>.

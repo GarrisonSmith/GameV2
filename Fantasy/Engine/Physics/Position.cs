@@ -9,7 +9,7 @@ namespace Fantasy.Engine.Physics
 	/// </summary>
 	public class Position : ILocation
 	{
-		private Vector2 vectorPosition;
+		protected Vector2 vectorPosition;
 
 		/// <summary>
 		/// Gets or sets the X value for the <c>Position</c>.
@@ -51,6 +51,15 @@ namespace Fantasy.Engine.Physics
 		public Position(Point pointPosition)
 		{ 
 			this.PointPosition = pointPosition;
+		}
+		/// <summary>
+		/// Creates a new <c>Position</c> from the provided X and Y values.
+		/// </summary>
+		/// <param name="X">The X value.</param>
+		/// <param name="Y">The Y value.</param>
+		public Position(int X, int Y) 
+		{
+			this.PointPosition = new Point(X, Y);
 		}
 
 		/// <summary>

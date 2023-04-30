@@ -12,33 +12,32 @@ namespace Fantasy.Engine.Mapping
     {
 		private static string tileMapName;
 		private static MapLayer highest_layer;
-		private static Dictionary<int, MapLayer> mapLayers;
+		private static Dictionary<byte, MapLayer> mapLayers;
 		private static readonly Game game;
 
 		/// <summary>
-		/// The name of the tile map.
+		/// Gets the name of the tile map.
 		/// </summary>
 		public static string TileMapName
 		{ 
-			get => tileMapName;
+			get => tileMapName; private set => tileMapName = value;
 		}
 		/// <summary>
-		/// The highest layer in the map.
+		/// Gets the highest layer in the map.
 		/// </summary>
 		public static MapLayer HIGHEST_LAYER
 		{
-			get => highest_layer;
-			set => highest_layer = value;
+			get => highest_layer; private set => highest_layer = value;
 		}
 		/// <summary>
-		/// The collection of layers in the map.
+		/// Gets the collection of layers in the map.
 		/// </summary>
-		public static Dictionary<int, MapLayer> MapLayers
+		public static Dictionary<byte, MapLayer> MapLayers
 		{
-			get => mapLayers;
+			get => mapLayers; private set => mapLayers = value;
 		}
 		/// <summary>
-		/// The game object associated with the map.
+		/// Gets the game object associated with the map.
 		/// </summary>
 		public static Game Game
 		{
@@ -67,10 +66,10 @@ namespace Fantasy.Engine.Mapping
 				AnimatedTile.CreateTile(animatedTileElement);
 			}
 
-			mapLayers = new Dictionary<int, MapLayer>();
+			mapLayers = new Dictionary<byte, MapLayer>();
 			foreach (XmlElement layerElement in mapElement.SelectSingleNode("Layers"))
 			{
-				int layer = int.Parse(layerElement.GetAttribute("id"));
+				byte layer = byte.Parse(layerElement.GetAttribute("id"));
 				mapLayers.Add(layer, new MapLayer(game, layer));
 			}
 
@@ -84,7 +83,7 @@ namespace Fantasy.Engine.Mapping
 		public static void LoadMap(Game game, XmlElement mapElement)
         {
             tileMapName = mapElement.GetAttribute("name");
-            mapLayers = new Dictionary<int, MapLayer>();
+            mapLayers = new Dictionary<byte, MapLayer>();
             foreach (XmlElement tileElement in mapElement.GetElementsByTagName("Engine.Logic.Mapping.Tiling.Tile"))
             {
                 Tile.CreateTile(tileElement);

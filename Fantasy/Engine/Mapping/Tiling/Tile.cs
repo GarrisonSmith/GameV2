@@ -11,42 +11,44 @@ namespace Fantasy.Engine.Mapping.Tiling
 	/// <summary>
 	/// Represents a tile in a MapLayer.
 	/// </summary>
-	public class Tile : SubDrawable, ILocatable
+	public class Tile : SubDrawableComponent, ILocatable
 	{
 		private static readonly int tileDimensions = 64;
 
 		/// <summary>
 		/// Gets the dimensions of a tile in pixels.
 		/// </summary>
-		public static int TILE_DIMENSIONS
+		public static int TILE_DIMENSION
 		{
 			get => tileDimensions;
 		}
 
-		public static SubDrawableCollection GetTiles(XmlElement tileMapElement) 
-		{
-			
-		}
-
-		protected ILocation location;
+		protected readonly string tileId;
+		protected readonly ILocation location;
 
 		/// <summary>
-		/// Gets or sets the location.
+		/// Gets the tile id.
 		/// </summary>
-		public ILocation Location { get => location; set => location = value; }
+		public string TileId { get => TileId; }
+		/// <summary>
+		/// Gets the location.
+		/// </summary>
+		public ILocation Location { get => location;}
 
 		/// <summary>
 		/// Creates a new <c>Tile</c> with the provided parameters.
 		/// </summary>
 		/// <param name="drawOrder">The draw order.</param>
+		/// <param name="tileId">The tile id.</param>
 		/// <param name="location">the location.</param>
 		/// <param name="definedDrawable">the defined drawable.</param>
 		/// <param name="isVisible">indicates if this <c>Tile</c> is visible or not.</param>
-		public Tile(byte drawOrder, ILocation location, IDefinedDrawable definedDrawable, bool isVisible = false) 
+		public Tile(byte drawOrder, string tileId, ILocation location, IDefinedDrawable definedDrawable, bool isVisible = false) 
 		{
 			this.IsVisible = isVisible;
 			this.DrawOrder = drawOrder;
-			this.Location = location;
+			this.tileId = tileId;
+			this.location = location;
 			this.DefinedDrawable = definedDrawable;
 		}
 

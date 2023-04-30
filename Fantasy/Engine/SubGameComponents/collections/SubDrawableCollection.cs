@@ -1,5 +1,4 @@
-﻿using Fantasy.Engine.Drawing.Animating;
-using Fantasy.Engine.SubGameComponents.interfaces;
+﻿using Fantasy.Engine.SubGameComponents.interfaces;
 using Fantasy.Engine.SubGameComponents.interfaces.collections;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,28 +6,21 @@ using System.Collections.Generic;
 
 namespace Fantasy.Engine.SubGameComponents.collections
 {
-    /// <summary>
-    /// Represents of collection of drawable subcomponents that can be used inside a <c>DrawableGameComponent</c>. 
-    /// </summary>
-    public abstract class SubDrawableCollection : SubComponentCollection, ISubDrawableCollection, ISubDrawable
+	/// <summary>
+	/// Represents of collection of <c>ISubDrawableComponents</c> that can be used inside a <c>DrawableGameComponent</c>. 
+	/// </summary>
+	public abstract class SubDrawableCollection : SubComponentCollection, ISubDrawableCollection, ISubDrawable
 	{
 		protected bool isVisible;
-		protected bool isAnimated;
 		protected bool useCombinedTexture;
 		protected byte drawOrder;
 		protected Texture2D combinedTexture;
-		protected Dictionary<byte, List<ISubDrawable>> subDrawables;
-		protected Dictionary<byte, List<Animation>> animatedSubDrawables;
-		protected Dictionary<byte, List<ISubDrawable>> staticSubDrawables;
+		protected SortedDictionary<byte, List<ISubDrawable>> subDrawables;
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this <c>DrawableGameComponent</c> is visible or not.
 		/// </summary>
 		public bool IsVisible { get => this.isVisible; set => this.isVisible = value; }
-		/// <summary>
-		/// Gets a value indicating whether this <c>DrawableGameComponent</c> is animated or not.
-		/// </summary>
-		public bool IsAnimated { get => this.isAnimated; protected set => this.isAnimated = value; }
 		/// <summary>
 		/// Gets or sets a value indicating whether to use a combined texture for all elements in the <c>ISubDrawableCollection</c>.
 		/// </summary>
@@ -48,24 +40,31 @@ namespace Fantasy.Engine.SubGameComponents.collections
 		/// Lower keys have higher draw priority.
 		/// 0 priority keys are reserved for invisible subcomponent.
 		/// </summary>
-		public Dictionary<byte, List<ISubDrawable>> SubDrawables { get => this.subDrawables; protected set => this.subDrawables = value; }
+		public SortedDictionary<byte, List<ISubDrawable>> SubDrawables { get => this.subDrawables; protected set => this.subDrawables = value; }
+
 		/// <summary>
-		/// Gets the dictionary <c>Animation</c> lists in the <c>ISubDrawableCollection</c> which are of type <c>Animation</c>, identified by keys of type <c>byte</c>.
-		/// Lower keys have higher draw priority.
-		/// 0 priority keys are reserved for invisible subcomponent.
+		/// Creates a new <c>SubDrawableCollection</c> with the provided parameters.
 		/// </summary>
-		public Dictionary<byte, List<Animation>> AnimatedSubDrawables { get => this.animatedSubDrawables; protected set => this.animatedSubDrawables = value; }
-		/// <summary>
-		/// Gets the dictionary <c>Animation</c> lists in the <c>ISubDrawableCollection</c> which are not of type <c>Animation</c>, identified by keys of type <c>byte</c>.
-		/// Lower keys have higher draw priority.
-		/// 0 priority keys are reserved for invisible subcomponent.
-		/// </summary>
-		public Dictionary<byte, List<ISubDrawable>> StaticSubDrawables { get => this.staticSubDrawables; protected set => this.staticSubDrawables = value; }
+		/// <param name="isVisible">A value indicating whether this <c>SubDrawableCollection</c> is visible or not.</param>
+		/// <param name="drawOrder">The draw order.</param>
+		public SubDrawableCollection(bool isVisible, byte drawOrder)
+		{
+			this.IsVisible = isVisible;
+			this.DrawOrder = drawOrder;
+		}
 
 		/// <summary>
 		/// Creates the combined texture for the entire <c>ISubDrawableCollection</c>.
 		/// </summary>
 		public abstract void CreateCombinedTexture();
+		/// <summary>
+		/// Initializes the <c>ISubDrawableCollection</c>.
+		/// </summary>
+		public new void Initialize()
+		{
+			base.Initialize();
+			this.SubDrawables = new SortedDictionary<byte, List<ISubDrawable>>();
+		}
 		/// <summary>
 		/// Draws the item using the specified <c>GameTime</c>.
 		/// </summary>

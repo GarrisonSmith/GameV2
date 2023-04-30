@@ -40,7 +40,7 @@ namespace Fantasy
 
             SpriteBatchHandler.Initialize(_graphics.GraphicsDevice);
             Camera.Initialize(this);
-            TextureManager.LoadSpritesheets(this);
+            TextureManager.LoadTextures(this);
 
             base.Initialize(); //calls LoadContent()
         }

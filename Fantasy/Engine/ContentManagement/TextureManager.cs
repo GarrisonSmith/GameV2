@@ -2,23 +2,33 @@
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fantasy.Engine.ContentManagement
 {
+    /// <summary>
+    /// Manages the texture used throughout the game.
+    /// </summary>
     public static class TextureManager
     {
-
+        /// <summary>
+        /// Gets or sets the spritesheets.
+        /// </summary>
         private static Dictionary<string, Texture2D> Spritesheets { get; set; }
 
+        /// <summary>
+        /// Loads the textures.
+        /// </summary>
+        /// <param name="game">The game.</param>
         public static void LoadTextures(Game game)
         {
             LoadSpritesheets(game);
         }
 
-        public static void LoadSpritesheets(Game game)
+        /// <summary>
+        /// Loads the spritesheets.
+        /// </summary>
+        /// <param name="game">The game.</param>
+        private static void LoadSpritesheets(Game game)
         {
 			//tileSets.Add("NAME", Global._content.Load<Texture2D>(@"spritesheets\NAME"));
 			Spritesheets = new Dictionary<string, Texture2D>
@@ -31,6 +41,12 @@ namespace Fantasy.Engine.ContentManagement
             };
         }
 
+        /// <summary>
+        /// Gets the spritesheet with the provided name if it exists.
+        /// </summary>
+        /// <param name="spritesheetName">The name of the spritesheet to get.</param>
+        /// <returns>The spritesheet.</returns>
+        /// <exception cref="Exception">Thrown if a spritesheet with the provided name does not exist.</exception>
         public static Texture2D GetSpritesheet(string spritesheetName)
         {
             Texture2D foo;
@@ -40,6 +56,5 @@ namespace Fantasy.Engine.ContentManagement
             }
             throw new Exception("Spritesheet with name " + spritesheetName + " was not found.");
         }
-
     }
 }

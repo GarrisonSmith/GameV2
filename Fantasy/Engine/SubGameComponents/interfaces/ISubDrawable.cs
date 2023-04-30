@@ -13,11 +13,6 @@ namespace Fantasy.Engine.SubGameComponents.interfaces
         bool IsVisible { get; set; }
 
         /// <summary>
-        /// Gets a value indicating whether this subcomponent is animated or not.
-        /// </summary>
-        bool IsAnimated { get; }
-
-        /// <summary>
         /// Gets or sets a value indicating the priority this subcomponent will be drawn with in its <c>ISubDrawableCollection</c> collection.
         /// Lower numbers are higher priority.
         /// 0 priority values are reserved for invisible subcomponent.

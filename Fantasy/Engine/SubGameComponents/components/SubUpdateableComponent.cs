@@ -1,4 +1,5 @@
-﻿using Fantasy.Engine.SubGameComponents.interfaces;
+﻿using Fantasy.Engine.Drawing.interfaces;
+using Fantasy.Engine.SubGameComponents.interfaces;
 using Fantasy.Engine.SubGameComponents.interfaces.components;
 using Microsoft.Xna.Framework;
 
@@ -7,7 +8,7 @@ namespace Fantasy.Engine.SubGameComponents.components
     /// <summary>
     /// Represents a subcomponent that can updated inside a <c>ISubUpdateableCollection</c>
     /// </summary>
-    public abstract class SubUpdateable : SubComponent, ISubUpdateable, ISubUpdateableComponent
+    public abstract class SubUpdateableComponent : SubComponent, ISubUpdateable, ISubUpdateableComponent
 	{
 		protected bool isActive;
 		protected byte updateOrder;
@@ -23,6 +24,17 @@ namespace Fantasy.Engine.SubGameComponents.components
 		/// 0 priority values are reserved for inactive subcomponent.
 		/// </summary>
 		public byte UpdateOrder { get => this.updateOrder; set => this.updateOrder = value; }
+
+		/// <summary>
+		/// Creates a new <c>SubUpdateableComponent</c> with the provided parameters.
+		/// </summary>
+		/// <param name="isActive">A value indicating if this subcomponent is being updated or not. </param>
+		/// <param name="updateOrder">The update order.</param>
+		public SubUpdateableComponent(bool isActive, byte updateOrder)
+		{
+			this.IsActive = isActive;
+			this.UpdateOrder = updateOrder;
+		}
 
 		/// <summary>
 		/// Updates the subcomponent using the specified <c>GameTime</c>.

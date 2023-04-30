@@ -5,14 +5,14 @@ using System.Collections.Generic;
 
 namespace Fantasy.Engine.SubGameComponents.collections
 {
-    /// <summary>
-    /// Represents of collection of updateable subcomponents that can be used inside a <c>GameComponent</c>. 
-    /// </summary>
-    public abstract class SubUpdateableCollection : SubComponentCollection, ISubUpdateableCollection, ISubUpdateable
+	/// <summary>
+	/// Represents of collection of <c>ISubUpdateableComponents</c> that can be used inside a <c>GameComponent</c>. 
+	/// </summary>
+	public abstract class SubUpdateableCollection : SubComponentCollection, ISubUpdateableCollection, ISubUpdateable
 	{
 		protected bool isActive;
 		protected byte updateOrder;
-		protected Dictionary<byte, List<ISubUpdateable>> subUpdateables;
+		protected SortedDictionary<byte, List<ISubUpdateable>> subUpdateables;
 
 		/// <summary>
 		/// Gets or sets a value indicating if this <c>ISubUpdateableCollection</c> is being updated or not. 
@@ -29,8 +29,27 @@ namespace Fantasy.Engine.SubGameComponents.collections
 		/// Lower keys have higher update priority.
 		/// 0 priority keys are reserved for inactive subcomponent.
 		/// </summary>
-		public Dictionary<byte, List<ISubUpdateable>> SubUpdateables { get => this.subUpdateables; protected set => this.subUpdateables = value; }
+		public SortedDictionary<byte, List<ISubUpdateable>> SubUpdateables { get => this.subUpdateables; protected set => this.subUpdateables = value; }
 
+		/// <summary>
+		/// Creates a new <c>SubUpdateableCollection</c> with the provided parameters.
+		/// </summary>
+		/// <param name="isActive">A value indicating if this <c>ISubUpdateableCollection</c> is being updated or not.</param>
+		/// <param name="updateOrder">The update order.</param>
+		public SubUpdateableCollection(bool isActive, byte updateOrder)
+		{ 
+			this.IsActive = isActive;
+			this.UpdateOrder = updateOrder;
+		}
+
+		/// <summary>
+		/// Initializes the <c>SubUpdateableCollection</c>.
+		/// </summary>
+		public new void Initialize()
+		{
+			base.Initialize();
+			this.SubUpdateables = new SortedDictionary<byte, List<ISubUpdateable>>();
+		}
 		/// <summary>
 		/// Updates the <c>ISubUpdateableCollection</c> using the specified <c>GameTime</c>.
 		/// </summary>

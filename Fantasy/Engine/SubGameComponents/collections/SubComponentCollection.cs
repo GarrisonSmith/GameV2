@@ -4,21 +4,29 @@ using System.Collections.Generic;
 
 namespace Fantasy.Engine.SubGameComponents.collections
 {
-    /// <summary>
-    /// Represents of collection of subcomponents that can be used inside a <c>GameComponent</c>. 
-    /// </summary>
-    public abstract class SubComponentCollection : ISubComponentCollection, ISubComponent
+	/// <summary>
+	/// Represents of collection of <c>ISubComponents</c> that can be used inside a <c>GameComponent</c>. 
+	/// </summary>
+	public abstract class SubComponentCollection : ISubComponentCollection, ISubComponent
 	{
-		protected List<ISubComponent> components;
+		protected List<ISubComponent> subComponents;
 
 		/// <summary>
 		/// Gets the list of type <c>ISubComponent</c>.
 		/// </summary>
-		public List<ISubComponent> Components { get => this.components; protected set => this.components = value; }
+		public List<ISubComponent> SubComponents { get => this.subComponents; protected set => this.subComponents = value; }
+
+		/// <summary>
+		/// Creates a new <c>SubComponentCollection</c>.
+		/// </summary>
+		public SubComponentCollection() { }
 
 		/// <summary>
 		/// Initializes the <c>ISubComponentCollection</c>.
 		/// </summary>
-		public abstract void Initialize();
+		public void Initialize()
+		{
+			this.SubComponents = new List<ISubComponent>();
+		}
 	}
 }

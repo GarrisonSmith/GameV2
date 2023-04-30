@@ -9,9 +9,9 @@ namespace Fantasy.Engine.Physics
 	/// </summary>
 	public class AreaBox<T> where T : ILocation
 	{
-		private T position;
-		private float width;
-		private float height;
+		protected T position;
+		protected float width;
+		protected float height;
 
 		/// <summary>
 		/// Gets or sets the width of the <c>AreaBox</c>.

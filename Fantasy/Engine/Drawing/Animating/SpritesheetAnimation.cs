@@ -77,19 +77,16 @@ namespace Fantasy.Engine.Drawing.Animating
 				if (foo.Name.Equals("activeFrameIndex"))
 				{
 					this.ActiveFrameIndex = byte.Parse(foo.InnerText);
-					continue;
 				}
-				if (foo.Name.Equals("minDurationMili"))
+				else if (foo.Name.Equals("minDurationMili"))
 				{
 					this.minDurationMili = int.Parse(foo.InnerText);
-					continue;
 				}
-				if (foo.Name.Equals("maxDurationExtensionMili"))
+				else if (foo.Name.Equals("maxDurationExtensionMili"))
 				{
 					this.maxDurationExtensionMili = int.Parse(foo.InnerText);
-					continue;
 				}
-				if (foo.Name.Equals("frames"))
+				else if (foo.Name.Equals("frames"))
 				{
 					this.frames = new SpritesheetFrame[int.Parse(foo.GetAttribute("length"))];
 					int index = 0;
@@ -97,14 +94,13 @@ namespace Fantasy.Engine.Drawing.Animating
 					{
 						this.frames[index++] = new SpritesheetFrame(bar);
 					}
-					continue;
 				}
-
-				this.CurrentSheetBox = new Rectangle(this.SheetBox.X + (this.ActiveFrameIndex * this.SheetBox.Width), this.SheetBox.Y, this.SheetBox.Width, this.SheetBox.Height);
-				this.CurrentOffSetPosition = this.Location.VectorPosition + this.Frames[this.ActiveFrameIndex].OffSet;
-				this.CurrentFrameDuration = TimeSpan.Zero;
-				this.CurrentFrameMaxDuration = new TimeSpan(0, 0, 0, 0, this.MinDurationMili + RandomNumberGenerator.Random.Next(this.MaxDurationExtensionMili));
 			}
+
+			this.CurrentSheetBox = new Rectangle(this.SheetBox.X + (this.ActiveFrameIndex * this.SheetBox.Width), this.SheetBox.Y, this.SheetBox.Width, this.SheetBox.Height);
+			this.CurrentOffSetPosition = this.Location.VectorPosition + this.Frames[this.ActiveFrameIndex].OffSet;
+			this.CurrentFrameDuration = TimeSpan.Zero;
+			this.CurrentFrameMaxDuration = new TimeSpan(0, 0, 0, 0, this.MinDurationMili + RandomNumberGenerator.Random.Next(this.MaxDurationExtensionMili));
 		}
 
 		/// <summary>
