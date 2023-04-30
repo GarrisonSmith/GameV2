@@ -1,6 +1,5 @@
 ﻿using Fantasy.Engine.Drawing.Animating.Frames;
 using Fantasy.Engine.Physics;
-using Fantasy.Engine.Physics.interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -68,9 +67,9 @@ namespace Fantasy.Engine.Drawing.Animating
 		/// </summary>
 		/// <param name="sheetBox"></param>
 		/// <param name="spritesheet"></param>
-		/// <param name="location"></param>
+		/// <param name="position"></param>
 		/// <param name="animationElement"></param>
-		public SpritesheetAnimation(Rectangle sheetBox, Texture2D spritesheet, ILocation location, XmlElement animationElement) : base(sheetBox, spritesheet, location)
+		public SpritesheetAnimation(Rectangle sheetBox, Texture2D spritesheet, PositionRef position, XmlElement animationElement) : base(sheetBox, spritesheet, position)
 		{
 			foreach (XmlElement foo in animationElement)
 			{
@@ -98,16 +97,16 @@ namespace Fantasy.Engine.Drawing.Animating
 			}
 
 			this.CurrentSheetBox = new Rectangle(this.SheetBox.X + (this.ActiveFrameIndex * this.SheetBox.Width), this.SheetBox.Y, this.SheetBox.Width, this.SheetBox.Height);
-			this.CurrentOffSetPosition = this.Location.VectorPosition + this.Frames[this.ActiveFrameIndex].OffSet;
+			this.CurrentOffSetPosition = this.Position.VectorPosition + this.Frames[this.ActiveFrameIndex].OffSet;
 			this.CurrentFrameDuration = TimeSpan.Zero;
 			this.CurrentFrameMaxDuration = new TimeSpan(0, 0, 0, 0, this.MinDurationMili + RandomNumberGenerator.Random.Next(this.MaxDurationExtensionMili));
 		}
 
 		/// <summary>
-		/// 
+		/// Draws the <c>SpritesheetAnimation</c> using the specified <c>GameTime</c>.
 		/// </summary>
-		/// <param name="gameTime"></param>
-		/// <param name="color"></param>
+		/// <param name="gameTime">The elapsed game time since the last update.</param>
+		/// <param name="color">The color to be drawn with.</param>
 		public override void Draw(GameTime gameTime, Color? color = null)
 		{
 			if (IsPaused)
@@ -124,7 +123,7 @@ namespace Fantasy.Engine.Drawing.Animating
 					this.ActiveFrameIndex = 0;
 				}
 				this.currentSheetBox.X = this.SheetBox.X + (this.ActiveFrameIndex * this.SheetBox.Width);
-				this.CurrentOffSetPosition = this.Location.VectorPosition + this.Frames[this.ActiveFrameIndex].OffSet;
+				this.CurrentOffSetPosition = this.Position.VectorPosition + this.Frames[this.ActiveFrameIndex].OffSet;
 				this.CurrentFrameDuration = TimeSpan.Zero;
 				this.CurrentFrameMaxDuration = new TimeSpan(0, 0, 0, 0, this.MinDurationMili + RandomNumberGenerator.Random.Next(this.MaxDurationExtensionMili));
 			}

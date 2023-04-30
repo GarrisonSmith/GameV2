@@ -1,4 +1,4 @@
-﻿using Fantasy.Engine.Physics.interfaces;
+﻿using Fantasy.Engine.Physics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -38,8 +38,8 @@ namespace Fantasy.Engine.Drawing.Animating
 		/// </summary>
 		/// <param name="sheetBox">The sheet box.</param>
 		/// <param name="spritesheet">The spritesheet.</param>
-		/// <param name="location">The location.</param>
-		public Animation(Rectangle sheetBox, Texture2D spritesheet, ILocation location) : base(sheetBox, spritesheet, location)
+		/// <param name="position">The location.</param>
+		public Animation(Rectangle sheetBox, Texture2D spritesheet, PositionRef position) : base(sheetBox, spritesheet, position)
 		{
 			this.IsPaused = false;
 		}
@@ -49,6 +49,6 @@ namespace Fantasy.Engine.Drawing.Animating
 		/// </summary>
 		/// <param name="gameTime">The elapsed game time since the last update.</param>
 		/// <param name="color">The color to be drawn with.</param>
-		public new abstract void Draw(GameTime gameTime, Color? color = null);
+		public override abstract void Draw(GameTime gameTime, Color? color = null);
 	}
 }

@@ -1,38 +1,42 @@
-﻿using Fantasy.Engine.Drawing.View;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Runtime.CompilerServices;
 
 namespace Fantasy.Engine.Drawing
 {
     /// <summary>
-    /// An public utility class for handling a spritebatch object from the Monogame framework.
+    /// A utility class for handling a spritebatch from the Monogame framework.
     /// </summary>
     public static class SpriteBatchHandler
     {
-        public static SpriteBatch spritebatch;
+        private static SpriteBatch spriteBatch;
+        private static GraphicsDevice graphicsDevice;
 
         /// <summary>
-        /// The spritebatch object.
+        /// Gets the spritebatch.
         /// </summary>
-        public static SpriteBatch SpriteBatch
+        public static SpriteBatch SpriteBatch { get => spriteBatch; private set => spriteBatch = value; }
+        /// <summary>
+        /// Gets the graphic device. 
+        /// </summary>
+        public static GraphicsDevice GraphicsDevice { get => graphicsDevice; private set => graphicsDevice = value; }
+
+		/// <summary>
+		/// Initializes the spritebatch object with a given GraphicsDevice.
+		/// </summary>
+		/// <param name="graphicDevice">The GraphicsDevice to use for initialization.</param>
+		public static void Initialize(GraphicsDevice graphicDevice)
         {
-            get => spritebatch;
+			SpriteBatch = new SpriteBatch(graphicDevice);
+			GraphicsDevice = graphicDevice;
         }
 
-        /// <summary>
-        /// Initializes the spritebatch object with a given GraphicsDevice.
-        /// </summary>
-        /// <param name="foo">The GraphicsDevice to use for initialization.</param>
-        public static void Initialize(GraphicsDevice foo)
-        {
-            spritebatch = new SpriteBatch(foo);
-        }
         /// <summary>
         /// Begins the spritebatch drawing.
         /// </summary>
         public static void Begin()
         {
-            spritebatch.Begin();
+            spriteBatch.Begin();
         }
         /// <summary>
         /// Begins the spritebatch drawing with the provided TransformMatrix.
@@ -40,7 +44,7 @@ namespace Fantasy.Engine.Drawing
         /// <param name="transformMatrix">The TransformMatrix to be applied.</param>
         public static void Begin(Matrix transformMatrix)
         {
-            spritebatch.Begin(
+            spriteBatch.Begin(
                 SpriteSortMode.Deferred, //first things drawn on bottom, last things on top
                 BlendState.AlphaBlend,
                 SamplerState.PointWrap,
@@ -49,28 +53,45 @@ namespace Fantasy.Engine.Drawing
                 null,
                 transformMatrix);
         }
+
         /// <summary>
         /// Ends the spritebatch drawing.
         /// </summary>
         public static void End()
         {
-            spritebatch.End();
+            spriteBatch.End();
         }
 
-        public static void Draw(Texture2D texture2D, Rectangle destBox, Color color)
-        {
-            SpriteBatch.Draw(texture2D, destBox, color);
+		/// <summary>
+		/// Draws a texture with a specified position and color.
+		/// </summary>
+		/// <param name="texture">The texture to draw.</param>
+		/// <param name="position">The position of the texture, describes the top left position of the texture.</param>
+		/// <param name="color">The color of the texture.</param>
+		public static void Draw(Texture2D texture, Vector2 position, Color? color)
+		{
+			if (!color.HasValue)
+			{
+				color = Color.White;
+			}
+
+			SpriteBatch.Draw(texture, position, color.Value);
         }
-        /// <summary>
-        /// Draws a texture2D object with a specified destination, source rectangle, and color.
-        /// </summary>
-        /// <param name="texture2D">The Texture2D object to draw.</param>
-        /// <param name="destination">The destination position of the Texture2D object, describes the top left position of the graphic.</param>
-        /// <param name="sheetBox">The source rectangle of the Texture2D object.</param>
-        /// <param name="color">The color of the Texture2D object.</param>
-        public static void Draw(Texture2D texture2D, Vector2 destination, Rectangle sheetBox, Color color)
+		/// <summary>
+		/// Draws a texture with a specified position, sheet box, and color.
+		/// </summary>
+		/// <param name="texture">The texture to draw.</param>
+		/// <param name="position">The position of the texture, describes the top left position of the texture.</param>
+		/// <param name="sheetBox">The sheet box of the texture.</param>
+		/// <param name="color">The color of the texture.</param>
+		public static void Draw(Texture2D texture, Vector2 position, Rectangle sheetBox, Color? color)
         {
-            SpriteBatch.Draw(texture2D, destination, sheetBox, color);
+            if (!color.HasValue)
+            { 
+                color = Color.White;
+            }
+
+            SpriteBatch.Draw(texture, position, sheetBox, color.Value);
         }
     }
 }

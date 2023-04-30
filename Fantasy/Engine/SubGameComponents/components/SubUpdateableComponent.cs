@@ -1,5 +1,4 @@
-﻿using Fantasy.Engine.Drawing.interfaces;
-using Fantasy.Engine.SubGameComponents.interfaces;
+﻿using Fantasy.Engine.SubGameComponents.interfaces;
 using Fantasy.Engine.SubGameComponents.interfaces.components;
 using Microsoft.Xna.Framework;
 
@@ -25,6 +24,14 @@ namespace Fantasy.Engine.SubGameComponents.components
 		/// </summary>
 		public byte UpdateOrder { get => this.updateOrder; set => this.updateOrder = value; }
 
+		/// <summary>
+		/// Creates a new <c>SubUpdateableComponent</c>.
+		/// </summary>
+		public SubUpdateableComponent()
+		{
+			this.IsActive = true;
+			this.UpdateOrder = 1;
+		}
 		/// <summary>
 		/// Creates a new <c>SubUpdateableComponent</c> with the provided parameters.
 		/// </summary>

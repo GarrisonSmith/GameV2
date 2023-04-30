@@ -7,7 +7,7 @@ namespace Fantasy.Engine.Physics
 	/// <summary>
 	/// Represents a single <c>Position</c>.
 	/// </summary>
-	public class Position : ILocation
+	public class Position : IPosition
 	{
 		protected Vector2 vectorPosition;
 
@@ -57,6 +57,15 @@ namespace Fantasy.Engine.Physics
 		/// </summary>
 		/// <param name="X">The X value.</param>
 		/// <param name="Y">The Y value.</param>
+		public Position(float X, float Y)
+		{
+			this.VectorPosition = new Vector2(X, Y);
+		}
+		/// <summary>
+		/// Creates a new <c>Position</c> from the provided X and Y values.
+		/// </summary>
+		/// <param name="X">The X value.</param>
+		/// <param name="Y">The Y value.</param>
 		public Position(int X, int Y) 
 		{
 			this.PointPosition = new Point(X, Y);
@@ -100,11 +109,11 @@ namespace Fantasy.Engine.Physics
 		}
 
 		/// <summary>
-		/// Calculates the distance between this <c>Position</c> and the provided <c>ILocation</c>.
+		/// Calculates the distance between this <c>Position</c> and the provided <c>IPosition</c>.
 		/// </summary>
-		/// <param name="locatable">The <c>ILocation</c>.</param>
-		/// <returns>The distance between this <c>Position</c> and the provided <c>ILocation</c>.</returns>
-		public float Distance(ILocation locatable)
+		/// <param name="locatable">The <c>IPosition</c>.</param>
+		/// <returns>The distance between this <c>Position</c> and the provided <c>IPosition</c>.</returns>
+		public float Distance(IPosition locatable)
 		{
 			return (float)Math.Sqrt(Math.Pow(locatable.X - this.VectorPosition.X, 2) + (Math.Pow(locatable.Y - this.VectorPosition.Y, 2)));
 		}
@@ -125,7 +134,7 @@ namespace Fantasy.Engine.Physics
 		/// <returns>True if this <c>Position</c> is equal to the provide <c>object</c>, False if not.</returns>
 		public override bool Equals(object obj)
 		{
-			if (obj != null && obj is ILocation foo)
+			if (obj != null && obj is IPosition foo)
 			{
 				return this == foo;
 			}
@@ -150,22 +159,22 @@ namespace Fantasy.Engine.Physics
 		}
 
 		/// <summary>
-		/// Determines if the <c>Position</c> is equal with the provided <c>ILocation</c>.
+		/// Determines if the <c>Position</c> is equal with the provided <c>IPosition</c>.
 		/// </summary>
 		/// <param name="foo">The first <c>Positions</c>.</param>
-		/// <param name="bar">The second <c>ILocation</c>.</param>
-		/// <returns>True if the <c>Position</c> is equal with the provided <c>ILocation</c>, False if they are not equal.</returns>
-		public static bool operator == (Position foo, ILocation bar)
+		/// <param name="bar">The second <c>IPosition</c>.</param>
+		/// <returns>True if the <c>Position</c> is equal with the provided <c>IPosition</c>, False if they are not equal.</returns>
+		public static bool operator == (Position foo, IPosition bar)
 		{
 			return foo.VectorPosition == bar.VectorPosition;
 		}
 		/// <summary>
-		/// Determines if the <c>Position</c> is not equal with the provided <c>ILocation</c>.
+		/// Determines if the <c>Position</c> is not equal with the provided <c>IPosition</c>.
 		/// </summary>
 		/// <param name="foo">The first <c>Positions</c>.</param>
-		/// <param name="bar">The second <c>ILocation</c>.</param>
-		/// <returns>True if the <c>Position</c> is not equal with the provided <c>ILocation</c>, False if they are equal.</returns>
-		public static bool operator != (Position foo, ILocation bar)
+		/// <param name="bar">The second <c>IPosition</c>.</param>
+		/// <returns>True if the <c>Position</c> is not equal with the provided <c>IPosition</c>, False if they are equal.</returns>
+		public static bool operator != (Position foo, IPosition bar)
 		{
 			return foo.VectorPosition != bar.VectorPosition;
 		}

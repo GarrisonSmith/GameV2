@@ -5,7 +5,6 @@ using Fantasy.Engine.Drawing.interfaces;
 using Fantasy.Engine.Mapping.Tiling;
 using Fantasy.Engine.Physics;
 using Fantasy.Engine.SubGameComponents.collections;
-using Fantasy.Engine.SubGameComponents.components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -19,32 +18,66 @@ namespace Fantasy.Engine.Mapping
 	/// </summary>
 	public class GameMap : SubDrawableUpdateableCollection
 	{
-		private readonly string tileMapName;
-		private readonly SortedDictionary<byte, MapLayer> mapLayers;
+		protected readonly string tileMapName;
+		protected readonly XmlElement gameMapElement;
+		protected SortedDictionary<byte, MapLayer> mapLayers;
 
 		/// <summary>
 		/// Gets the name of the tile <c>GameMap</c>.
 		/// </summary>
-		public string TileMapName { get => tileMapName; }
+		public string TileMapName { get => this.tileMapName; }
 		/// <summary>
 		/// Gets the collection of layers in the <c>GameMap</c>.
 		/// </summary>
-		public SortedDictionary<byte, MapLayer> MapLayers { get => mapLayers; }
+		public SortedDictionary<byte, MapLayer> MapLayers { get => this.mapLayers; protected set => this.mapLayers = value; }
 
-
-		public GameMap(XmlElement gameMapElement)
+		/// <summary>
+		/// Creates a new <c>GameMap</c> with the provided parameters.
+		/// </summary>
+		/// <param name="gameMapElement">The game map element.</param>
+		/// <param name="isVisible">A value indicating whether this <c>GameMap</c> is visible or not.</param>
+		/// <param name="isActive">A value indicating if this <c>GameMap</c> is being updated or not.</param>
+		/// <param name="drawOrder">The draw order.</param>
+		/// <param name="updateOrder">The update order.</param>
+		/// <exception cref="Exception">Thrown if the <c>gameMapElement</c> contains no name attribute.</exception>
+		public GameMap(XmlElement gameMapElement, bool isVisible, bool isActive, byte drawOrder, byte updateOrder) : base(isVisible, isActive, drawOrder, updateOrder)
 		{
-			this.mapLayers = new SortedDictionary<byte, MapLayer>();
 			this.tileMapName = gameMapElement.GetAttribute("name");
+			this.gameMapElement = gameMapElement;
 			if (string.IsNullOrEmpty(this.tileMapName))
 			{
 				throw new Exception("GameMap with no name loaded.");
 			}
+		}
+		/// <summary>
+		/// Creates a new <c>GameMap</c> with the provided parameters.
+		/// </summary>
+		/// <param name="gameMapElement">The game map element.</param>
+		/// <exception cref="Exception">Thrown if the <c>gameMapElement</c> contains no name attribute.</exception>
+		public GameMap(XmlElement gameMapElement)
+		{
+			this.tileMapName = gameMapElement.GetAttribute("name");
+			this.gameMapElement = gameMapElement;
+			if (string.IsNullOrEmpty(this.tileMapName))
+			{
+				throw new Exception("GameMap with no name loaded.");
+			}
+		}
+
+		/// <summary>
+		/// Initializes the <c>MapLayer</c>.
+		/// </summary>
+		public override void Initialize()
+		{
+			base.Initialize();
+			this.mapLayers = new SortedDictionary<byte, MapLayer>();
 
 			foreach (XmlElement layerElement in gameMapElement.SelectSingleNode("Engine.Logic.Mapping.MapLayers"))
 			{
 				byte layer = byte.Parse(layerElement.GetAttribute("layer"));
-				mapLayers.Add(layer, new MapLayer(layer));
+				MapLayer mapLayer = new(layer);
+				mapLayer.Initialize();
+				mapLayers.Add(layer, mapLayer);
 			}
 
 			foreach (XmlElement tileElement in gameMapElement.GetElementsByTagName("Engine.Logic.Mapping.Tiling.Tile"))
@@ -94,20 +127,20 @@ namespace Fantasy.Engine.Mapping
 
 				foreach (XmlElement locationElements in layerLocationElements)
 				{
-					byte mapLayer = byte.Parse(locationElements.GetAttribute("layer"));
-					Position position = null;
+					byte layer = byte.Parse(locationElements.GetAttribute("layer"));
 					foreach (XmlElement locationElement in locationElements)
 					{
 						IDefinedDrawable definedDrawable = null;
-						position = new Position(int.Parse(locationElement.GetAttribute("x")), int.Parse(locationElement.GetAttribute("y")));
+						Position position = new(int.Parse(locationElement.GetAttribute("x")), int.Parse(locationElement.GetAttribute("y")));
+						PositionRef positionRef = position.GetPositionRef(); 
 
 						if (animationElement == null)
 						{
-							definedDrawable = new DefinedDrawable(sheetBox.Value, spritesheet, position.GetPositionRef());
+							definedDrawable = new DefinedDrawable(sheetBox.Value, spritesheet, positionRef);
 						}
 						else
 						{
-							definedDrawable = new SpritesheetAnimation(sheetBox.Value, spritesheet, position.GetPositionRef(), animationElement);
+							definedDrawable = new SpritesheetAnimation(sheetBox.Value, spritesheet, positionRef, animationElement);
 						}
 
 						if (definedDrawable == null)
@@ -115,32 +148,18 @@ namespace Fantasy.Engine.Mapping
 							throw new Exception("Tile: " + tileId + " contains no defined drawable.");
 						}
 
-						Tile tile = new(255, tileId, position, definedDrawable);
-						//TODO add the tile to the correct mapLayer
+						Tile tile = new(definedDrawable is Animation? (byte)254 : (byte)255, tileId, position, definedDrawable);
+						if (this.MapLayers.TryGetValue(layer, out MapLayer map))
+						{
+							map.TileCollection.AddTile(tile);
+						}
+						else
+						{
+							throw new Exception("Tile: " + tileId + " exists on a layer that doesn't exist.");
+						}
 					}
 				}
-
 			}
-		}
-
-		public override void CreateCombinedTexture()
-		{
-			throw new NotImplementedException();
-		}
-
-		public override void Initialize()
-		{
-			throw new System.NotImplementedException();
-		}
-
-		public override void Update(GameTime gameTime)
-		{
-			throw new System.NotImplementedException();
-		}
-
-		public override void Draw(GameTime gameTime, Color? color = null)
-		{
-			throw new System.NotImplementedException();
 		}
 	}
 }

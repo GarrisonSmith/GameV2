@@ -1,84 +1,52 @@
-﻿using Fantasy.Engine.Physics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
 
 namespace Fantasy.Engine.Mapping.Tiling
 {
-    /// <summary>
-    /// Represents a location on a grid with a column and row.
-    /// </summary>
-    public readonly struct Location
+	/// <summary>
+	/// Represents a <c>Location</c> on a grid with a column and row.
+	/// </summary>
+	public readonly struct Location
     {
         private readonly int col;
         private readonly int row;
 
-        /// <summary>
-        /// The column of the location.
-        /// </summary>
-        public int Col
+		/// <summary>
+		/// Gets the column of the <c>Location</c>.
+		/// </summary>
+		public int Col
         {
             get => col;
         }
-        /// <summary>
-        /// The row of the location.
-        /// </summary>
-        public int Row
+		/// <summary>
+		/// Gets the row of the <c>Location</c>.
+		/// </summary>
+		public int Row
         {
             get => row;
         }
 
-        /// <summary>
-        /// Creates a new instance of the Location struct with the specified column and row.
-        /// Column and row values less than 0 will be set to 0.
-        /// </summary>
-        /// <param name="col">The column of the location.</param>
-        /// <param name="row">The row of the location.</param>
-        public Location(int col, int row)
+		/// <summary>
+		/// Creates a new <c>Location</c> with the provided parameters.
+		/// </summary>
+		/// <param name="vector">The vector.</param>
+		public Location(Vector2 vector)
         {
-            if (col < 0)
-            {
-                this.col = 0;
-            }
-            else
-            {
-                this.col = col;
-            }
-
-            if (row < 0)
-            {
-                this.row = 0;
-            }
-            else
-            {
-                this.row = row;
-            }
-        }
-        /// <summary>
-        /// Creates a new instance of the Location struct based on the specified BoundingBox2.
-        /// Column and row values less than 0 will be set to 0.
-        /// </summary>
-        /// <param name="boundBox">The BoundingBox2 to base the location on.</param>
-        public Location(AreaBox boundBox)
-        {
-            if (boundBox.TopLeft.X < 0)
+            if (vector.X < 0)
             {
                 col = 0;
             }
             else
             {
-                col = (int)(boundBox.TopLeft.X / Tile.TILE_DIMENSION);
+                col = (int)(vector.X / Tile.TILE_DIMENSION);
             }
 
-            if (boundBox.TopLeft.Y < 0)
+            if (vector.Y < 0)
             {
                 row = 0;
             }
             else
             {
-                row = (int)(boundBox.TopLeft.Y / Tile.TILE_DIMENSION);
+                row = (int)(vector.Y / Tile.TILE_DIMENSION);
             }
         }
     }

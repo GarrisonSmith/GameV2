@@ -7,9 +7,9 @@ namespace Fantasy.Engine.Physics
 	/// <summary>
 	/// Represents a two-dimensional <c>AreaBox</c> defined by a <c>Position</c>, <c>Width</c>, and <c>Height</c>.
 	/// </summary>
-	public class AreaBox<T> where T : ILocation
+	public class AreaBox : IPositional<PositionRef>
 	{
-		protected T position;
+		protected PositionRef position;
 		protected float width;
 		protected float height;
 
@@ -41,15 +41,15 @@ namespace Fantasy.Engine.Physics
 		/// <summary>
 		/// Gets or sets the position of the <c>AreaBox</c>. The <c>Position</c> contains the top-left details of the <c>AreaBox</c>.
 		/// </summary>
-		public T Position { get => position; set => position = value; }
+		public PositionRef Position { get => this.position; set => this.position = value; }
 
 		/// <summary>
 		/// Initializes a new instance of the <c>AreaBox</c> class with the specified top-left position and dimensions.
 		/// </summary>
-		/// <param name="topLeft">The top-left <c>ILocation</c>.</param>
+		/// <param name="topLeft">The top-left <c>PositionRef</c>.</param>
 		/// <param name="width">The width of the <c>AreaBox</c>.</param>
 		/// <param name="height">The height of the <c>AreaBox</c>.</param>
-		public AreaBox(T topLeft, float width, float height)
+		public AreaBox(PositionRef topLeft, float width, float height)
         {
             this.Position = topLeft;
             this.Width = width;
@@ -57,11 +57,11 @@ namespace Fantasy.Engine.Physics
         }
 
 		/// <summary>
-		/// Determines if the provided <c>ILocation</c> is inside this <c>AreaBox</c>.
+		/// Determines if the provided <c>IPosition</c> is inside this <c>AreaBox</c>.
 		/// </summary>
-		/// <param name="foo">The <c>ILocation</c>.</param>
-		/// <returns>True if the provided <c>ILocation</c> is inside this <c>AreaBox</c>, False if not.</returns>
-		public bool Contains(ILocation foo)
+		/// <param name="foo">The <c>IPosition</c>.</param>
+		/// <returns>True if the provided <c>IPosition</c> is inside this <c>AreaBox</c>, False if not.</returns>
+		public bool Contains(IPosition foo)
 		{
 			return foo.X >= this.TopLeft.X && foo.X <= this.BottomRight.X &&
 				   foo.Y >= this.TopLeft.Y && foo.Y <= this.BottomRight.Y;
@@ -93,11 +93,11 @@ namespace Fantasy.Engine.Physics
         }
 
 		/// <summary>
-		/// Calculates the distance between this <c>AreaBox</c> and another <c>ILocation</c>. 
+		/// Calculates the distance between this <c>AreaBox</c> and another <c>IPosition</c>. 
 		/// </summary>
-		/// <param name="foo">The <c>ILocation</c>.</param>
-		/// <returns>0 if the <c>ILocation</c> is contained by the <c>AreaBox</c>, otherwise the distance between the <c>AreaBox</c> and <c>ILocation</c>.</returns>
-		public float Distance(ILocation foo)
+		/// <param name="foo">The <c>IPosition</c>.</param>
+		/// <returns>0 if the <c>IPosition</c> is contained by the <c>AreaBox</c>, otherwise the distance between the <c>AreaBox</c> and <c>IPosition</c>.</returns>
+		public float Distance(IPosition foo)
         {
             if (Contains(foo))
             {
@@ -132,7 +132,7 @@ namespace Fantasy.Engine.Physics
 		/// <returns>True if this <c>AreaBox</c> is equal to the provide <c>object</c>, False if not.</returns>
 		public override bool Equals(object obj)
         {
-            if (obj != null && obj is AreaBox<ILocation> foo)
+            if (obj != null && obj is AreaBox foo)
             {
                 return this == foo;
             }
@@ -162,9 +162,9 @@ namespace Fantasy.Engine.Physics
 		/// <param name="foo">The first <c>AreaBox</c>.</param>
 		/// <param name="bar">The second <c>AreaBox</c>.</param>
 		/// <returns>True if the two <c>AreaBox</c> are equal, False if they are not equal.</returns>
-		public static bool operator == (AreaBox<T> foo, AreaBox<ILocation> bar)
+		public static bool operator == (AreaBox foo, AreaBox bar)
         {
-			return ((ILocation)foo.Position == bar.Position && foo.Width == bar.Width && foo.Height == bar.Height);
+			return (foo.Position == bar.Position && foo.Width == bar.Width && foo.Height == bar.Height);
 		}
 		/// <summary>
 		/// Determines if two <c>AreaBox</c> are not equal.
@@ -172,9 +172,9 @@ namespace Fantasy.Engine.Physics
 		/// <param name="foo">The first <c>AreaBox</c>.</param>
 		/// <param name="bar">The second <c>AreaBox</c>.</param>
 		/// <returns>True if the two <c>AreaBox</c> are not equal, False if they are equal.</returns>
-		public static bool operator != (AreaBox<T> foo, AreaBox<ILocation> bar)
+		public static bool operator != (AreaBox foo, AreaBox bar)
         {
-			return ((ILocation)foo.Position != bar.Position || foo.Width != bar.Width || foo.Height != bar.Height);
+			return (foo.Position != bar.Position || foo.Width != bar.Width || foo.Height != bar.Height);
         }
     }
 }

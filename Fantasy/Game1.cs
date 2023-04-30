@@ -48,8 +48,8 @@ namespace Fantasy
         protected override void LoadContent()
         {
 			// TODO: use this.Content to load your game content here
-			ActiveGameMap.LoadMap(this, "animated_test_map");
-			ActiveGameMap.GetGameComponents(Components);
+			//ActiveGameMap.LoadMap(this, "animated_test_map");
+			//ActiveGameMap.GetGameComponents(Components);
 		}
 
         protected override void Update(GameTime gameTime)
@@ -57,22 +57,22 @@ namespace Fantasy
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             // TODO: Add your update logic here
-            Animation.UpdateActiveAnimations(gameTime);
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Up)) {
-                Camera.CameraViewBoundingBox.MoveUp(7f);
+            if (Keyboard.GetState().IsKeyDown(Keys.Up))
+            {
+                //Camera.CameraViewBoundingBox.MoveUp(7f);
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
-                Camera.CameraViewBoundingBox.MoveLeft(7f);
+                //Camera.CameraViewBoundingBox.MoveLeft(7f);
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
-                Camera.CameraViewBoundingBox.MoveRight(7f);
+                //Camera.CameraViewBoundingBox.MoveRight(7f);
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
-                Camera.CameraViewBoundingBox.MoveDown(7f);
+                //Camera.CameraViewBoundingBox.MoveDown(7f);
             }
 			if (Keyboard.GetState().IsKeyDown(Keys.OemPlus))
 			{

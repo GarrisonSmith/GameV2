@@ -6,7 +6,7 @@ namespace Fantasy.Engine.SubGameComponents.interfaces.collections
     /// <summary>
     /// Represents of collection of subcomponents that can be used inside a <c>GameComponent</c>. 
     /// </summary>
-    public interface ISubComponentCollection
+    public interface ISubComponentCollection : ISubComponent
     {
 		/// <summary>
 		/// Gets the list of type <c>ISubComponent</c>.
@@ -14,8 +14,14 @@ namespace Fantasy.Engine.SubGameComponents.interfaces.collections
 		List<ISubComponent> SubComponents { get; }
 
 		/// <summary>
+		/// Adds a ISubComponent to the <c>SubComponentCollection</c>;
+		/// </summary>
+		/// <param name="subComponents">The ISubComponent.</param>
+	    void AddSubComponent(ISubComponent subComponents);
+
+		/// <summary>
 		/// Initializes the <c>ISubComponentCollection</c>.
 		/// </summary>
-		void Initialize();
+		new void Initialize();
     }
 }

@@ -5,26 +5,26 @@ using Fantasy.Engine.Physics.interfaces;
 namespace Fantasy.Engine.Drawing.View.Tasks
 {
     /// <summary>
-    /// A camera task for following a provided ILocation object.
+    /// A camera task for following a provided IPosition object.
     /// </summary>
-    public readonly struct FollowILocationTask : ICameraTask
+    public readonly struct FollowIPositionTask : ICameraTask
     {
-        private readonly ILocation locatable;
+        private readonly IPosition locatable;
 
         /// <summary>
         /// Gets the locatable that this tasks is following.
         /// </summary>
-        public ILocation Locatable { get => locatable; }
+        public IPosition Locatable { get => locatable; }
         /// <summary>
         /// Gets the camera tasks type of this tasks.
         /// </summary>
-        public CameraTaskTypes CameraTaskTypes { get => CameraTaskTypes.FollowILocation; }
+        public CameraTaskTypes CameraTaskTypes { get => CameraTaskTypes.FollowIPosition; }
 
         /// <summary>
-        /// Creates a new FollowILocation task.
+        /// Creates a new FollowIPosition task.
         /// </summary>
-        /// <param name="locatable">The ILocation object for the task to follow.</param>
-        public FollowILocationTask(ILocation locatable)
+        /// <param name="locatable">The IPosition object for the task to follow.</param>
+        public FollowIPositionTask(IPosition locatable)
         { 
             this.locatable = locatable;
         }

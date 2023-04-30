@@ -12,14 +12,14 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		private Stack<ICameraTask> tasks;
 
 		/// <summary>
-		/// The bottom task in the stack. Can only be a <cref>FollowILocationTask</cref> or a <cref>FreeMovementTask</cref>.
+		/// The bottom task in the stack. Can only be a <cref>FollowIPositionTask</cref> or a <cref>FreeMovementTask</cref>.
 		/// </summary>
 		public ICameraTask BottomItem
 		{
 			get => bottomItem;
 			set
 			{
-				if (value is FollowILocationTask || value is FreeMovementTask)
+				if (value is FollowIPositionTask || value is FreeMovementTask)
 				{ 
 					bottomItem = value;
 				}
@@ -34,7 +34,7 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// Creates a new TaskStack.
 		/// </summary>
 		/// <param name="bottomItem">The bottom task in the stack.</param>
-		public TaskStack(FollowILocationTask bottomItem)
+		public TaskStack(FollowIPositionTask bottomItem)
 		{
 			this.bottomItem = bottomItem;
 			tasks = new Stack<ICameraTask>();

@@ -1,5 +1,5 @@
-﻿
-using Fantasy.Engine.Drawing.interfaces;
+﻿using Fantasy.Engine.Drawing.interfaces;
+using Fantasy.Engine.Physics.interfaces;
 using Fantasy.Engine.SubGameComponents.interfaces;
 using Fantasy.Engine.SubGameComponents.interfaces.components;
 using Microsoft.Xna.Framework;
@@ -36,6 +36,14 @@ namespace Fantasy.Engine.SubGameComponents.components
 		public IDefinedDrawable DefinedDrawable { get => this.definedDrawable; protected set => this.definedDrawable = value; }
 
 		/// <summary>
+		/// Creates a new <c>SubDrawableComponent</c>.
+		/// </summary>
+		public SubDrawableComponent() 
+		{
+			this.IsVisible = true;
+			this.DrawOrder = 1;
+		}
+		/// <summary>
 		/// Creates a new <c>SubDrawableComponent</c> with the provided parameters.
 		/// </summary>
 		/// <param name="isVisible">A value indicating whether this subcomponent is visible or not.</param>
@@ -54,5 +62,12 @@ namespace Fantasy.Engine.SubGameComponents.components
 		/// <param name="gameTime">The elapsed game time since the last update.</param>
 		/// <param name="color">The color to be drawn with.</param>
 		public abstract void Draw(GameTime gameTime, Color? color = null);
+		/// <summary>
+		/// Draws the subcomponent using the specified <c>GameTime</c>.
+		/// </summary>
+		/// <param name="offset">The offset to draw with.</param>
+		/// <param name="gameTime">The elapsed game time since the last update.</param>
+		/// <param name="color">The color to be drawn with.</param>
+		public abstract void Draw(IPosition offset, GameTime gameTime, Color? color = null);
 	}
 }

@@ -7,7 +7,7 @@ namespace Fantasy.Engine.SubGameComponents.collections
 	/// <summary>
 	/// Represents of collection of <c>ISubComponents</c> that can be used inside a <c>GameComponent</c>. 
 	/// </summary>
-	public abstract class SubComponentCollection : ISubComponentCollection, ISubComponent
+	public abstract class SubComponentCollection : ISubComponentCollection
 	{
 		protected List<ISubComponent> subComponents;
 
@@ -22,9 +22,22 @@ namespace Fantasy.Engine.SubGameComponents.collections
 		public SubComponentCollection() { }
 
 		/// <summary>
+		/// Adds a ISubComponent to the <c>SubComponentCollection</c>;
+		/// </summary>
+		/// <param name="subComponents">The ISubComponent.</param>
+		public void AddSubComponent(ISubComponent subComponents)
+		{
+			if (this.subComponents.Contains(subComponents))
+			{
+				return;
+			}
+
+			this.subComponents.Add(subComponents);
+		}
+		/// <summary>
 		/// Initializes the <c>ISubComponentCollection</c>.
 		/// </summary>
-		public void Initialize()
+		public virtual void Initialize()
 		{
 			this.SubComponents = new List<ISubComponent>();
 		}

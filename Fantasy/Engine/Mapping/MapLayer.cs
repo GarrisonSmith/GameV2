@@ -1,62 +1,44 @@
 ﻿using Fantasy.Engine.Mapping.Tiling;
 using Fantasy.Engine.SubGameComponents.collections;
-using Microsoft.Xna.Framework;
-using System;
 
 namespace Fantasy.Engine.Mapping
 {
 	/// <summary>
-	/// Represents a layer of tiles in a game map.
+	/// Represents a layer in a game map.
 	/// </summary>
 	public class MapLayer : SubDrawableUpdateableCollection
 	{
-		private readonly byte layer;
-		private readonly TileCollection tileLayer;
+		protected readonly byte layer;
+		protected TileCollection tileCollection;
 
 		/// <summary>
 		/// Gets the layer number.
 		/// </summary>
-		public byte Layer
-		{
-			get => layer;
-		}
+		public byte Layer { get => this.layer; }
 		/// <summary>
 		/// Gets the collection of tiles in the layer.
 		/// </summary>
-		public TileCollection TileLayer
+		public TileCollection TileCollection { get => this.tileCollection; protected set => this.tileCollection = value; }
+
+		/// <summary>
+		/// Creates a new <c>MapLayer</c> with the provided parameters.
+		/// </summary>
+		/// <param name="layer">The layer number of the new MapLayer.</param>
+		public MapLayer(byte layer)
 		{
-			get => tileLayer;
+			this.layer = layer;
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the MapLayer class and adds it to the ActiveGameMap.
+		/// Initializes the <c>MapLayer</c>.
 		/// </summary>
-		/// <param name="game">The game object to which the layer will be added.</param>
-		/// <param name="layer">The layer number of the new MapLayer.</param>
-		/// <exception cref="Exception">Thrown if a layer with the same number already exists in the ActiveGameMap.</exception>
-		public MapLayer(byte layer)
-		{
-
-		}
-
-		public override void CreateCombinedTexture()
-		{
-			throw new NotImplementedException();
-		}
-
 		public override void Initialize()
 		{
-			throw new NotImplementedException();
-		}
-
-		public override void Update(GameTime gameTime)
-		{
-			throw new NotImplementedException();
-		}
-
-		public override void Draw(GameTime gameTime, Color? color = null)
-		{
-			throw new NotImplementedException();
+			base.Initialize();
+			this.TileCollection = new TileCollection();
+			this.TileCollection.Initialize();
+			this.AddSubComponent(this.TileCollection);
+			this.AddSubDrawable(this.TileCollection);
 		}
 	}
 }

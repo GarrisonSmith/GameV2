@@ -1,65 +1,78 @@
 ﻿using Fantasy.Engine.Drawing.interfaces;
+using Fantasy.Engine.Physics;
 using Fantasy.Engine.Physics.interfaces;
-using Fantasy.Engine.SubGameComponents.collections;
 using Fantasy.Engine.SubGameComponents.components;
 using Microsoft.Xna.Framework;
-using System;
-using System.Xml;
 
 namespace Fantasy.Engine.Mapping.Tiling
 {
 	/// <summary>
-	/// Represents a tile in a MapLayer.
+	/// Represents a tile.
 	/// </summary>
-	public class Tile : SubDrawableComponent, ILocatable
+	public class Tile : SubDrawableComponent, IPositional<Position>
 	{
 		private static readonly int tileDimensions = 64;
 
 		/// <summary>
 		/// Gets the dimensions of a tile in pixels.
 		/// </summary>
-		public static int TILE_DIMENSION
-		{
-			get => tileDimensions;
-		}
+		public static int TILE_DIMENSION { get => tileDimensions; }
 
 		protected readonly string tileId;
-		protected readonly ILocation location;
+		protected readonly Position position;
 
 		/// <summary>
 		/// Gets the tile id.
 		/// </summary>
-		public string TileId { get => TileId; }
+		public string TileId { get => this.tileId; }
 		/// <summary>
-		/// Gets the location.
+		/// Gets the position.
 		/// </summary>
-		public ILocation Location { get => location;}
+		public Position Position { get => this.position; }
 
 		/// <summary>
 		/// Creates a new <c>Tile</c> with the provided parameters.
 		/// </summary>
 		/// <param name="drawOrder">The draw order.</param>
 		/// <param name="tileId">The tile id.</param>
-		/// <param name="location">the location.</param>
+		/// <param name="position">the position.</param>
 		/// <param name="definedDrawable">the defined drawable.</param>
 		/// <param name="isVisible">indicates if this <c>Tile</c> is visible or not.</param>
-		public Tile(byte drawOrder, string tileId, ILocation location, IDefinedDrawable definedDrawable, bool isVisible = false) 
+		public Tile(byte drawOrder, string tileId, Position position, IDefinedDrawable definedDrawable, bool isVisible = false) 
 		{
 			this.IsVisible = isVisible;
 			this.DrawOrder = drawOrder;
 			this.tileId = tileId;
-			this.location = location;
+			this.position = position;
 			this.DefinedDrawable = definedDrawable;
 		}
 
-		public override void Draw(GameTime gameTime, Color? color = null)
-		{
-			throw new NotImplementedException();
-		}
-
+		/// <summary>
+		/// Initializes the tile.
+		/// </summary>
 		public override void Initialize()
 		{
-			throw new NotImplementedException();
+
+		}
+
+		/// <summary>
+		/// Draws the tile.
+		/// </summary>
+		/// <param name="gameTime">The game time.</param>
+		/// <param name="color">The color.</param>
+		public override void Draw(GameTime gameTime, Color? color = null)
+		{
+			this.DefinedDrawable.Draw(gameTime, color);
+		}
+		/// <summary>
+		/// Draws the tile.
+		/// </summary>
+		/// <param name="offset">The offset.</param>
+		/// <param name="gameTime">The game time.</param>
+		/// <param name="color">The color.</param>
+		public override void Draw(IPosition offset, GameTime gameTime, Color? color = null)
+		{
+			this.DefinedDrawable.Draw(offset, gameTime, color);
 		}
 	}
 }
