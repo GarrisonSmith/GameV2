@@ -1,4 +1,6 @@
-﻿using Fantasy.Engine.SubGameComponents.components;
+﻿using Fantasy.Engine.Drawing.Animating;
+using Fantasy.Engine.SubGameComponents.components;
+using Fantasy.Engine.SubGameComponents.interfaces;
 using Fantasy.Engine.SubGameComponents.interfaces.collections;
 using Fantasy.Engine.SubGameComponents.interfaces.components;
 using Microsoft.Xna.Framework;
@@ -52,26 +54,30 @@ namespace Fantasy.Engine.SubGameComponents.collections
 		}
 
 		/// <summary>
-		/// Adds a ISubUpdateableComponent to the <c>SubUpdateableCollection</c>;
+		/// Adds a ISubComponent to the <c>SubUpdateableCollection</c>.
 		/// </summary>
-		/// <param name="subUpdateableComponent">The ISubUpdateableComponent.</param>
-		public void AddSubUpdateable(ISubUpdateableComponent subUpdateableComponent) 
+		/// <param name="subComponent">The ISubComponent.</param>
+		public override void AddSubComponent(ISubComponent subComponent)
 		{
-			if (this.subComponents.Contains(subUpdateableComponent))
+			if (this.subComponents.Contains(subComponent))
 			{
 				return;
 			}
 
-			this.subComponents.Add(subUpdateableComponent);
-			if (this.SubUpdateables.TryGetValue(subUpdateableComponent.UpdateOrder, out List<ISubUpdateableComponent> subDrawableComponentList))
+			this.subComponents.Add(subComponent);
+			if (subComponent is ISubUpdateableComponent subUpdateableComponent)
 			{
-				subDrawableComponentList.Add(subUpdateableComponent);
-			}
-			else
-			{
-				this.SubUpdateables.Add(subUpdateableComponent.UpdateOrder, new List<ISubUpdateableComponent>() { subUpdateableComponent });
+				if (this.SubUpdateables.TryGetValue(subUpdateableComponent.UpdateOrder, out List<ISubUpdateableComponent> subUpdateableComponentList))
+				{
+					subUpdateableComponentList.Add(subUpdateableComponent);
+				}
+				else
+				{
+					this.SubUpdateables.Add(subUpdateableComponent.UpdateOrder, new List<ISubUpdateableComponent>() { subUpdateableComponent });
+				}
 			}
 		}
+
 		/// <summary>
 		/// Initializes the <c>SubUpdateableCollection</c>.
 		/// </summary>

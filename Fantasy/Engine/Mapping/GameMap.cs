@@ -34,16 +34,16 @@ namespace Fantasy.Engine.Mapping
 		/// <summary>
 		/// Creates a new <c>GameMap</c> with the provided parameters.
 		/// </summary>
-		/// <param name="gameMapElement">The game map element.</param>
+		/// <param name="gameMapDocument">The game map document.</param>
 		/// <param name="isVisible">A value indicating whether this <c>GameMap</c> is visible or not.</param>
 		/// <param name="isActive">A value indicating if this <c>GameMap</c> is being updated or not.</param>
 		/// <param name="drawOrder">The draw order.</param>
 		/// <param name="updateOrder">The update order.</param>
 		/// <exception cref="Exception">Thrown if the <c>gameMapElement</c> contains no name attribute.</exception>
-		public GameMap(XmlElement gameMapElement, bool isVisible, bool isActive, byte drawOrder, byte updateOrder) : base(isVisible, isActive, drawOrder, updateOrder)
+		public GameMap(XmlDocument gameMapDocument, bool isVisible, bool isActive, byte drawOrder, byte updateOrder) : base(isVisible, isActive, drawOrder, updateOrder)
 		{
-			this.tileMapName = gameMapElement.GetAttribute("name");
-			this.gameMapElement = gameMapElement;
+			this.gameMapElement = gameMapDocument.DocumentElement;
+			this.tileMapName = this.gameMapElement.GetAttribute("name");
 			if (string.IsNullOrEmpty(this.tileMapName))
 			{
 				throw new Exception("GameMap with no name loaded.");
@@ -52,12 +52,12 @@ namespace Fantasy.Engine.Mapping
 		/// <summary>
 		/// Creates a new <c>GameMap</c> with the provided parameters.
 		/// </summary>
-		/// <param name="gameMapElement">The game map element.</param>
+		/// <param name="gameMapDocument">The game map document.</param>
 		/// <exception cref="Exception">Thrown if the <c>gameMapElement</c> contains no name attribute.</exception>
-		public GameMap(XmlElement gameMapElement)
+		public GameMap(XmlDocument gameMapDocument)
 		{
-			this.tileMapName = gameMapElement.GetAttribute("name");
-			this.gameMapElement = gameMapElement;
+			this.gameMapElement = gameMapDocument.DocumentElement;
+			this.tileMapName = this.gameMapElement.GetAttribute("name");
 			if (string.IsNullOrEmpty(this.tileMapName))
 			{
 				throw new Exception("GameMap with no name loaded.");
@@ -78,33 +78,34 @@ namespace Fantasy.Engine.Mapping
 				MapLayer mapLayer = new(layer);
 				mapLayer.Initialize();
 				mapLayers.Add(layer, mapLayer);
+				this.AddSubComponent(mapLayer);
 			}
 
 			foreach (XmlElement tileElement in gameMapElement.GetElementsByTagName("Engine.Logic.Mapping.Tiling.Tile"))
 			{
 				string tileId = tileElement.GetAttribute("tileId");
-				Texture2D spritesheet = null;
+				Texture2D spriteSheet = null;
 				Rectangle? sheetBox = null;
 				XmlElement animationElement = null;
 				List<XmlElement> layerLocationElements = new();
 
-				foreach (XmlElement foo in tileElement)
+				foreach (XmlElement innerTileElement in tileElement)
 				{
-					if (tileElement.Name.Equals("spritesheet"))
+					if (innerTileElement.Name.Equals("spritesheet"))
 					{
-						spritesheet = TextureManager.GetSpritesheet(foo.InnerText);
+						spriteSheet = TextureManager.GetSpriteSheet(innerTileElement.InnerText);
 					}
-					else if (tileElement.Name.Equals("sheetCoordinates"))
+					else if (innerTileElement.Name.Equals("sheetCoordinates"))
 					{
-						sheetBox = new Rectangle(int.Parse(foo.GetAttribute("col")), int.Parse(foo.GetAttribute("row")), Tile.TILE_DIMENSION, Tile.TILE_DIMENSION);
+						sheetBox = new Rectangle(int.Parse(innerTileElement.GetAttribute("col")) * Tile.TILE_DIMENSION, int.Parse(innerTileElement.GetAttribute("row")) * Tile.TILE_DIMENSION, Tile.TILE_DIMENSION, Tile.TILE_DIMENSION);
 					}
-					else if (tileElement.Name.Equals("spritesheetAnimation"))
+					else if (innerTileElement.Name.Equals("spritesheetAnimation"))
 					{
-						animationElement = foo;
+						animationElement = innerTileElement;
 					}
-					else if (tileElement.Name.Equals("locations"))
+					else if (innerTileElement.Name.Equals("locations"))
 					{
-						layerLocationElements.Add(foo);
+						layerLocationElements.Add(innerTileElement);
 					}
 				}
 
@@ -112,9 +113,9 @@ namespace Fantasy.Engine.Mapping
 				{
 					throw new Exception("Tile with no tileId provided: " + this.tileMapName);
 				}
-				else if (spritesheet == null)
+				else if (spriteSheet == null)
 				{
-					throw new Exception("Tile: " + tileId + " contains no spritesheet or has a invalid spritesheet name.");
+					throw new Exception("Tile: " + tileId + " contains no spriteSheet or has a invalid spriteSheet name.");
 				}
 				else if (!sheetBox.HasValue)
 				{
@@ -136,11 +137,11 @@ namespace Fantasy.Engine.Mapping
 
 						if (animationElement == null)
 						{
-							definedDrawable = new DefinedDrawable(sheetBox.Value, spritesheet, positionRef);
+							definedDrawable = new DefinedDrawable(sheetBox.Value, spriteSheet, positionRef);
 						}
 						else
 						{
-							definedDrawable = new SpritesheetAnimation(sheetBox.Value, spritesheet, positionRef, animationElement);
+							definedDrawable = new SpriteSheetAnimation(sheetBox.Value, spriteSheet, positionRef, animationElement);
 						}
 
 						if (definedDrawable == null)

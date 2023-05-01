@@ -10,10 +10,10 @@ namespace Fantasy.Engine.ContentManagement
     /// </summary>
     public static class TextureManager
     {
-        /// <summary>
-        /// Gets or sets the spritesheets.
-        /// </summary>
-        private static Dictionary<string, Texture2D> Spritesheets { get; set; }
+		/// <summary>
+		/// Gets or sets the SpriteSheets.
+		/// </summary>
+		private static Dictionary<string, Texture2D> SpriteSheets { get; set; }
 
         /// <summary>
         /// Loads the textures.
@@ -21,40 +21,38 @@ namespace Fantasy.Engine.ContentManagement
         /// <param name="game">The game.</param>
         public static void LoadTextures(Game game)
         {
-            LoadSpritesheets(game);
+            LoadSpriteSheets(game);
         }
 
         /// <summary>
-        /// Loads the spritesheets.
+        /// Loads the SpriteSheets.
         /// </summary>
         /// <param name="game">The game.</param>
-        private static void LoadSpritesheets(Game game)
+        private static void LoadSpriteSheets(Game game)
         {
-			//tileSets.Add("NAME", Global._content.Load<Texture2D>(@"spritesheets\NAME"));
-			Spritesheets = new Dictionary<string, Texture2D>
+			SpriteSheets = new Dictionary<string, Texture2D>
             {
                 { "DEBUG", game.Content.Load<Texture2D>(@"spritesheets\DEBUG") },
                 { "EMPTY", game.Content.Load<Texture2D>(@"spritesheets\EMPTY") },
-                { "brickwall_spritesheet", game.Content.Load<Texture2D>(@"spritesheets\brickwall_spritesheet") },
-                { "grass_spritesheet", game.Content.Load<Texture2D>(@"spritesheets\grass_spritesheet")},
-                { "woodfloor_spritesheet", game.Content.Load<Texture2D>(@"spritesheets\woodfloor_spritesheet")}
+                { "brickwall_spritesheet", game.Content.Load<Texture2D>(@"spritesheets\brickwall_spriteSheet") },
+                { "grass_spritesheet", game.Content.Load<Texture2D>(@"spritesheets\grass_spriteSheet")},
+                { "woodfloor_spritesheet", game.Content.Load<Texture2D>(@"spritesheets\woodfloor_spriteSheet")}
             };
         }
 
-        /// <summary>
-        /// Gets the spritesheet with the provided name if it exists.
-        /// </summary>
-        /// <param name="spritesheetName">The name of the spritesheet to get.</param>
-        /// <returns>The spritesheet.</returns>
-        /// <exception cref="Exception">Thrown if a spritesheet with the provided name does not exist.</exception>
-        public static Texture2D GetSpritesheet(string spritesheetName)
+		/// <summary>
+		/// Gets the SpriteSheet with the provided name if it exists.
+		/// </summary>
+		/// <param name="spriteSheetName">The name of the SpriteSheet to get.</param>
+		/// <returns>The SpriteSheet.</returns>
+		/// <exception cref="Exception">Thrown if a SpriteSheet with the provided name does not exist.</exception>
+		public static Texture2D GetSpriteSheet(string spriteSheetName)
         {
-            Texture2D foo;
-            if (Spritesheets.TryGetValue(spritesheetName, out foo))
+            if (SpriteSheets.TryGetValue(spriteSheetName, out Texture2D texture))
             {
-                return foo;
+                return texture;
             }
-            throw new Exception("Spritesheet with name " + spritesheetName + " was not found.");
+            throw new Exception("SpriteSheet with name " + spriteSheetName + " was not found.");
         }
     }
 }

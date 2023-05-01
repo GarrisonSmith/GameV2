@@ -33,7 +33,15 @@ namespace Fantasy.Engine.SubGameComponents.collections
 		/// <summary>
 		/// Gets or sets a value indicating whether to use a combined texture for all elements in the <c>ISubDrawableCollection</c>.
 		/// </summary>
-		public bool UseCombinedTexture { get => this.useCombinedTexture; set => this.useCombinedTexture = value; }
+		public bool UseCombinedTexture 
+		{ 
+			get => this.useCombinedTexture;
+			set
+			{
+				if (value) { this.CreateCombinedTexture(); };
+				this.useCombinedTexture = value;
+			}
+		}
 		/// <summary>
 		/// Gets or sets a value indicating if this <c>ISubUpdateableCollection</c> is being updated or not. 
 		/// </summary>
@@ -80,6 +88,7 @@ namespace Fantasy.Engine.SubGameComponents.collections
 		{
 			this.isVisible = true;
 			this.isActive = true;
+			this.UseCombinedTexture = false;
 			this.drawOrder = 1;
 			this.updateOrder = 1;
 		}
@@ -100,65 +109,59 @@ namespace Fantasy.Engine.SubGameComponents.collections
 		}
 
 		/// <summary>
-		/// Adds a ISubDrawableComponent to the <c>SubDrawableUpdateableCollection</c>;
+		/// Adds a ISubComponent to the <c>SubDrawableUpdateableCollection</c>.
 		/// </summary>
-		/// <param name="subDrawableComponent">The ISubDrawableComponent.</param>
-		public void AddSubDrawable(ISubDrawableComponent subDrawableComponent)
+		/// <param name="subComponent">The ISubComponent.</param>
+		public override void AddSubComponent(ISubComponent subComponent)
 		{
-			if (this.subComponents.Contains(subDrawableComponent))
+			if (this.subComponents.Contains(subComponent))
 			{
 				return;
 			}
 
-			this.subComponents.Add(subDrawableComponent);
-			if (this.SubDrawables.TryGetValue(subDrawableComponent.DrawOrder, out List<ISubDrawableComponent> subDrawableComponentList))
+			this.subComponents.Add(subComponent);
+			if (subComponent is ISubDrawableComponent subDrawableComponent)
 			{
-				subDrawableComponentList.Add(subDrawableComponent);
-			}
-			else
-			{
-				this.SubDrawables.Add(subDrawableComponent.DrawOrder, new List<ISubDrawableComponent>() { subDrawableComponent });
-			}
-
-			if (subDrawableComponent is ISubDrawable foo && foo.DefinedDrawable is Animation)
-			{
-				if (this.AnimatedSubDrawables.TryGetValue(subDrawableComponent.DrawOrder, out List<ISubDrawableComponent> animatedSubDrawableComponentList))
+				if (this.SubDrawables.TryGetValue(subDrawableComponent.DrawOrder, out List<ISubDrawableComponent> subDrawableComponentList))
 				{
-					animatedSubDrawableComponentList.Add(subDrawableComponent);
+					subDrawableComponentList.Add(subDrawableComponent);
 				}
 				else
 				{
-					this.AnimatedSubDrawables.Add(subDrawableComponent.DrawOrder, new List<ISubDrawableComponent>() { subDrawableComponent });
+					this.SubDrawables.Add(subDrawableComponent.DrawOrder, new List<ISubDrawableComponent>() { subDrawableComponent });
+				}
+
+				if (subDrawableComponent is ISubDrawable foo && foo.DefinedDrawable is Animation)
+				{
+					if (this.AnimatedSubDrawables.TryGetValue(subDrawableComponent.DrawOrder, out List<ISubDrawableComponent> animatedSubDrawableComponentList))
+					{
+						animatedSubDrawableComponentList.Add(subDrawableComponent);
+					}
+					else
+					{
+						this.AnimatedSubDrawables.Add(subDrawableComponent.DrawOrder, new List<ISubDrawableComponent>() { subDrawableComponent });
+					}
+				}
+			}
+
+			if (subComponent is ISubUpdateableComponent subUpdateableComponent)
+			{
+				if (this.SubUpdateables.TryGetValue(subUpdateableComponent.UpdateOrder, out List<ISubUpdateableComponent> subUpdateableComponentList))
+				{
+					subUpdateableComponentList.Add(subUpdateableComponent);
+				}
+				else
+				{
+					this.SubUpdateables.Add(subUpdateableComponent.UpdateOrder, new List<ISubUpdateableComponent>() { subUpdateableComponent });
 				}
 			}
 		}
-		/// <summary>
-		/// Adds a ISubUpdateableComponent to the <c>SubUpdateableCollection</c>;
-		/// </summary>
-		/// <param name="subUpdateableComponent">The ISubUpdateableComponent.</param>
-		public void AddSubUpdateable(ISubUpdateableComponent subUpdateableComponent)
-		{
-			if (this.subComponents.Contains(subUpdateableComponent)) 
-			{
-				return;
-			}
 
-			this.subComponents.Add(subUpdateableComponent);
-			if (this.SubUpdateables.TryGetValue(subUpdateableComponent.UpdateOrder, out List<ISubUpdateableComponent> subDrawableComponentList))
-			{
-				subDrawableComponentList.Add(subUpdateableComponent);
-			}
-			else
-			{
-				this.SubUpdateables.Add(subUpdateableComponent.UpdateOrder, new List<ISubUpdateableComponent>() { subUpdateableComponent });
-			}
-		}
 		/// <summary>
 		/// Creates the combined texture for the entire <c>SubDrawableUpdateableCollection</c>.
 		/// </summary>
 		public virtual void CreateCombinedTexture()
 		{
-			this.UseCombinedTexture = true;
 			float width = 0, height = 0, x = float.MaxValue, y = float.MaxValue;
 			Vector2 bottomRight;
 			foreach (List<ISubDrawableComponent> subDrawableComponentList in this.SubDrawables.Values)

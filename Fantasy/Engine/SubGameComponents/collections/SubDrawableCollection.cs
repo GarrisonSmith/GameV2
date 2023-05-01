@@ -75,38 +75,42 @@ namespace Fantasy.Engine.SubGameComponents.collections
 		}
 
 		/// <summary>
-		/// Adds a ISubDrawableComponent to the <c>SubDrawableCollection</c>;
+		/// Adds a ISubComponent to the <c>SubDrawableCollection</c>.
 		/// </summary>
-		/// <param name="subDrawableComponent">The ISubDrawableComponent.</param>
-		public void AddSubDrawable(ISubDrawableComponent subDrawableComponent)
+		/// <param name="subComponent">The ISubComponent.</param>
+		public override void AddSubComponent(ISubComponent subComponent)
 		{
-			if (this.subComponents.Contains(subDrawableComponent))
+			if (this.subComponents.Contains(subComponent))
 			{
 				return;
 			}
 
-			this.subComponents.Add(subDrawableComponent);
-			if (this.SubDrawables.TryGetValue(subDrawableComponent.DrawOrder, out List<ISubDrawableComponent> subDrawableComponentList))
+			this.subComponents.Add(subComponent);
+			if (subComponent is ISubDrawableComponent subDrawableComponent)
 			{
-				subDrawableComponentList.Add(subDrawableComponent);
-			}
-			else
-			{
-				this.SubDrawables.Add(subDrawableComponent.DrawOrder, new List<ISubDrawableComponent>() { subDrawableComponent });
-			}
-
-			if (subDrawableComponent is ISubDrawable foo && foo.DefinedDrawable is Animation)
-			{
-				if (this.AnimatedSubDrawables.TryGetValue(subDrawableComponent.DrawOrder, out List<ISubDrawableComponent> animatedSubDrawableComponentList))
+				if (this.SubDrawables.TryGetValue(subDrawableComponent.DrawOrder, out List<ISubDrawableComponent> subDrawableComponentList))
 				{
-					animatedSubDrawableComponentList.Add(subDrawableComponent);
+					subDrawableComponentList.Add(subDrawableComponent);
 				}
 				else
 				{
-					this.AnimatedSubDrawables.Add(subDrawableComponent.DrawOrder, new List<ISubDrawableComponent>() { subDrawableComponent });
+					this.SubDrawables.Add(subDrawableComponent.DrawOrder, new List<ISubDrawableComponent>() { subDrawableComponent });
+				}
+
+				if (subDrawableComponent is ISubDrawable foo && foo.DefinedDrawable is Animation)
+				{
+					if (this.AnimatedSubDrawables.TryGetValue(subDrawableComponent.DrawOrder, out List<ISubDrawableComponent> animatedSubDrawableComponentList))
+					{
+						animatedSubDrawableComponentList.Add(subDrawableComponent);
+					}
+					else
+					{
+						this.AnimatedSubDrawables.Add(subDrawableComponent.DrawOrder, new List<ISubDrawableComponent>() { subDrawableComponent });
+					}
 				}
 			}
 		}
+
 		/// <summary>
 		/// Creates the combined texture for the entire <c>SubDrawableUpdateableCollection</c>.
 		/// </summary>

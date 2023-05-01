@@ -37,9 +37,9 @@ namespace Fantasy.Engine.Drawing.Animating
 		/// Creates a new <c>Animation</c> with the provided parameters.
 		/// </summary>
 		/// <param name="sheetBox">The sheet box.</param>
-		/// <param name="spritesheet">The spritesheet.</param>
+		/// <param name="spriteSheet">The spriteSheet.</param>
 		/// <param name="position">The location.</param>
-		public Animation(Rectangle sheetBox, Texture2D spritesheet, PositionRef position) : base(sheetBox, spritesheet, position)
+		public Animation(Rectangle sheetBox, Texture2D spriteSheet, PositionRef position) : base(sheetBox, spriteSheet, position)
 		{
 			this.IsPaused = false;
 		}

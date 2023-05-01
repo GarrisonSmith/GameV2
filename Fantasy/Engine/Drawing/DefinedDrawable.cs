@@ -12,7 +12,7 @@ namespace Fantasy.Engine.Drawing
 	public class DefinedDrawable : IDefinedDrawable
 	{
 		protected readonly Rectangle sheetBox;
-		protected readonly Texture2D spritesheet;
+		protected readonly Texture2D spriteSheet;
 		protected readonly PositionRef position;
 
 		/// <summary>
@@ -20,7 +20,7 @@ namespace Fantasy.Engine.Drawing
 		/// </summary>
 		public Vector2 BottomRight { get => new Vector2(this.Position.X + this.SheetBox.Width, this.Position.Y + this.SheetBox.Height); }
 		/// <summary>
-		/// Gets the texture area of the spritesheet from which this <c>IDefinedDrawable</c>.
+		/// Gets the texture area of the spriteSheet from which this <c>IDefinedDrawable</c>.
 		/// </summary>
 		public Rectangle SheetBox { get => this.sheetBox; }
 		/// <summary>
@@ -28,20 +28,20 @@ namespace Fantasy.Engine.Drawing
 		/// </summary>
 		public PositionRef Position { get => this.position; }
 		/// <summary>
-		/// Gets the spritesheet for this <c>IDefinedDrawable</c>.
+		/// Gets the spriteSheet for this <c>IDefinedDrawable</c>.
 		/// </summary>
-		public Texture2D Spritesheet { get => this.spritesheet; }
+		public Texture2D SpriteSheet { get => this.spriteSheet; }
 
 		/// <summary>
 		/// Creates a new <c>DefinedDrawable</c> with the provided parameters.
 		/// </summary>
 		/// <param name="sheetBox">The sheet box.</param>
-		/// <param name="spritesheet">The spritesheet.</param>
+		/// <param name="spriteSheet">The spriteSheet.</param>
 		/// <param name="position">The position.</param>
-		public DefinedDrawable(Rectangle sheetBox, Texture2D spritesheet, PositionRef position)
+		public DefinedDrawable(Rectangle sheetBox, Texture2D spriteSheet, PositionRef position)
 		{
 			this.sheetBox = sheetBox;
-			this.spritesheet = spritesheet;
+			this.spriteSheet = spriteSheet;
 			this.position = position;
 		}
 
@@ -52,7 +52,7 @@ namespace Fantasy.Engine.Drawing
 		/// <param name="color">The color to be drawn with.</param>
 		public virtual void Draw(GameTime gameTime, Color? color = null)
 		{
-			SpriteBatchHandler.Draw(this.Spritesheet, this.Position.VectorPosition, this.SheetBox, color);
+			SpriteBatchHandler.Draw(this.SpriteSheet, this.Position.VectorPosition, this.SheetBox, color);
 		}
 		/// <summary>
 		/// Draws the <c>DefinedDrawable</c> using the specified <c>GameTime</c>.
@@ -62,7 +62,7 @@ namespace Fantasy.Engine.Drawing
 		/// <param name="color">The color to be drawn with.</param>
 		public void Draw(IPosition offset, GameTime gameTime, Color? color = null)
 		{
-			SpriteBatchHandler.Draw(this.Spritesheet, this.Position.VectorPosition - offset.VectorPosition, color);
+			SpriteBatchHandler.Draw(this.SpriteSheet, this.Position.VectorPosition - offset.VectorPosition, color);
 		}
 	}
 }

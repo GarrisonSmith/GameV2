@@ -22,10 +22,10 @@ namespace Fantasy.Engine.SubGameComponents.interfaces.collections
 		SortedDictionary<byte, List<ISubUpdateableComponent>> SubUpdateables { get; }
 
 		/// <summary>
-		/// Adds a ISubUpdateableComponent to the <c>ISubUpdateableCollection</c>;
+		/// Adds a ISubComponent to the <c>ISubUpdateableCollection</c>;
 		/// </summary>
-		/// <param name="subUpdateableComponent">The ISubUpdateableComponent.</param>
-		void AddSubUpdateable(ISubUpdateableComponent subUpdateableComponent);
+		/// <param name="subComponents">The ISubComponent.</param>
+		new void AddSubComponent(ISubComponent subComponents);
 
 		/// <summary>
 		/// Updates the <c>ISubUpdateableCollection</c> using the specified <c>GameTime</c>.

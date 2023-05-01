@@ -22,18 +22,19 @@ namespace Fantasy.Engine.SubGameComponents.collections
 		public SubComponentCollection() { }
 
 		/// <summary>
-		/// Adds a ISubComponent to the <c>SubComponentCollection</c>;
+		/// Adds a ISubComponent to the <c>SubComponentCollection</c>.
 		/// </summary>
-		/// <param name="subComponents">The ISubComponent.</param>
-		public void AddSubComponent(ISubComponent subComponents)
+		/// <param name="subComponent">The ISubComponent.</param>
+		public virtual void AddSubComponent(ISubComponent subComponent)
 		{
-			if (this.subComponents.Contains(subComponents))
+			if (this.subComponents.Contains(subComponent))
 			{
 				return;
 			}
 
-			this.subComponents.Add(subComponents);
+			this.subComponents.Add(subComponent);
 		}
+
 		/// <summary>
 		/// Initializes the <c>ISubComponentCollection</c>.
 		/// </summary>

@@ -41,10 +41,10 @@ namespace Fantasy.Engine.SubGameComponents.interfaces.collections
 		public SortedDictionary<byte, List<ISubDrawableComponent>> AnimatedSubDrawables { get; }
 
 		/// <summary>
-		/// Adds a ISubDrawableComponent to the <c>ISubDrawableCollection</c>;
+		/// Adds a ISubComponent to the <c>ISubDrawableCollection</c>;
 		/// </summary>
-		/// <param name="subDrawableComponent">The ISubDrawableComponent.</param>
-		void AddSubDrawable(ISubDrawableComponent subDrawableComponent);
+		/// <param name="subComponents">The ISubComponent.</param>
+		new void AddSubComponent(ISubComponent subComponents);
 
 		/// <summary>
 		/// Creates the combined texture for the entire <c>ISubDrawableCollection</c>.
@@ -64,6 +64,6 @@ namespace Fantasy.Engine.SubGameComponents.interfaces.collections
 		/// <param name="offset">The offset to draw with.</param>
 		/// <param name="gameTime">The elapsed game time since the last update.</param>
 		/// <param name="color">The color to be drawn with.</param>
-		public new void Draw(IPosition offset, GameTime gameTime, Color? color = null);
+		new void Draw(IPosition offset, GameTime gameTime, Color? color = null);
 	}
 }

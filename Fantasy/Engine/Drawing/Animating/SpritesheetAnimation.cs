@@ -10,13 +10,13 @@ namespace Fantasy.Engine.Drawing.Animating
 	/// <summary>
 	/// Represents a sprite sheet animation.
 	/// </summary>
-	public class SpritesheetAnimation : Animation
+	public class SpriteSheetAnimation : Animation
 	{
 		protected readonly int minDurationMili;
 		protected readonly int maxDurationExtensionMili;
 		protected Rectangle currentSheetBox;
 		protected Vector2 currentOffSetPosition;
-		protected readonly SpritesheetFrame[] frames;
+		protected readonly SpriteSheetFrame[] frames;
 
 		/// <summary>
 		/// Describes if the <c>Animation</c> is paused.
@@ -42,34 +42,34 @@ namespace Fantasy.Engine.Drawing.Animating
 			}
 		}
 		/// <summary>
-		/// Gets the minimum duration a frame will persist for in this <c>SpritesheetAnimation</c>.
+		/// Gets the minimum duration a frame will persist for in this <c>SpriteSheetAnimation</c>.
 		/// </summary>
 		public int MinDurationMili { get => this.minDurationMili; }
 		/// <summary>
-		/// Gets the maximum duration a frame will randomly be extended for beyond the minimum duration in this <c>SpritesheetAnimation</c>.
+		/// Gets the maximum duration a frame will randomly be extended for beyond the minimum duration in this <c>SpriteSheetAnimation</c>.
 		/// </summary>
 		public int MaxDurationExtensionMili { get => this.maxDurationExtensionMili; }
 		/// <summary>
-		/// Gets the current sheet box used by the <c>SpritesheetAnimation</c>.
+		/// Gets the current sheet box used by the <c>SpriteSheetAnimation</c>.
 		/// </summary>
 		public Rectangle CurrentSheetBox { get => this.currentSheetBox; protected set => this.currentSheetBox = value; }
 		/// <summary>
-		/// Gets the currently off set position of this <c>SpritesheetAnimation</c>.
+		/// Gets the currently off set position of this <c>SpriteSheetAnimation</c>.
 		/// </summary>
 		public Vector2 CurrentOffSetPosition { get => this.currentOffSetPosition; protected set => this.currentOffSetPosition = value; }
 		/// <summary>
-		/// Gets the array of frames that define the <c>SpritesheetAnimation</c>.
+		/// Gets the array of frames that define the <c>SpriteSheetAnimation</c>.
 		/// </summary>
-		public SpritesheetFrame[] Frames { get => this.frames; }
+		public SpriteSheetFrame[] Frames { get => this.frames; }
 
 		/// <summary>
-		/// Creates a new <c>SpritesheetAnimation</c> with the provided parameters.
+		/// Creates a new <c>SpriteSheetAnimation</c> with the provided parameters.
 		/// </summary>
 		/// <param name="sheetBox"></param>
-		/// <param name="spritesheet"></param>
+		/// <param name="spriteSheet"></param>
 		/// <param name="position"></param>
 		/// <param name="animationElement"></param>
-		public SpritesheetAnimation(Rectangle sheetBox, Texture2D spritesheet, PositionRef position, XmlElement animationElement) : base(sheetBox, spritesheet, position)
+		public SpriteSheetAnimation(Rectangle sheetBox, Texture2D spriteSheet, PositionRef position, XmlElement animationElement) : base(sheetBox, spriteSheet, position)
 		{
 			foreach (XmlElement foo in animationElement)
 			{
@@ -87,11 +87,11 @@ namespace Fantasy.Engine.Drawing.Animating
 				}
 				else if (foo.Name.Equals("frames"))
 				{
-					this.frames = new SpritesheetFrame[int.Parse(foo.GetAttribute("length"))];
+					this.frames = new SpriteSheetFrame[int.Parse(foo.GetAttribute("length"))];
 					int index = 0;
 					foreach (XmlElement bar in foo)
 					{
-						this.frames[index++] = new SpritesheetFrame(bar);
+						this.frames[index++] = new SpriteSheetFrame(bar);
 					}
 				}
 			}
@@ -103,7 +103,7 @@ namespace Fantasy.Engine.Drawing.Animating
 		}
 
 		/// <summary>
-		/// Draws the <c>SpritesheetAnimation</c> using the specified <c>GameTime</c>.
+		/// Draws the <c>SpriteSheetAnimation</c> using the specified <c>GameTime</c>.
 		/// </summary>
 		/// <param name="gameTime">The elapsed game time since the last update.</param>
 		/// <param name="color">The color to be drawn with.</param>
@@ -130,11 +130,11 @@ namespace Fantasy.Engine.Drawing.Animating
 
 			if (color.HasValue)
 			{
-				SpriteBatchHandler.Draw(this.Spritesheet, this.CurrentOffSetPosition, this.CurrentSheetBox, color.Value);
+				SpriteBatchHandler.Draw(this.SpriteSheet, this.CurrentOffSetPosition, this.CurrentSheetBox, color.Value);
 			}
 			else
 			{
-				SpriteBatchHandler.Draw(this.Spritesheet, this.CurrentOffSetPosition, this.CurrentSheetBox, Color.White);
+				SpriteBatchHandler.Draw(this.SpriteSheet, this.CurrentOffSetPosition, this.CurrentSheetBox, Color.White);
 			}
 		}
 	}

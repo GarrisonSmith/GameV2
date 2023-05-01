@@ -16,14 +16,14 @@ namespace Fantasy.Engine.Drawing.interfaces
 		Vector2 BottomRight { get => new Vector2(this.Position.X + this.SheetBox.Width, this.Position.Y + this.SheetBox.Height); }
 
 		/// <summary>
-		/// Gets the texture area of the spritesheet from which this <c>IDefinedDrawable</c>.
+		/// Gets the texture area of the spriteSheet from which this <c>IDefinedDrawable</c>.
 		/// </summary>
 		Rectangle SheetBox { get; }
 
 		/// <summary>
-		/// Gets the spritesheet for this <c>IDefinedDrawable</c>.
+		/// Gets the spriteSheet for this <c>IDefinedDrawable</c>.
 		/// </summary>
-		Texture2D Spritesheet { get; }
+		Texture2D SpriteSheet { get; }
 
 		/// <summary>
 		/// Draws the <c>IDefinedDrawable</c> using the specified <c>GameTime</c>.

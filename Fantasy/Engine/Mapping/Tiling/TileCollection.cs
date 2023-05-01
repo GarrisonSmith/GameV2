@@ -33,7 +33,6 @@ namespace Fantasy.Engine.Mapping.Tiling
 		{
 			this.Tiles.Add(new Location(tile.Position.VectorPosition), tile);
 			this.AddSubComponent(tile);
-			this.AddSubDrawable(tile);
 		}
 
 		/// <summary>

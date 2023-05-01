@@ -38,7 +38,6 @@ namespace Fantasy.Engine.Mapping
 			this.TileCollection = new TileCollection();
 			this.TileCollection.Initialize();
 			this.AddSubComponent(this.TileCollection);
-			this.AddSubDrawable(this.TileCollection);
 		}
 	}
 }
