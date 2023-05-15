@@ -11,33 +11,56 @@ namespace Fantasy.Engine.ContentManagement
     public static class TextureManager
     {
 		/// <summary>
+		/// Gets or sets the game.
+		/// </summary>
+		private static Game Game { get; set; }
+
+		/// <summary>
 		/// Gets or sets the SpriteSheets.
 		/// </summary>
 		private static Dictionary<string, Texture2D> SpriteSheets { get; set; }
 
-        /// <summary>
-        /// Loads the textures.
-        /// </summary>
-        /// <param name="game">The game.</param>
-        public static void LoadTextures(Game game)
+		/// <summary>
+		/// Initializes the <c>XmlManager</c>.
+		/// </summary>
+		/// <param name="game">The game.</param>
+		public static void Initialize(Game game)
+		{
+			Game = game;
+			SpriteSheets = new Dictionary<string, Texture2D>();
+		}
+
+		/// <summary>
+		/// Loads the textures.
+		/// </summary>
+		public static void LoadTextures()
         {
-            LoadSpriteSheets(game);
+            LoadSpriteSheets();
         }
 
         /// <summary>
         /// Loads the SpriteSheets.
         /// </summary>
-        /// <param name="game">The game.</param>
-        private static void LoadSpriteSheets(Game game)
+        private static void LoadSpriteSheets()
         {
-			SpriteSheets = new Dictionary<string, Texture2D>
-            {
-                { "DEBUG", game.Content.Load<Texture2D>(@"spritesheets\DEBUG") },
-                { "EMPTY", game.Content.Load<Texture2D>(@"spritesheets\EMPTY") },
-                { "brickwall_spritesheet", game.Content.Load<Texture2D>(@"spritesheets\brickwall_spriteSheet") },
-                { "grass_spritesheet", game.Content.Load<Texture2D>(@"spritesheets\grass_spriteSheet")},
-                { "woodfloor_spritesheet", game.Content.Load<Texture2D>(@"spritesheets\woodfloor_spriteSheet")}
-            };
+			List<string> spriteSheetNames = new()
+			{
+				"DEBUG",
+				"EMPTY",
+				"brickwall_spriteSheet",
+				"grass_spriteSheet",
+				"woodfloor_spriteSheet"
+			};
+
+			foreach (string spriteSheetName in spriteSheetNames)
+			{
+				if (SpriteSheets.ContainsKey(spriteSheetName))
+				{
+					continue;
+				}
+
+				SpriteSheets.Add(spriteSheetName, Game.Content.Load<Texture2D>(@"spritesheets\" + spriteSheetName));
+			}
         }
 
 		/// <summary>
@@ -52,7 +75,16 @@ namespace Fantasy.Engine.ContentManagement
             {
                 return texture;
             }
-            throw new Exception("SpriteSheet with name " + spriteSheetName + " was not found.");
-        }
+
+			try
+			{
+				SpriteSheets.Add(spriteSheetName, Game.Content.Load<Texture2D>(@"spritesheets\" + spriteSheetName));
+				return SpriteSheets[spriteSheetName];
+			}
+			catch
+			{
+				throw new Exception("SpriteSheet with name " + spriteSheetName + " was not found.");
+			}
+		}
     }
 }

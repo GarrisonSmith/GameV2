@@ -62,7 +62,7 @@ namespace Fantasy.Engine.Drawing
 		/// <param name="color">The color to be drawn with.</param>
 		public void Draw(IPosition offset, GameTime gameTime, Color? color = null)
 		{
-			SpriteBatchHandler.Draw(this.SpriteSheet, this.Position.VectorPosition - offset.VectorPosition, color);
+			SpriteBatchHandler.Draw(this.SpriteSheet, this.Position.VectorPosition - offset.VectorPosition, this.SheetBox, color);
 		}
 	}
 }

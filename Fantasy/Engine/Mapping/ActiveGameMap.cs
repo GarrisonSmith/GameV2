@@ -1,14 +1,6 @@
 ﻿using Fantasy.Engine.ContentManagement;
-using Fantasy.Engine.Drawing.Animating;
-using Fantasy.Engine.Drawing.interfaces;
-using Fantasy.Engine.Drawing;
-using Fantasy.Engine.Mapping.Tiling;
-using Fantasy.Engine.Physics;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 using System.Xml;
-using System;
 
 namespace Fantasy.Engine.Mapping
 {
@@ -25,7 +17,7 @@ namespace Fantasy.Engine.Mapping
 		/// <param name="game">The game.</param>
 		/// <param name="mapName">The map name.</param>
 		/// <returns>The current <c>ActiveGameMap</c>.</returns>
-		public static ActiveGameMap GetActiveGameMap(Game game, string mapName)
+		public static ActiveGameMap GetActiveGameMap(Game game = null, string mapName = null)
 		{
 			activeGameMap ??= new ActiveGameMap(game, mapName);
 			return activeGameMap;
@@ -58,13 +50,21 @@ namespace Fantasy.Engine.Mapping
 		}
 
 		/// <summary>
+		/// Creates the combined textures for the <c>ActiveGameMap</c>
+		/// </summary>
+		/// <param name="useCombinedTextures">A value indicating whether to use the combined texture or not.</param>
+		public void CreateCombinedTextures(bool useCombinedTextures = true)
+		{
+			this.GameMap.CreateCombinedTextures(useCombinedTextures);
+		}
+
+		/// <summary>
 		/// Loads the content of the ActiveGameMap.
 		/// </summary>
 		protected override void LoadContent()
 		{
 			this.GameMap.Initialize();
 		}
-
 		/// <summary>
 		/// Initializes the <c>ActiveGameMap</c>.
 		/// </summary>

@@ -30,6 +30,15 @@ namespace Fantasy.Engine.Mapping
 		}
 
 		/// <summary>
+		/// Creates the combined textures for the <c>MapLayer</c>
+		/// </summary>
+		/// <param name="useCombinedTextures">A value indicating whether to use the combined texture or not.</param>
+		public void CreateCombinedTextures(bool useCombinedTextures = true)
+		{
+			this.TileCollection.CreateCombinedTexture(useCombinedTextures);
+		}
+
+		/// <summary>
 		/// Initializes the <c>MapLayer</c>.
 		/// </summary>
 		public override void Initialize()

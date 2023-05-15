@@ -1,14 +1,9 @@
-﻿using Fantasy.Engine;
-using Fantasy.Engine.Physics;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Xml;
 using Fantasy.Engine.ContentManagement;
 using Fantasy.Engine.Mapping;
 using Fantasy.Engine.Drawing;
-using Fantasy.Engine.Drawing.Animating;
 
 //System.Diagnostics.Debug.WriteLine(); <--GREATEST DEBUG
 namespace Fantasy
@@ -34,22 +29,25 @@ namespace Fantasy
         {
             // TODO: Add your initialization logic here
 			_graphics.PreferredBackBufferHeight = 1000;
-            _graphics.ApplyChanges();
+			_graphics.PreferredBackBufferWidth = 1500;
+			_graphics.ApplyChanges();
 
             SpriteBatchHandler.Initialize(_graphics.GraphicsDevice);
             //Camera.Initialize(this);
-            TextureManager.LoadTextures(this);
-            XmlManager.LoadXMLDocuments(this);
+            TextureManager.Initialize(this);
+            XmlManager.Initialize(this);
+
+			ActiveGameMap activeGameMap = ActiveGameMap.GetActiveGameMap(this, "animated_test_map");
+			this.Components.Add(activeGameMap);
 
 			base.Initialize(); //calls LoadContent()
         }
 
         protected override void LoadContent()
         {
-			// TODO: use this.Content to load your game content here
-			ActiveGameMap activeGameMap = ActiveGameMap.GetActiveGameMap(this, "animated_test_map");
-            activeGameMap.Initialize();
-            this.Components.Add(activeGameMap);
+            // TODO: use this.Content to load your game content here
+            TextureManager.LoadTextures();
+			XmlManager.LoadXMLDocuments();
 		}
 
         protected override void Update(GameTime gameTime)
@@ -92,6 +90,10 @@ namespace Fantasy
 				//Camera.TaskStack.Push(new PanToTask(7f, new Vector2(0, 0)));
 				//Camera.TaskStack.Push(new PanToTask(7f, new Vector2(500, 500)));
 			}
+            if (Keyboard.GetState().IsKeyDown(Keys.J))
+            {
+                ActiveGameMap.GetActiveGameMap().CreateCombinedTextures();
+            }
 
 			base.Update(gameTime);
         }

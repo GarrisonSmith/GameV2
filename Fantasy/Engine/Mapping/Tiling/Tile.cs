@@ -38,41 +38,15 @@ namespace Fantasy.Engine.Mapping.Tiling
 		/// <param name="position">the position.</param>
 		/// <param name="definedDrawable">the defined drawable.</param>
 		/// <param name="isVisible">indicates if this <c>Tile</c> is visible or not.</param>
-		public Tile(byte drawOrder, string tileId, Position position, IDefinedDrawable definedDrawable, bool isVisible = false) 
+		public Tile(byte drawOrder, string tileId, Position position, IDefinedDrawable definedDrawable, bool isVisible = false) : base(isVisible, drawOrder, definedDrawable)
 		{
-			this.IsVisible = isVisible;
-			this.DrawOrder = drawOrder;
 			this.tileId = tileId;
 			this.position = position;
-			this.DefinedDrawable = definedDrawable;
 		}
 
 		/// <summary>
 		/// Initializes the tile.
 		/// </summary>
-		public override void Initialize()
-		{
-
-		}
-
-		/// <summary>
-		/// Draws the tile.
-		/// </summary>
-		/// <param name="gameTime">The game time.</param>
-		/// <param name="color">The color.</param>
-		public override void Draw(GameTime gameTime, Color? color = null)
-		{
-			this.DefinedDrawable.Draw(gameTime, color);
-		}
-		/// <summary>
-		/// Draws the tile.
-		/// </summary>
-		/// <param name="offset">The offset.</param>
-		/// <param name="gameTime">The game time.</param>
-		/// <param name="color">The color.</param>
-		public override void Draw(IPosition offset, GameTime gameTime, Color? color = null)
-		{
-			this.DefinedDrawable.Draw(offset, gameTime, color);
-		}
+		public override void Initialize() { }
 	}
 }

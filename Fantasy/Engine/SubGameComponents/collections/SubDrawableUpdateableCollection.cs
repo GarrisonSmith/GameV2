@@ -1,12 +1,7 @@
-﻿using Fantasy.Engine.Drawing;
-using Fantasy.Engine.Drawing.Animating;
-using Fantasy.Engine.Physics;
-using Fantasy.Engine.Physics.interfaces;
-using Fantasy.Engine.SubGameComponents.interfaces;
+﻿using Fantasy.Engine.Physics.interfaces;
 using Fantasy.Engine.SubGameComponents.interfaces.collections;
 using Fantasy.Engine.SubGameComponents.interfaces.components;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
 namespace Fantasy.Engine.SubGameComponents.collections
@@ -17,31 +12,16 @@ namespace Fantasy.Engine.SubGameComponents.collections
 	public abstract class SubDrawableUpdateableCollection : SubComponentCollection, ISubDrawableUpdateableCollection
 	{
 		protected bool isVisible;
-		protected bool useCombinedTexture;
 		protected bool isActive;
 		protected byte drawOrder;
 		protected byte updateOrder;
-		protected CombinedTexture combinedTexture;
 		protected SortedDictionary<byte, List<ISubDrawableComponent>> subDrawables;
-		protected SortedDictionary<byte, List<ISubDrawableComponent>> animatedSubDrawables;
 		protected SortedDictionary<byte, List<ISubUpdateableComponent>> subUpdateables;
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this <c>DrawableGameComponent</c> is visible or not.
 		/// </summary>
 		public bool IsVisible { get => this.isVisible; set => this.isVisible = value; }
-		/// <summary>
-		/// Gets or sets a value indicating whether to use a combined texture for all elements in the <c>ISubDrawableCollection</c>.
-		/// </summary>
-		public bool UseCombinedTexture 
-		{ 
-			get => this.useCombinedTexture;
-			set
-			{
-				if (value) { this.CreateCombinedTexture(); };
-				this.useCombinedTexture = value;
-			}
-		}
 		/// <summary>
 		/// Gets or sets a value indicating if this <c>ISubUpdateableCollection</c> is being updated or not. 
 		/// </summary>
@@ -59,21 +39,11 @@ namespace Fantasy.Engine.SubGameComponents.collections
 		/// </summary>
 		public byte UpdateOrder { get => this.updateOrder; set => this.updateOrder = value; }
 		/// <summary>
-		/// Gets the combined texture used for all elements in the <c>ISubDrawableCollection</c>.
-		/// </summary>
-		public CombinedTexture CombinedTexture { get => this.combinedTexture; protected set => this.combinedTexture = value; }
-		/// <summary>
 		/// Gets the dictionary <c>ISubDrawableComponent</c> lists in the <c>ISubDrawableCollection</c>, identified by keys of type <c>byte</c>.
 		/// Lower keys have higher draw priority.
 		/// 0 priority keys are reserved for invisible subcomponent.
 		/// </summary>
 		public SortedDictionary<byte, List<ISubDrawableComponent>> SubDrawables { get => this.subDrawables; protected set => this.subDrawables = value; }
-		/// <summary>
-		/// Gets the dictionary <c>Animation</c> lists in the <c>ISubDrawableCollection</c>, identified by keys of type <c>byte</c>.
-		/// Lower keys have higher draw priority.
-		/// 0 priority keys are reserved for invisible subcomponent.
-		/// </summary>
-		public SortedDictionary<byte, List<ISubDrawableComponent>> AnimatedSubDrawables { get => this.animatedSubDrawables; protected set => this.animatedSubDrawables = value; }
 		/// <summary>
 		/// Gets the dictionary <c>ISubUpdateableComponent</c> lists in the <c>ISubUpdateableCollection</c>, identified by keys of type <c>byte</c>.
 		/// Lower keys have higher update priority.
@@ -84,11 +54,10 @@ namespace Fantasy.Engine.SubGameComponents.collections
 		/// <summary>
 		/// Creates a new <c>SubDrawableUpdateableCollection</c>.
 		/// </summary>
-		public SubDrawableUpdateableCollection() 
+		public SubDrawableUpdateableCollection()
 		{
 			this.isVisible = true;
 			this.isActive = true;
-			this.UseCombinedTexture = false;
 			this.drawOrder = 1;
 			this.updateOrder = 1;
 		}
@@ -102,7 +71,6 @@ namespace Fantasy.Engine.SubGameComponents.collections
 		public SubDrawableUpdateableCollection(bool isVisible, bool isActive, byte drawOrder, byte updateOrder)
 		{
 			this.IsVisible = isVisible;
-			this.UseCombinedTexture = false;
 			this.IsActive = isActive;
 			this.DrawOrder = drawOrder;
 			this.UpdateOrder = updateOrder;
@@ -130,18 +98,6 @@ namespace Fantasy.Engine.SubGameComponents.collections
 				{
 					this.SubDrawables.Add(subDrawableComponent.DrawOrder, new List<ISubDrawableComponent>() { subDrawableComponent });
 				}
-
-				if (subDrawableComponent is ISubDrawable foo && foo.DefinedDrawable is Animation)
-				{
-					if (this.AnimatedSubDrawables.TryGetValue(subDrawableComponent.DrawOrder, out List<ISubDrawableComponent> animatedSubDrawableComponentList))
-					{
-						animatedSubDrawableComponentList.Add(subDrawableComponent);
-					}
-					else
-					{
-						this.AnimatedSubDrawables.Add(subDrawableComponent.DrawOrder, new List<ISubDrawableComponent>() { subDrawableComponent });
-					}
-				}
 			}
 
 			if (subComponent is ISubUpdateableComponent subUpdateableComponent)
@@ -158,96 +114,12 @@ namespace Fantasy.Engine.SubGameComponents.collections
 		}
 
 		/// <summary>
-		/// Creates the combined texture for the entire <c>SubDrawableUpdateableCollection</c>.
-		/// </summary>
-		public virtual void CreateCombinedTexture()
-		{
-			float width = 0, height = 0, x = float.MaxValue, y = float.MaxValue;
-			Vector2 bottomRight;
-			foreach (List<ISubDrawableComponent> subDrawableComponentList in this.SubDrawables.Values)
-			{
-				foreach (ISubDrawableComponent subDrawableComponent in subDrawableComponentList)
-				{
-					if (subDrawableComponent is ISubDrawableCollection subDrawableCollection)
-					{
-						subDrawableCollection.CreateCombinedTexture();
-						bottomRight = subDrawableCollection.CombinedTexture.BottomRight;
-						if (bottomRight.X > width)
-						{
-							width = bottomRight.X;
-						}
-						else if (subDrawableCollection.CombinedTexture.Position.X < x)
-						{
-							x = subDrawableCollection.CombinedTexture.Position.X;
-						}
-
-						if (bottomRight.Y > height)
-						{
-							height = bottomRight.Y;
-						}
-						else if (subDrawableCollection.CombinedTexture.Position.Y < y)
-						{
-							y = subDrawableCollection.CombinedTexture.Position.Y;
-						}
-					}
-					else if (subDrawableComponent is ISubDrawable subDrawable)
-					{
-						bottomRight = subDrawable.DefinedDrawable.BottomRight;
-						if (bottomRight.X > width)
-						{
-							width = bottomRight.X;
-						}
-						else if (subDrawable.DefinedDrawable.Position.X < x)
-						{
-							x = subDrawable.DefinedDrawable.Position.X;
-						}
-
-						if (bottomRight.Y > height)
-						{
-							height = bottomRight.Y;
-						}
-						else if (subDrawable.DefinedDrawable.Position.Y < y)
-						{
-							y = subDrawable.DefinedDrawable.Position.Y;
-						}
-					}
-				}
-			}
-
-			Position position = new(x, y);
-			RenderTarget2D renderTarget = new RenderTarget2D(SpriteBatchHandler.GraphicsDevice, (int)width, (int)height);
-			SpriteBatchHandler.GraphicsDevice.SetRenderTarget(renderTarget);
-
-			SpriteBatchHandler.Begin();
-
-			foreach (List<ISubDrawableComponent> subDrawableComponentList in this.SubDrawables.Values)
-			{
-				foreach (ISubDrawableComponent subDrawableComponent in subDrawableComponentList)
-				{
-					if (!(subDrawableComponent is ISubDrawable subDrawable && subDrawable.IsAnimated))
-					{
-						subDrawableComponent.Draw(position, null, null);
-					}
-				}
-			}
-
-			SpriteBatchHandler.End();
-
-			SpriteBatchHandler.GraphicsDevice.SetRenderTarget(null);
-			Texture2D texture = new Texture2D(SpriteBatchHandler.GraphicsDevice, renderTarget.Width, renderTarget.Height);
-			Color[] data = new Color[renderTarget.Width * renderTarget.Height];
-			renderTarget.GetData(data);
-			texture.SetData(data);
-			this.CombinedTexture = new CombinedTexture(texture, position);
-		}
-		/// <summary>
 		/// Initializes the <c>ISubDrawableCollection</c>.
 		/// </summary>
 		public override void Initialize()
 		{
 			base.Initialize();
 			this.SubDrawables = new SortedDictionary<byte, List<ISubDrawableComponent>>();
-			this.AnimatedSubDrawables = new SortedDictionary<byte, List<ISubDrawableComponent>>();
 			this.SubUpdateables = new SortedDictionary<byte, List<ISubUpdateableComponent>>();
 		}
 		/// <summary>
@@ -272,26 +144,11 @@ namespace Fantasy.Engine.SubGameComponents.collections
 		/// <param name="color">The color to be drawn with.</param>
 		public virtual void Draw(GameTime gameTime, Color? color = null)
 		{
-			if (this.UseCombinedTexture)
+			foreach (List<ISubDrawableComponent> subDrawableComponentList in this.SubDrawables.Values)
 			{
-				foreach (List<ISubDrawableComponent> animatedSubDrawableComponentList in this.AnimatedSubDrawables.Values)
+				foreach (ISubDrawableComponent subDrawableComponent in subDrawableComponentList)
 				{
-					foreach (ISubDrawableComponent subDrawableComponent in animatedSubDrawableComponentList)
-					{
-						subDrawableComponent.Draw(gameTime, color);
-					}
-				}
-
-				this.CombinedTexture.Draw(gameTime, color);
-			}
-			else
-			{
-				foreach (List<ISubDrawableComponent> subDrawableComponentList in this.SubDrawables.Values)
-				{
-					foreach (ISubDrawableComponent subDrawableComponent in subDrawableComponentList)
-					{
-						subDrawableComponent.Draw(gameTime, color);
-					}
+					subDrawableComponent.Draw(gameTime, color);
 				}
 			}
 		}
@@ -303,26 +160,11 @@ namespace Fantasy.Engine.SubGameComponents.collections
 		/// <param name="color">The color to be drawn with.</param>
 		public virtual void Draw(IPosition offset, GameTime gameTime, Color? color = null)
 		{
-			if (this.UseCombinedTexture)
+			foreach (List<ISubDrawableComponent> subDrawableComponentList in this.SubDrawables.Values)
 			{
-				foreach (List<ISubDrawableComponent> animatedSubDrawableComponentList in this.AnimatedSubDrawables.Values)
+				foreach (ISubDrawableComponent subDrawableComponent in subDrawableComponentList)
 				{
-					foreach (ISubDrawableComponent subDrawableComponent in animatedSubDrawableComponentList)
-					{
-						subDrawableComponent.Draw(offset, gameTime, color);
-					}
-				}
-
-				this.CombinedTexture.Draw(offset, gameTime, color);
-			}
-			else
-			{
-				foreach (List<ISubDrawableComponent> subDrawableComponentList in this.SubDrawables.Values)
-				{
-					foreach (ISubDrawableComponent subDrawableComponent in subDrawableComponentList)
-					{
-						subDrawableComponent.Draw(offset, gameTime, color);
-					}
+					subDrawableComponent.Draw(offset, gameTime, color);
 				}
 			}
 		}

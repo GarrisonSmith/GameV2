@@ -65,6 +65,18 @@ namespace Fantasy.Engine.Mapping
 		}
 
 		/// <summary>
+		/// Creates the combined textures for the <c>GameMap</c>
+		/// </summary>
+		/// <param name="useCombinedTextures">A value indicating whether to use the combined texture or not.</param>
+		public void CreateCombinedTextures(bool useCombinedTextures = true)
+		{
+			foreach (MapLayer mapLayer in MapLayers.Values) 
+			{
+				mapLayer.CreateCombinedTextures(useCombinedTextures);
+			}
+		}
+
+		/// <summary>
 		/// Initializes the <c>MapLayer</c>.
 		/// </summary>
 		public override void Initialize()
@@ -152,7 +164,7 @@ namespace Fantasy.Engine.Mapping
 						Tile tile = new(definedDrawable is Animation? (byte)254 : (byte)255, tileId, position, definedDrawable);
 						if (this.MapLayers.TryGetValue(layer, out MapLayer map))
 						{
-							map.TileCollection.AddTile(tile);
+							map.TileCollection.AddSubComponent(tile);
 						}
 						else
 						{

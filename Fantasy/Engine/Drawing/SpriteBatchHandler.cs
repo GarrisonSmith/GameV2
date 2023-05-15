@@ -36,7 +36,9 @@ namespace Fantasy.Engine.Drawing
         /// </summary>
         public static void Begin()
         {
-            spriteBatch.Begin();
+            spriteBatch.Begin(
+                SpriteSortMode.Deferred, //first things drawn on bottom, last things on top
+				BlendState.AlphaBlend);
         }
         /// <summary>
         /// Begins the spritebatch drawing with the provided TransformMatrix.

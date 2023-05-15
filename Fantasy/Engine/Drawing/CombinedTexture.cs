@@ -1,7 +1,12 @@
 ﻿using Fantasy.Engine.Physics;
 using Fantasy.Engine.Physics.interfaces;
+using Fantasy.Engine.SubGameComponents.interfaces.components;
+using Fantasy.Engine.SubGameComponents.interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
+using Fantasy.Engine.Drawing.interfaces;
+using System;
 
 namespace Fantasy.Engine.Drawing
 {
@@ -26,12 +31,85 @@ namespace Fantasy.Engine.Drawing
 		/// <summary>
 		/// Creates a new <c>CombinedTexture</c> with the provided parameters.
 		/// </summary>
-		/// <param name="texture">The texture.</param>
-		/// <param name="position">The position.</param>
-		public CombinedTexture(Texture2D texture, Position position)
+		/// <param name="subject">The sub drawable collection.</param>
+		public CombinedTexture(ICombineTextures subject)
 		{
-			this.texture = texture;
-			this.position = position;
+			float xMin = float.MaxValue, yMin = float.MaxValue, xMax = 0, yMax = 0;
+			Vector2 bottomRight;
+			foreach (List<ISubDrawableComponent> subDrawableComponentList in subject.SubDrawables.Values)
+			{
+				foreach (ISubDrawableComponent subDrawableComponent in subDrawableComponentList)
+				{
+					if (subDrawableComponent is ISubDrawable subDrawable && !subDrawable.IsAnimated)
+					{
+						bottomRight = subDrawable.DefinedDrawable.BottomRight;
+
+						if (subDrawable.DefinedDrawable.Position.X < xMin)
+						{
+							xMin = subDrawable.DefinedDrawable.Position.X;
+						}
+
+						if (bottomRight.X > xMax)
+						{
+							xMax = bottomRight.X;
+						}
+
+						if (subDrawable.DefinedDrawable.Position.Y < yMin)
+						{
+							yMin = subDrawable.DefinedDrawable.Position.Y;
+						}
+
+						if (bottomRight.Y > yMax)
+						{
+							yMax = bottomRight.Y;
+						}
+					}
+					else
+					{
+						if (subject.ExcludedSubDrawableComponents.TryGetValue(subDrawableComponent.DrawOrder, out List<ISubDrawableComponent> excludedSubDrawableComponentList))
+						{
+							excludedSubDrawableComponentList.Add(subDrawableComponent);
+						}
+						else
+						{
+							subject.ExcludedSubDrawableComponents.Add(subDrawableComponent.DrawOrder, new List<ISubDrawableComponent>() { subDrawableComponent });
+						}
+					}
+				}
+			}
+
+			this.position = new(xMin, yMin);
+			RenderTarget2D renderTarget = new RenderTarget2D(
+				SpriteBatchHandler.GraphicsDevice,
+				(int)(xMax - xMin),
+				(int)(yMax - yMin),
+				false,
+				SurfaceFormat.Color,
+				DepthFormat.None,
+				0,
+				RenderTargetUsage.PreserveContents);
+			SpriteBatchHandler.GraphicsDevice.SetRenderTarget(renderTarget);
+
+			SpriteBatchHandler.Begin();
+
+			foreach (List<ISubDrawableComponent> subDrawableComponentList in subject.SubDrawables.Values)
+			{
+				foreach (ISubDrawableComponent subDrawableComponent in subDrawableComponentList)
+				{
+					if (!(subDrawableComponent is ISubDrawable subDrawable && subDrawable.IsAnimated))
+					{
+						subDrawableComponent.Draw(position, null);
+					}
+				}
+			}
+
+			SpriteBatchHandler.End();
+
+			SpriteBatchHandler.GraphicsDevice.SetRenderTarget(null);
+			this.texture = new Texture2D(SpriteBatchHandler.GraphicsDevice, renderTarget.Width, renderTarget.Height);
+			Color[] data = new Color[renderTarget.Width * renderTarget.Height];
+			renderTarget.GetData(data);
+			this.texture.SetData(data);
 		}
 
 		/// <summary>

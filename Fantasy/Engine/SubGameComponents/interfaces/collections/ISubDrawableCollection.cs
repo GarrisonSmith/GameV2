@@ -1,5 +1,4 @@
-﻿using Fantasy.Engine.Drawing;
-using Fantasy.Engine.Physics.interfaces;
+﻿using Fantasy.Engine.Physics.interfaces;
 using Fantasy.Engine.SubGameComponents.interfaces.components;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -16,16 +15,6 @@ namespace Fantasy.Engine.SubGameComponents.interfaces.collections
 		/// </summary>
 		new bool IsVisible { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether to use a combined texture for all elements in the <c>ISubDrawableCollection</c>.
-        /// </summary>
-        bool UseCombinedTexture { get; set; }
-
-		/// <summary>
-		/// Gets the combined texture used for all elements in the <c>ISubDrawableCollection</c>.
-		/// </summary>
-		CombinedTexture CombinedTexture { get; }
-
 		/// <summary>
 		/// Gets the dictionary <c>ISubDrawableComponent</c> lists in the <c>ISubDrawableCollection</c>, identified by keys of type <c>byte</c>.
 		/// Lower keys have higher draw priority.
@@ -34,22 +23,10 @@ namespace Fantasy.Engine.SubGameComponents.interfaces.collections
 		SortedDictionary<byte, List<ISubDrawableComponent>> SubDrawables { get; }
 
 		/// <summary>
-		/// Gets the dictionary <c>Animation</c> lists in the <c>ISubDrawableCollection</c>, identified by keys of type <c>byte</c>.
-		/// Lower keys have higher draw priority.
-		/// 0 priority keys are reserved for invisible subcomponent.
-		/// </summary>
-		public SortedDictionary<byte, List<ISubDrawableComponent>> AnimatedSubDrawables { get; }
-
-		/// <summary>
 		/// Adds a ISubComponent to the <c>ISubDrawableCollection</c>;
 		/// </summary>
 		/// <param name="subComponents">The ISubComponent.</param>
 		new void AddSubComponent(ISubComponent subComponents);
-
-		/// <summary>
-		/// Creates the combined texture for the entire <c>ISubDrawableCollection</c>.
-		/// </summary>
-		void CreateCombinedTexture();
 
 		/// <summary>
 		/// Draws the <c>ISubDrawableCollection</c> using the specified <c>GameTime</c>.
