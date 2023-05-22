@@ -9,6 +9,7 @@ namespace Fantasy.Engine.Drawing.View.Tasks
     public struct FreeMovementTask : ICameraTask
     {
         private readonly float speed;
+        private readonly Camera camera;
 
         /// <summary>
         /// The speed the camera will move with.
@@ -18,14 +19,20 @@ namespace Fantasy.Engine.Drawing.View.Tasks
         /// Gets the camera tasks type of this tasks.
         /// </summary>
         public CameraTaskTypes CameraTaskTypes { get => CameraTaskTypes.FreeMovement; }
+        /// <summary>
+        /// Gets the camera.
+        /// </summary>
+        public Camera Camera { get => camera; }
 
         /// <summary>
         /// Creates a new free movement task.
         /// </summary>
         /// <param name="speed">The speed the task will move with.</param>
-        public FreeMovementTask(float speed = 7) 
+        /// <param name="camera">The camera.</param>
+        public FreeMovementTask(float speed, Camera camera) 
         {
             this.speed = speed;
+            this.camera = camera;
         }
 
 		/// <summary>
@@ -39,7 +46,6 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// Moves the camera freely based off user input.
 		/// </summary>
 		/// <returns>False as this task never auto completes.</returns>
-		/// <exception cref="System.NotImplementedException">TODO</exception>
 		public bool ProgressTask()
         {
             //TODO

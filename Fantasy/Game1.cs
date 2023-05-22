@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Input;
 using Fantasy.Engine.ContentManagement;
 using Fantasy.Engine.Mapping;
 using Fantasy.Engine.Drawing;
+using Fantasy.Engine.Drawing.View;
+using Fantasy.Engine.Drawing.View.Tasks;
 
 //System.Diagnostics.Debug.WriteLine(); <--GREATEST DEBUG
 namespace Fantasy
@@ -33,12 +35,13 @@ namespace Fantasy
 			_graphics.ApplyChanges();
 
             SpriteBatchHandler.Initialize(_graphics.GraphicsDevice);
-            //Camera.Initialize(this);
+            Camera camera = Camera.GetCamera(this, new Engine.Physics.Position(new Vector2()));
             TextureManager.Initialize(this);
             XmlManager.Initialize(this);
 
 			ActiveGameMap activeGameMap = ActiveGameMap.GetActiveGameMap(this, "animated_test_map");
 			this.Components.Add(activeGameMap);
+            this.Components.Add(camera);
 
 			base.Initialize(); //calls LoadContent()
         }
@@ -58,35 +61,35 @@ namespace Fantasy
 
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
-                //Camera.CameraViewBoundingBox.MoveUp(7f);
+                Camera.GetCamera().CameraViewPosition.Y -= 7f;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
-                //Camera.CameraViewBoundingBox.MoveLeft(7f);
-            }
+				Camera.GetCamera().CameraViewPosition.X -= 7f;
+			}
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
-                //Camera.CameraViewBoundingBox.MoveRight(7f);
-            }
+				Camera.GetCamera().CameraViewPosition.X += 7f;
+			}
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
-                //Camera.CameraViewBoundingBox.MoveDown(7f);
-            }
+				Camera.GetCamera().CameraViewPosition.Y += 7f;
+			}
 			if (Keyboard.GetState().IsKeyDown(Keys.OemPlus))
 			{
-				//Camera.ZoomIn(3);
+				Camera.GetCamera().ZoomIn(3);
 			}
 			if (Keyboard.GetState().IsKeyDown(Keys.OemMinus))
 			{
-				//Camera.ZoomOut(3);
+				Camera.GetCamera().ZoomOut(3);
 			}
             if (Keyboard.GetState().IsKeyDown(Keys.C))
             {
-                //Camera.Zoom = 64;
+				Camera.GetCamera().Zoom = 64;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Q))
             {
-				//Camera.TaskStack.Push(new ZoomOutPanZoomIn(1, 7f, new Vector2(900, 200)));
+				Camera.GetCamera().TaskStack.Push(new ZoomOutPanZoomIn(1, 7f, new Vector2(900, 200), Camera.GetCamera()));
 				//Camera.TaskStack.Push(new PanToTask(7f, new Vector2(0, 0)));
 				//Camera.TaskStack.Push(new PanToTask(7f, new Vector2(500, 500)));
 			}
@@ -105,7 +108,7 @@ namespace Fantasy
 			// TODO: Add your drawing code here
 			//SpriteBatchHandler.Begin(Camera.GetTransformationMatrix());
 
-			SpriteBatchHandler.Begin();
+			SpriteBatchHandler.Begin(Camera.GetCamera().GetTransformationMatrix());
 
 			base.Draw(gameTime);
 

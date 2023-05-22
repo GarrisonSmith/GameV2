@@ -1,32 +1,39 @@
 ﻿using Fantasy.Engine.Drawing.View.Tasks.enums;
 using Fantasy.Engine.Drawing.View.Tasks.interfaces;
-using Fantasy.Engine.Physics.interfaces;
+using Fantasy.Engine.Physics;
 
 namespace Fantasy.Engine.Drawing.View.Tasks
 {
     /// <summary>
     /// A camera task for following a provided IPosition object.
     /// </summary>
-    public readonly struct FollowIPositionTask : ICameraTask
+    public readonly struct FollowPositionRefTask : ICameraTask
     {
-        private readonly IPosition locatable;
+        private readonly PositionRef positionRef;
+        private readonly Camera camera;
 
         /// <summary>
-        /// Gets the locatable that this tasks is following.
+        /// Gets the position that this tasks is following.
         /// </summary>
-        public IPosition Locatable { get => locatable; }
+        public PositionRef PositionRef { get => positionRef; }
         /// <summary>
         /// Gets the camera tasks type of this tasks.
         /// </summary>
         public CameraTaskTypes CameraTaskTypes { get => CameraTaskTypes.FollowIPosition; }
-
         /// <summary>
-        /// Creates a new FollowIPosition task.
+        /// Gets the camera.
         /// </summary>
-        /// <param name="locatable">The IPosition object for the task to follow.</param>
-        public FollowIPositionTask(IPosition locatable)
+        public readonly Camera Camera { get => this.camera; }
+
+		/// <summary>
+		/// Creates a new follow position task.
+		/// </summary>
+		/// <param name="positionRef">The PositionRef object for the task to follow.</param>
+        /// <param name="camera">The camera.</param>
+		public FollowPositionRefTask(PositionRef positionRef, Camera camera)
         { 
-            this.locatable = locatable;
+            this.positionRef = positionRef;
+            this.camera = camera;
         }
 
         /// <summary>
@@ -41,7 +48,7 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// </summary>
 		/// <returns>False as this task never auto completes.</returns>
 		public bool ProgressTask() {
-            Camera.CenterCamera(locatable.BoundingBox2.Center);
+            this.Camera.CenterCamera(positionRef.VectorPosition);
             return false;
         }
     }

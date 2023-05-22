@@ -19,7 +19,7 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 			get => bottomItem;
 			set
 			{
-				if (value is FollowIPositionTask || value is FreeMovementTask)
+				if (value is FollowPositionRefTask || value is FreeMovementTask)
 				{ 
 					bottomItem = value;
 				}
@@ -34,7 +34,7 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// Creates a new TaskStack.
 		/// </summary>
 		/// <param name="bottomItem">The bottom task in the stack.</param>
-		public TaskStack(FollowIPositionTask bottomItem)
+		public TaskStack(FollowPositionRefTask bottomItem)
 		{
 			this.bottomItem = bottomItem;
 			tasks = new Stack<ICameraTask>();

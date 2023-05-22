@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Fantasy.Engine.Drawing.interfaces;
-using System;
 
 namespace Fantasy.Engine.Drawing
 {
@@ -18,7 +17,7 @@ namespace Fantasy.Engine.Drawing
 		/// <summary>
 		/// Gets the bottom right position of this <c>CombinedTexture</c>.
 		/// </summary>
-		public Vector2 BottomRight { get => new Vector2(this.Position.X + this.Texture.Width, this.Position.Y + this.Texture.Height); }
+		public Vector2 BottomRight { get => new Vector2(this.CameraViewPosition.X + this.Texture.Width, this.CameraViewPosition.Y + this.Texture.Height); }
 		/// <summary>
 		/// Gets the combined texture.
 		/// </summary>
@@ -26,7 +25,7 @@ namespace Fantasy.Engine.Drawing
 		/// <summary>
 		/// Gets the position.
 		/// </summary>
-		public Position Position { get => this.position; }
+		public Position CameraViewPosition { get => this.position; }
 
 		/// <summary>
 		/// Creates a new <c>CombinedTexture</c> with the provided parameters.
@@ -44,9 +43,9 @@ namespace Fantasy.Engine.Drawing
 					{
 						bottomRight = subDrawable.DefinedDrawable.BottomRight;
 
-						if (subDrawable.DefinedDrawable.Position.X < xMin)
+						if (subDrawable.DefinedDrawable.CameraViewPosition.X < xMin)
 						{
-							xMin = subDrawable.DefinedDrawable.Position.X;
+							xMin = subDrawable.DefinedDrawable.CameraViewPosition.X;
 						}
 
 						if (bottomRight.X > xMax)
@@ -54,9 +53,9 @@ namespace Fantasy.Engine.Drawing
 							xMax = bottomRight.X;
 						}
 
-						if (subDrawable.DefinedDrawable.Position.Y < yMin)
+						if (subDrawable.DefinedDrawable.CameraViewPosition.Y < yMin)
 						{
-							yMin = subDrawable.DefinedDrawable.Position.Y;
+							yMin = subDrawable.DefinedDrawable.CameraViewPosition.Y;
 						}
 
 						if (bottomRight.Y > yMax)
@@ -119,7 +118,7 @@ namespace Fantasy.Engine.Drawing
 		/// <param name="color">The color to be drawn with.</param>
 		public void Draw(GameTime gameTime, Color? color = null)
 		{
-			SpriteBatchHandler.Draw(this.Texture, this.Position.VectorPosition, color);
+			SpriteBatchHandler.Draw(this.Texture, this.CameraViewPosition.VectorPosition, color);
 		}
 		/// <summary>
 		/// Draws the <c>CombinedTexture</c> using the specified <c>GameTime</c>.
@@ -129,7 +128,7 @@ namespace Fantasy.Engine.Drawing
 		/// <param name="color">The color to be drawn with.</param>
 		public void Draw(IPosition offset, GameTime gameTime, Color? color = null)
 		{
-			SpriteBatchHandler.Draw(this.Texture, this.Position.VectorPosition - offset.VectorPosition, color);
+			SpriteBatchHandler.Draw(this.Texture, this.CameraViewPosition.VectorPosition - offset.VectorPosition, color);
 		}
 	}
 }

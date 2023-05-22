@@ -18,7 +18,7 @@ namespace Fantasy.Engine.Drawing
 		/// <summary>
 		/// Gets the bottom right position of this <c>CombinedTexture</c>.
 		/// </summary>
-		public Vector2 BottomRight { get => new Vector2(this.Position.X + this.SheetBox.Width, this.Position.Y + this.SheetBox.Height); }
+		public Vector2 BottomRight { get => new Vector2(this.CameraViewPosition.X + this.SheetBox.Width, this.CameraViewPosition.Y + this.SheetBox.Height); }
 		/// <summary>
 		/// Gets the texture area of the spriteSheet from which this <c>IDefinedDrawable</c>.
 		/// </summary>
@@ -26,7 +26,7 @@ namespace Fantasy.Engine.Drawing
 		/// <summary>
 		/// Gets the position of this <c>DefinedDrawable</c>.
 		/// </summary>
-		public PositionRef Position { get => this.position; }
+		public PositionRef CameraViewPosition { get => this.position; }
 		/// <summary>
 		/// Gets the spriteSheet for this <c>IDefinedDrawable</c>.
 		/// </summary>
@@ -52,7 +52,7 @@ namespace Fantasy.Engine.Drawing
 		/// <param name="color">The color to be drawn with.</param>
 		public virtual void Draw(GameTime gameTime, Color? color = null)
 		{
-			SpriteBatchHandler.Draw(this.SpriteSheet, this.Position.VectorPosition, this.SheetBox, color);
+			SpriteBatchHandler.Draw(this.SpriteSheet, this.CameraViewPosition.VectorPosition, this.SheetBox, color);
 		}
 		/// <summary>
 		/// Draws the <c>DefinedDrawable</c> using the specified <c>GameTime</c>.
@@ -62,7 +62,7 @@ namespace Fantasy.Engine.Drawing
 		/// <param name="color">The color to be drawn with.</param>
 		public void Draw(IPosition offset, GameTime gameTime, Color? color = null)
 		{
-			SpriteBatchHandler.Draw(this.SpriteSheet, this.Position.VectorPosition - offset.VectorPosition, this.SheetBox, color);
+			SpriteBatchHandler.Draw(this.SpriteSheet, this.CameraViewPosition.VectorPosition - offset.VectorPosition, this.SheetBox, color);
 		}
 	}
 }

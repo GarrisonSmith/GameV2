@@ -3,7 +3,6 @@ using Fantasy.Engine.Drawing.interfaces;
 using Fantasy.Engine.SubGameComponents.collections;
 using Fantasy.Engine.SubGameComponents.interfaces.components;
 using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
 
 namespace Fantasy.Engine.Mapping.Tiling
@@ -51,7 +50,7 @@ namespace Fantasy.Engine.Mapping.Tiling
 		/// <param name="tile">The tile.</param>
 		public void AddSubComponent(Tile tile)
 		{
-			this.Tiles.Add(new Location(tile.Position.VectorPosition), tile);
+			this.Tiles.Add(new Location(tile.CameraViewPosition.VectorPosition), tile);
 			this.AddSubComponent((ISubComponent)tile);
 		}
 		/// <summary>
@@ -73,7 +72,11 @@ namespace Fantasy.Engine.Mapping.Tiling
 			base.Initialize();
 			this.tiles = new Dictionary<Location, Tile>();
 		}
-
+		/// <summary>
+		/// Draws the <c>TileCollection</c>.
+		/// </summary>
+		/// <param name="gameTime">The game time.</param>
+		/// <param name="color">The color.</param>
 		public override void Draw(GameTime gameTime, Color? color = null)
 		{
 			if (this.UseCombinedTexture)

@@ -1,146 +1,128 @@
-﻿using Microsoft.Xna.Framework;
-using Fantasy.Engine.Physics;
-using System;
+﻿using Fantasy.Engine.Drawing.View.Tasks;
 using Fantasy.Engine.Mapping.Tiling;
-using Fantasy.Engine.Drawing.View.Tasks;
+using Fantasy.Engine.Physics;
+using Fantasy.Engine.Physics.interfaces;
+using Microsoft.Xna.Framework;
+using System;
 
 namespace Fantasy.Engine.Drawing.View
 {
-    public static class Camera
-    {
-        private static bool verticalMovementLocked = true;
-        private static bool horizontalMovementLocked = true;
-        private static byte zoom;
-        private static byte maxZoom;
-        private static byte minZoom;
-        private static float stretch;
-        private static float rotation;
-		private static Matrix positionMatrix;
-		private static AreaBox cameraMovementBoundingBox;
-        private static AreaBox cameraViewBoundingBox;
-        private static TaskStack taskStack;
-        private static Game1 game;
+	/// <summary>
+	/// Represents a camera. 
+	/// </summary>
+	public class Camera : GameComponent, IPositional<Position>, ISpatial
+	{
+		private static Camera camera;
 
 		/// <summary>
-		/// Determines if vertical camera movement is restricted.
+		/// Gets the current <c>Camera</c>.
 		/// </summary>
-		public static bool VerticalMovementLocked
-        {
-            get => verticalMovementLocked;
-            set => verticalMovementLocked = value;
-        }
-        /// <summary>
-        /// Determines if horizontal camera movement is restricted.
-        /// </summary>
-        public static bool HorizontalMovementLocked
-        {
-            get => horizontalMovementLocked;
-            set => horizontalMovementLocked = value;
-        }
-        /// <summary>
-        /// The current zoom level of the camera. Describes the pixel dimensions of a tile.
-        /// </summary>
-        public static byte Zoom
-        {
-            get => zoom;
-            set
-            {
-                if (MinZoom <= value && value <= MaxZoom)
-                {
-                    zoom = value;
-                    Stretch = Zoom / (float)Tile.TILE_DIMENSION;
-                    CameraViewBoundingBox.Width = (int)Math.Ceiling(Game._Graphics.PreferredBackBufferWidth / Stretch);
-                    CameraViewBoundingBox.Height = (int)Math.Ceiling(Game._Graphics.PreferredBackBufferHeight / Stretch);
+		/// <param name="game">The game.</param>
+		/// <param name="Position">The camera view position.</param>
+		/// <returns>The current <c>Camera</c>.</returns>
+		public static Camera GetCamera(Game game = null, Position Position = null)
+		{ 
+			camera ??= new Camera(game, Position);
+			return camera;
+		}
+
+		private bool verticalMovementLocked = true;
+		private bool horizontalMovementLocked = true;
+		private byte zoom;
+		private byte maxZoom;
+		private byte minZoom;
+		private float stretch;
+		private float rotation;
+		private Matrix cameraMatrix;
+		private Position cameraViewPosition;
+		private Position cameraBoundingPosition;
+		private AreaBox cameraView;
+		private AreaBox cameraBounding;
+		private TaskStack taskStack;
+
+		/// <summary>
+		/// Gets or sets a value indicating whether vertical movement is locked.
+		/// </summary>
+		public bool VerticalMovementLocked { get => this.verticalMovementLocked; set => this.verticalMovementLocked = value; }
+		/// <summary>
+		/// Gets or sets a value indicating whether horizontal movement is locked.
+		/// </summary>
+		public bool HorizontalMovementLocked { get => this.horizontalMovementLocked; set => this.horizontalMovementLocked = value; }
+		/// <summary>
+		/// Gets or sets the current zoom level of this <c>Camera</c>. Describes the pixel dimensions of a tile.
+		/// </summary>
+		public byte Zoom
+		{
+			get => zoom;
+			set
+			{
+				if (MinZoom <= value && value <= MaxZoom)
+				{
+					zoom = value;
+					Stretch = Zoom / (float)Tile.TILE_DIMENSION;
+					AreaBox.Width = (int)Math.Ceiling(Game.GraphicsDevice.Viewport.Width / Stretch);
+					AreaBox.Height = (int)Math.Ceiling(Game.GraphicsDevice.Viewport.Height / Stretch);
 				}
 			}
-        }
-        /// <summary>
-        /// The max zoom of the camera.
-        /// </summary>
-        public static byte MaxZoom
-        {
-            get => maxZoom;
-            set => maxZoom = value;
-        }
-        /// <summary>
-        /// The minimum zoom of the camera.
-        /// </summary>
-        public static byte MinZoom
-        {
-            get => minZoom;
-            set => minZoom = value;
-        }
-        /// <summary>
-        /// The stretching applied to the cameras transformation matrix.
-        /// </summary>
-        private static float Stretch
-        {
-            get => stretch;
-            set => stretch = value;
-        }
-        /// <summary>
-        /// Determines how much the final drawing of the spritebatch is rotated around the origin of the frame.
-        /// TODO Not implemented fully.
-        /// </summary>
-        public static float Rotation
-        {
-            get => rotation;
-            set => rotation = value;
-        }
-		/// <summary>
-		/// The unmodified position matrix of the camera. 
-		/// </summary>
-		private static Matrix PositionMatrix
-		{
-			get => positionMatrix;
 		}
 		/// <summary>
-		/// The bounding box the camera center cannot leave.
+		/// Gets or sets the max zoom.
 		/// </summary>
-		public static AreaBox CameraMovementBoundingBox
-        {
-            get => cameraMovementBoundingBox;
-            set => cameraMovementBoundingBox = value;
-        }
-        /// <summary>
-        /// The bounding box that describes what is inside the camera's view.
-        /// </summary>
-        public static AreaBox CameraViewBoundingBox
-        {
-            get => cameraViewBoundingBox;
-            set => cameraViewBoundingBox = value;
-        }
-        /// <summary>
-        /// The TaskStack of the camera. 
-        /// </summary>
-        public static TaskStack TaskStack 
-        {
-            get => taskStack;
-        }
-        /// <summary>
-        /// The game this Camera is viewing.
-        /// </summary>
-        private static Game1 Game
-        {
-            get => game; 
-            set => game = value;
-        }
+		public byte MaxZoom { get => this.maxZoom; set => this.maxZoom = value; }
+		/// <summary>
+		/// Gets or sets the min zoom.
+		/// </summary>
+		public byte MinZoom { get => this.minZoom; set => this.minZoom = value; }
+		/// <summary>
+		/// Gets or sets the stretch. 
+		/// </summary>
+		private float Stretch { get => this.stretch; set => this.stretch = value; }
+		/// <summary>
+		/// Gets or sets the rotation.
+		/// </summary>
+		public float Rotation { get => this.rotation; set => this.rotation = value; }
+		/// <summary>
+		/// Gets or sets the camera matrix.
+		/// </summary>
+		private Matrix CameraMatrix { get => this.cameraMatrix; set => this.cameraMatrix = value; }
+		/// <summary>
+		/// Gets or sets the camera view position.
+		/// </summary>
+		public Position CameraViewPosition { get => this.cameraViewPosition; set => this.cameraViewPosition = value; }
+		/// <summary>
+		/// Gets or sets the camera bounding position.
+		/// </summary>
+		public Position CameraBoundingPosition { get => this.cameraBoundingPosition; set => this.cameraBoundingPosition = value; }
+		/// <summary>
+		/// Gets or sets the camera view.
+		/// </summary>
+		public AreaBox AreaBox { get => this.cameraView; set => this.cameraView = value; }
+		/// <summary>
+		/// Gets or sets the camera bounding.
+		/// </summary>
+		public AreaBox CameraBounding { get => this.cameraBounding; set => this.cameraBounding = value; }
+		/// <summary>
+		/// Gets or sets the task stack.
+		/// </summary>
+		public TaskStack TaskStack { get => this.taskStack; set => this.taskStack = value; }
 
 		/// <summary>
-		/// Sets the initial values of the camera.
+		/// Creates a new <c>Camera</c> with the provided parameters.
 		/// </summary>
-		public static void Initialize(Game1 game) {
-			Game = game;
-			//CameraMovementBoundingBox;
-			CameraViewBoundingBox = new AreaBox(new Vector2(192, 64), game._Graphics.PreferredBackBufferWidth, game._Graphics.PreferredBackBufferHeight);
-			VerticalMovementLocked = true;
-            HorizontalMovementLocked = true;
-			MaxZoom = 192;
-			MinZoom = 24;
-			Zoom = 64;
-            Stretch = 1f;
-            Rotation = 0f;
-			positionMatrix = new Matrix()
+		/// <param name="game">The game.</param>
+		/// <param name="Position">The camera view position.</param>
+		private Camera(Game game, Position Position) : base(game)
+		{
+			this.cameraViewPosition = Position;
+			this.AreaBox = new AreaBox(this.cameraViewPosition.GetPositionRef(), game.GraphicsDevice.Viewport.Width, game.GraphicsDevice.Viewport.Height);
+			this.VerticalMovementLocked = false;
+			this.HorizontalMovementLocked = false;
+			this.MaxZoom = 192;
+			this.MinZoom = 24;
+			this.Zoom = 64;
+			this.Stretch = 1f;
+			this.Rotation = 0f;
+			this.CameraMatrix = new Matrix()
 			{
 				M11 = 1f,
 				M12 = 0f,
@@ -159,91 +141,98 @@ namespace Fantasy.Engine.Drawing.View
 				M43 = 0f,
 				M44 = 1f
 			};
-            taskStack = new TaskStack(new FreeMovementTask());
+			
+			this.TaskStack = new TaskStack(new FreeMovementTask());
 		}
-        /// <summary>
-        /// Creates the transformation matrix used to apply camera effects when drawing.
-        /// </summary>
-        /// <param name="updateTask">Determines if the current camera task is update, true by default.</param>
-        /// <returns>Matrix used to apply camera effects (Camera movement, Camera rotation) when drawing in Scene.</returns>
-        public static Matrix GetTransformationMatrix(bool updateTask = true)
-        {
-            if (updateTask)
-            {
-                TaskStack.Update();
-            }
+		/// <summary>
+		/// Updates the <c>Camera</c>.
+		/// </summary>
+		/// <param name="gameTime">The game time.</param>
+		public override void Update(GameTime gameTime)
+		{
+			this.TaskStack.Update();
+		}
 
-            Matrix positionMatrix = PositionMatrix;
-			positionMatrix.M41 = -CameraViewBoundingBox.TopLeft.X;
-			positionMatrix.M42 = -CameraViewBoundingBox.TopLeft.Y;
+		/// <summary>
+		/// Gets the transformation matrix used to apply camera effects when drawing.
+		/// </summary>
+		/// <returns>Matrix used to apply camera effects (Camera movement, Camera rotation) when drawing in Scene.</returns>
+		public Matrix GetTransformationMatrix()
+		{
+			Matrix tempCameraMatrix = this.CameraMatrix;
+			tempCameraMatrix.M41 = -this.AreaBox.TopLeft.X;
+			tempCameraMatrix.M42 = -this.AreaBox.TopLeft.Y;
 
-			return positionMatrix * Matrix.CreateRotationZ(Rotation) * Matrix.CreateScale(Stretch);
-        }
-        /// <summary>
-        /// Centers the camera on the provided Vector2.
-        /// </summary>
-        /// <param name="foo">The Vector2 position for the camera to center on.</param>
-        public static void CenterCamera(Vector2 foo)
-        {
-            if (CameraMovementBoundingBox != null && !CameraMovementBoundingBox.Contains(foo))
-            {
-                return;
-            }
+			return tempCameraMatrix * Matrix.CreateRotationZ(Rotation) * Matrix.CreateScale(Stretch);
+		}
 
-            CameraViewBoundingBox.Center = foo;
-        }
+		/// <summary>
+		/// Centers the camera on the provided Vector2.
+		/// </summary>
+		/// <param name="foo">The Vector2 position for the camera to center on.</param>
+		public void CenterCamera(Vector2 foo)
+		{
+			if (this.CameraBounding != null && !this.CameraBounding.Contains(foo))
+			{
+				return;
+			}
+
+			this.cameraViewPosition.VectorPosition = new Vector2(foo.X + this.AreaBox.Width / 2, foo.Y + this.AreaBox.Height / 2);
+		}
+
 		/// <summary>
 		/// Zooms the camera in by the provided amount if the camera is not at max zoom already.
 		/// </summary>
-        /// <param name="amount">The amount to zoom in by, is 1 by default.</param>
-		public static void ZoomIn(byte amount = 1)
-        {
-            if (Zoom + amount <= MaxZoom)
-            {
-                Zoom += amount;
-            }
-        }
+		/// <param name="amount">The amount to zoom in by.</param>
+		public void ZoomIn(byte amount = 1)
+		{
+			if (Zoom + amount <= MaxZoom)
+			{
+				Zoom += amount;
+			}
+		}
 		/// <summary>
 		/// Zooms the camera out by the provided amount if the camera is not at min zoom already.
 		/// </summary>
-		/// <param name="amount">The amount to zoom out by, is 1 by default.</param>
-		public static void ZoomOut(byte amount = 1)
-        {
-            if (MinZoom <= Zoom - amount)
-            { 
-                Zoom -= amount;
-            }
-        }
+		/// <param name="amount">The amount to zoom out by.</param>
+		public void ZoomOut(byte amount = 1)
+		{
+			if (MinZoom <= Zoom - amount)
+			{
+				Zoom -= amount;
+			}
+		}
+
 		/// <summary>
 		/// Zooms the camera in by the provided percent of the current zoom if the camera is not at max zoom already.
 		/// </summary>
-		/// <param name="percent">The percent of the current zoom to zoom in by, is .01 by default. At a minimum will increase zoom by 1.</param>
-		public static void SmoothZoomIn(float percent = .01f)
+		/// <param name="percent">The percent of the current zoom to zoom in by. At a minimum will increase zoom by 1.</param>
+		public void SmoothZoomIn(float percent = .01f)
 		{
 			if (percent <= 0)
 			{
 				return;
 			}
 
-			if (Zoom + (Zoom * percent) <= MaxZoom)
+			if (this.Zoom + (this.Zoom * percent) <= this.MaxZoom)
 			{
-				Zoom += (byte)Math.Ceiling(Zoom * percent);
+				this.Zoom += (byte)Math.Ceiling(this.Zoom * percent);
 			}
 		}
 		/// <summary>
 		/// Zooms the camera out by the provided percent of the current zoom if the camera is not at min zoom already.
 		/// </summary>
-		/// <param name="percent">The percent of the current zoom to zoom out by, is .01 by default. At a minimum will decrease zoom by 1.</param>
-		public static void SmoothZoomOut(float percent = .01f)
+		/// <param name="percent">The percent of the current zoom to zoom out by. At a minimum will decrease zoom by 1.</param>
+		public void SmoothZoomOut(float percent = .01f)
 		{
-            if (percent <= 0)
-            {
-                return;
-            }
-
-			if (MinZoom <= Zoom - (Zoom * percent))
+			if (percent <= 0)
 			{
-				Zoom -= (byte)Math.Ceiling(Zoom * percent);
+				return;
+			}
+
+			if (this.MinZoom <= this.Zoom - (this.Zoom * percent))
+			{
+				this.Zoom -= (byte)Math.Ceiling(this.Zoom * percent);
 			}
 		}
 	}

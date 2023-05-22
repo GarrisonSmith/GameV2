@@ -11,6 +11,7 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 	{
 		private byte originalZoom;
 		private readonly ICameraTask[] componentTasks;
+		private readonly Camera camera;
 
 		/// <summary>
 		/// The original zoom of the camera.
@@ -25,6 +26,10 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// Gets the camera tasks type of this tasks.
 		/// </summary>
 		public CameraTaskTypes CameraTaskTypes { get => CameraTaskTypes.ZoomOutPanZoomIn; }
+		/// <summary>
+		/// Gets the camera.
+		/// </summary>
+		public Camera Camera { get => this.camera; }
 
 		/// <summary>
 		/// Creates a new zoom out, pan, zoom in task.
@@ -32,13 +37,15 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// <param name="zoomSpeed">The speed the task will zoom with.</param>
 		/// <param name="panSpeed">The speed the task will pan with.</param>
 		/// <param name="destination">The destination of the panning.</param>
-		public ZoomOutPanZoomIn(byte zoomSpeed, float panSpeed, Vector2 destination)
+		/// <param name="camera">The camera.</param>
+		public ZoomOutPanZoomIn(byte zoomSpeed, float panSpeed, Vector2 destination, Camera camera)
 		{
-			originalZoom = Camera.Zoom;
+			originalZoom = camera.Zoom;
+			this.camera = camera;
 			componentTasks = new ICameraTask[4];
-			ComponentTasks[0] = ComponentTasks[1] = new ZoomByIncrementsTask(zoomSpeed, destination);
-			ComponentTasks[2] = new PanToTask(panSpeed, destination);
-			ComponentTasks[3] = new ZoomByIncrementsTask(zoomSpeed, Camera.Zoom);
+			ComponentTasks[0] = ComponentTasks[1] = new ZoomByIncrementsTask(zoomSpeed, destination, camera);
+			ComponentTasks[2] = new PanToTask(panSpeed, destination, camera);
+			ComponentTasks[3] = new ZoomByIncrementsTask(zoomSpeed, Camera.Zoom, camera);
 		}
 		/// <summary>
 		/// Creates a new zoom out, pan, zoom in task.
@@ -47,13 +54,15 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// <param name="destinationZoom">The zoom the first zoom task will reach.</param>
 		/// <param name="panSpeed">The speed the task will pan with.</param>
 		/// <param name="destination">The destination of the panning.</param>
-		public ZoomOutPanZoomIn(byte zoomSpeed, byte destinationZoom, byte panSpeed, Vector2 destination)
+		/// <param name="camera">The camera.</param>
+		public ZoomOutPanZoomIn(byte zoomSpeed, byte destinationZoom, byte panSpeed, Vector2 destination, Camera camera)
 		{
-			originalZoom = Camera.Zoom;
+			originalZoom = camera.Zoom;
+			this.camera = camera;
 			componentTasks = new ICameraTask[4];
-			ComponentTasks[0] = ComponentTasks[1] = new ZoomByIncrementsTask(zoomSpeed, destinationZoom);
-			ComponentTasks[2] = new PanToTask(panSpeed, destination);
-			ComponentTasks[3] = new ZoomByIncrementsTask(zoomSpeed, Camera.Zoom);
+			ComponentTasks[0] = ComponentTasks[1] = new ZoomByIncrementsTask(zoomSpeed, destinationZoom, camera);
+			ComponentTasks[2] = new PanToTask(panSpeed, destination, camera);
+			ComponentTasks[3] = new ZoomByIncrementsTask(zoomSpeed, Camera.Zoom, camera);
 		}
 
 		/// <summary>
@@ -73,14 +82,14 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// <returns>True if the Camera zoom is the original zoom and the camera pan to it's destination, False if not.</returns>
 		public bool ProgressTask()
 		{
-			if (Camera.CameraViewBoundingBox.Center == ((PanToTask)ComponentTasks[2]).Destination && Camera.Zoom == OriginalZoom)
+			if (Camera.AreaBox.Center == ((PanToTask)ComponentTasks[2]).Destination && Camera.Zoom == OriginalZoom)
 			{
 				return true;
 			}
 
 			if (ComponentTasks[0].ProgressTask())
 			{
-				if (ComponentTasks[0] is ZoomByIncrementsTask && Camera.CameraViewBoundingBox.Center != ((PanToTask)ComponentTasks[2]).Destination)
+				if (ComponentTasks[0] is ZoomByIncrementsTask && Camera.AreaBox.Center != ((PanToTask)ComponentTasks[2]).Destination)
 				{
 					ComponentTasks[0] = ComponentTasks[2];
 					return false;

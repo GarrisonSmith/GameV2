@@ -2,7 +2,6 @@
 using Fantasy.Engine.Physics;
 using Fantasy.Engine.Physics.interfaces;
 using Fantasy.Engine.SubGameComponents.components;
-using Microsoft.Xna.Framework;
 
 namespace Fantasy.Engine.Mapping.Tiling
 {
@@ -28,7 +27,7 @@ namespace Fantasy.Engine.Mapping.Tiling
 		/// <summary>
 		/// Gets the position.
 		/// </summary>
-		public Position Position { get => this.position; }
+		public Position CameraViewPosition { get => this.position; }
 
 		/// <summary>
 		/// Creates a new <c>Tile</c> with the provided parameters.

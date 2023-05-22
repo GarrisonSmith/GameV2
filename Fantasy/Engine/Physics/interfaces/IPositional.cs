@@ -8,6 +8,6 @@
 		/// <summary>
 		/// Gets or sets the position.
 		/// </summary>
-		public T Position { get; }
+		public T CameraViewPosition { get; }
 	}
 }

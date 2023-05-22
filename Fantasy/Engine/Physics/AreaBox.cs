@@ -24,15 +24,15 @@ namespace Fantasy.Engine.Physics
 		/// <summary>
 		/// Gets or sets the top-left point of the <c>AreaBox</c>.
 		/// </summary>
-		public Vector2 TopLeft { get => Position.VectorPosition; }
+		public Vector2 TopLeft { get => CameraViewPosition.VectorPosition; }
 		/// <summary>
 		/// Gets the center point of the <c>AreaBox</c>.
 		/// </summary>
-		public Vector2 Center { get => new(Position.X + (Width / 2), Position.Y + (Height / 2)); }
+		public Vector2 Center { get => new(CameraViewPosition.X + (Width / 2), CameraViewPosition.Y + (Height / 2)); }
 		/// <summary>
 		/// Gets the bottom-right point of the <c>AreaBox</c>.
 		/// </summary>
-		public Vector2 BottomRight { get => new(Position.X + Width, Position.Y + Height); }
+		public Vector2 BottomRight { get => new(CameraViewPosition.X + Width, CameraViewPosition.Y + Height); }
 		/// <summary>
 		/// Gets a rectangle that represents the <c>AreaBox</c>, with the top-left point being the
 		/// <c>TopLeft</c> property and the width and height being the <c>Width</c> and <c>Height</c> properties respectively.
@@ -41,7 +41,7 @@ namespace Fantasy.Engine.Physics
 		/// <summary>
 		/// Gets or sets the position of the <c>AreaBox</c>. The <c>Position</c> contains the top-left details of the <c>AreaBox</c>.
 		/// </summary>
-		public PositionRef Position { get => this.position; set => this.position = value; }
+		public PositionRef CameraViewPosition { get => this.position; set => this.position = value; }
 
 		/// <summary>
 		/// Initializes a new instance of the <c>AreaBox</c> class with the specified top-left position and dimensions.
@@ -51,7 +51,7 @@ namespace Fantasy.Engine.Physics
 		/// <param name="height">The height of the <c>AreaBox</c>.</param>
 		public AreaBox(PositionRef topLeft, float width, float height)
         {
-            this.Position = topLeft;
+            this.CameraViewPosition = topLeft;
             this.Width = width;
             this.Height = height;
         }
@@ -77,6 +77,18 @@ namespace Fantasy.Engine.Physics
 				   foo.AreaBox.TopLeft.Y >= this.TopLeft.Y &&
 				   foo.AreaBox.BottomRight.X <= this.BottomRight.X &&
 				   foo.AreaBox.BottomRight.Y <= this.BottomRight.Y;
+		}
+		/// <summary>
+		/// Determines if this <c>AreaBox</c> completely contains the provided <c>Vector2</c>.
+		/// </summary>
+		/// <param name="foo">The <c>ISpatial</c>.</param>
+		/// <returns>True if the provided <c>Vector2</c> is completely contained by this <c>AreaBox</c>, False if not.</returns>
+		public bool Contains(Vector2 foo)
+		{
+			return foo.X >= this.TopLeft.X &&
+				   foo.Y >= this.TopLeft.Y &&
+				   foo.X <= this.BottomRight.X &&
+				   foo.Y <= this.BottomRight.Y;
 		}
 
 		/// <summary>
@@ -145,7 +157,7 @@ namespace Fantasy.Engine.Physics
 		/// <returns>The hashcode for this <c>AreaBox</c>.</returns>
 		public override int GetHashCode()
         {
-            return HashCode.Combine(this.Position.GetHashCode, this.Width.GetHashCode, this.Height.GetHashCode);
+            return HashCode.Combine(this.CameraViewPosition.GetHashCode, this.Width.GetHashCode, this.Height.GetHashCode);
         }
 		/// <summary>
 		/// Generates a string representation of the <c>AreaBox</c>.
@@ -153,7 +165,7 @@ namespace Fantasy.Engine.Physics
 		/// <returns>A string representing the <c>AreaBox</c>.</returns>
 		public override string ToString()
 		{
-			return "{X:" + this.Position.X + ", Y:" + this.Position.Y + ", Width: " + this.Width + ", Height: " + this.Height + "}";
+			return "{X:" + this.CameraViewPosition.X + ", Y:" + this.CameraViewPosition.Y + ", Width: " + this.Width + ", Height: " + this.Height + "}";
 		}
 
 		/// <summary>
@@ -163,8 +175,21 @@ namespace Fantasy.Engine.Physics
 		/// <param name="bar">The second <c>AreaBox</c>.</param>
 		/// <returns>True if the two <c>AreaBox</c> are equal, False if they are not equal.</returns>
 		public static bool operator == (AreaBox foo, AreaBox bar)
-        {
-			return (foo.Position == bar.Position && foo.Width == bar.Width && foo.Height == bar.Height);
+		{
+			if (foo is null && bar is null)
+			{
+				return true;
+			}
+			else if (foo is null)
+			{
+				return false;
+			}
+			else if (bar is null)
+			{
+				return false;
+			}
+
+			return (foo.CameraViewPosition == bar.CameraViewPosition && foo.Width == bar.Width && foo.Height == bar.Height);
 		}
 		/// <summary>
 		/// Determines if two <c>AreaBox</c> are not equal.
@@ -174,7 +199,20 @@ namespace Fantasy.Engine.Physics
 		/// <returns>True if the two <c>AreaBox</c> are not equal, False if they are equal.</returns>
 		public static bool operator != (AreaBox foo, AreaBox bar)
         {
-			return (foo.Position != bar.Position || foo.Width != bar.Width || foo.Height != bar.Height);
+			if (foo is null && bar is null)
+			{
+				return false;
+			}
+			else if (foo is null)
+			{
+				return true;
+			}
+			else if (bar is null)
+			{
+				return true;
+			}
+
+			return (foo.CameraViewPosition != bar.CameraViewPosition || foo.Width != bar.Width || foo.Height != bar.Height);
         }
     }
 }

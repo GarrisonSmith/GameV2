@@ -12,6 +12,7 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		private readonly byte zoomSpeed;
 		private readonly byte? destinationZoom;
 		private readonly Vector2? viewPoint;
+		private readonly Camera camera;
 
 		/// <summary>
 		/// The speed of the zoom task.
@@ -29,28 +30,36 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// Gets the camera tasks type of this tasks.
 		/// </summary>
 		public CameraTaskTypes CameraTaskTypes { get => CameraTaskTypes.ZoomByIncrements; }
+		/// <summary>
+		/// Gets the camera.
+		/// </summary>
+		public Camera Camera { get => this.camera; }
 
 		/// <summary>
 		/// Creates a new zoom by increments task.
 		/// </summary>
 		/// <param name="speed">The speed the task will zoom with.</param>
 		/// <param name="destinationZoom">The destination zoom of the task.</param>
-		public ZoomByIncrementsTask(byte speed, byte destinationZoom)
+		/// <param name="camera">The camera.</param>
+		public ZoomByIncrementsTask(byte speed, byte destinationZoom, Camera camera)
 		{ 
 			this.zoomSpeed = speed;
 			this.destinationZoom = destinationZoom;
 			this.viewPoint = null;
+			this.camera = camera;
 		}
 		/// <summary>
 		/// Creates a new zoom by increments tasks.
 		/// </summary>
 		/// <param name="speed">The speed the task will zoom with.</param>
 		/// <param name="viewPoint">The point which the camera will zoom out to until it is within the view of the camera or the camera's max zoom is reached.</param>
-		public ZoomByIncrementsTask(byte speed, Vector2 viewPoint)
+		/// <param name="camera">The camera.</param>
+		public ZoomByIncrementsTask(byte speed, Vector2 viewPoint, Camera camera)
 		{
 			this.zoomSpeed = speed;
 			this.destinationZoom = null;
 			this.viewPoint = viewPoint;
+			this.camera = camera;
 		}
 
 		/// <summary>
@@ -68,7 +77,7 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		{
 			if (ViewPoint != null)
 			{
-				if (Camera.CameraViewBoundingBox.Contains((Vector2)ViewPoint))
+				if (Camera.AreaBox.Contains((Vector2)ViewPoint))
 				{
 					return true;
 				}
