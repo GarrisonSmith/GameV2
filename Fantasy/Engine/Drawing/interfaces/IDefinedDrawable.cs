@@ -13,7 +13,7 @@ namespace Fantasy.Engine.Drawing.interfaces
 		/// <summary>
 		/// Gets the bottom right position of this <c>CombinedTexture</c>.
 		/// </summary>
-		Vector2 BottomRight { get => new Vector2(this.CameraViewPosition.X + this.SheetBox.Width, this.CameraViewPosition.Y + this.SheetBox.Height); }
+		Vector2 BottomRight { get => new Vector2(this.Position.X + this.SheetBox.Width, this.Position.Y + this.SheetBox.Height); }
 
 		/// <summary>
 		/// Gets the texture area of the spriteSheet from which this <c>IDefinedDrawable</c>.

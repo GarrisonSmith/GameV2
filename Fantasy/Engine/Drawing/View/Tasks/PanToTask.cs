@@ -84,7 +84,7 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 				return true;
 			}
 
-			this.Camera.CameraViewPosition.VectorPosition += Delta;
+			this.Camera.Position.VectorPosition += Delta;
 			return false;
 		}
 	}

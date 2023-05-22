@@ -27,7 +27,7 @@ namespace Fantasy.Engine.Mapping.Tiling
 		/// <summary>
 		/// Gets the position.
 		/// </summary>
-		public Position CameraViewPosition { get => this.position; }
+		public Position Position { get => this.position; }
 
 		/// <summary>
 		/// Creates a new <c>Tile</c> with the provided parameters.

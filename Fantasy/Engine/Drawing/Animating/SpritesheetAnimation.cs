@@ -97,7 +97,7 @@ namespace Fantasy.Engine.Drawing.Animating
 			}
 
 			this.CurrentSheetBox = new Rectangle(this.SheetBox.X + (this.ActiveFrameIndex * this.SheetBox.Width), this.SheetBox.Y, this.SheetBox.Width, this.SheetBox.Height);
-			this.CurrentOffSetPosition = this.CameraViewPosition.VectorPosition + this.Frames[this.ActiveFrameIndex].OffSet;
+			this.CurrentOffSetPosition = this.Position.VectorPosition + this.Frames[this.ActiveFrameIndex].OffSet;
 			this.CurrentFrameDuration = TimeSpan.Zero;
 			this.CurrentFrameMaxDuration = new TimeSpan(0, 0, 0, 0, this.MinDurationMili + RandomNumberGenerator.Random.Next(this.MaxDurationExtensionMili));
 		}
@@ -123,7 +123,7 @@ namespace Fantasy.Engine.Drawing.Animating
 					this.ActiveFrameIndex = 0;
 				}
 				this.currentSheetBox.X = this.SheetBox.X + (this.ActiveFrameIndex * this.SheetBox.Width);
-				this.CurrentOffSetPosition = this.CameraViewPosition.VectorPosition + this.Frames[this.ActiveFrameIndex].OffSet;
+				this.CurrentOffSetPosition = this.Position.VectorPosition + this.Frames[this.ActiveFrameIndex].OffSet;
 				this.CurrentFrameDuration = TimeSpan.Zero;
 				this.CurrentFrameMaxDuration = new TimeSpan(0, 0, 0, 0, this.MinDurationMili + RandomNumberGenerator.Random.Next(this.MaxDurationExtensionMili));
 			}

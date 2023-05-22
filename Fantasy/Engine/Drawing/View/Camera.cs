@@ -34,7 +34,7 @@ namespace Fantasy.Engine.Drawing.View
 		private float stretch;
 		private float rotation;
 		private Matrix cameraMatrix;
-		private Position cameraViewPosition;
+		private Position position;
 		private Position cameraBoundingPosition;
 		private AreaBox cameraView;
 		private AreaBox cameraBounding;
@@ -88,7 +88,7 @@ namespace Fantasy.Engine.Drawing.View
 		/// <summary>
 		/// Gets or sets the camera view position.
 		/// </summary>
-		public Position CameraViewPosition { get => this.cameraViewPosition; set => this.cameraViewPosition = value; }
+		public Position Position { get => this.position; set => this.position = value; }
 		/// <summary>
 		/// Gets or sets the camera bounding position.
 		/// </summary>
@@ -113,8 +113,8 @@ namespace Fantasy.Engine.Drawing.View
 		/// <param name="Position">The camera view position.</param>
 		private Camera(Game game, Position Position) : base(game)
 		{
-			this.cameraViewPosition = Position;
-			this.AreaBox = new AreaBox(this.cameraViewPosition.GetPositionRef(), game.GraphicsDevice.Viewport.Width, game.GraphicsDevice.Viewport.Height);
+			this.position = Position;
+			this.AreaBox = new AreaBox(this.position.GetPositionRef(), game.GraphicsDevice.Viewport.Width, game.GraphicsDevice.Viewport.Height);
 			this.VerticalMovementLocked = false;
 			this.HorizontalMovementLocked = false;
 			this.MaxZoom = 192;
@@ -177,7 +177,7 @@ namespace Fantasy.Engine.Drawing.View
 				return;
 			}
 
-			this.cameraViewPosition.VectorPosition = new Vector2(foo.X + this.AreaBox.Width / 2, foo.Y + this.AreaBox.Height / 2);
+			this.position.VectorPosition = new Vector2(foo.X + this.AreaBox.Width / 2, foo.Y + this.AreaBox.Height / 2);
 		}
 
 		/// <summary>

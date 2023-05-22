@@ -61,19 +61,19 @@ namespace Fantasy
 
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
-                Camera.GetCamera().CameraViewPosition.Y -= 7f;
+                Camera.GetCamera().Position.Y -= 7f;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
-				Camera.GetCamera().CameraViewPosition.X -= 7f;
+				Camera.GetCamera().Position.X -= 7f;
 			}
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
-				Camera.GetCamera().CameraViewPosition.X += 7f;
+				Camera.GetCamera().Position.X += 7f;
 			}
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
-				Camera.GetCamera().CameraViewPosition.Y += 7f;
+				Camera.GetCamera().Position.Y += 7f;
 			}
 			if (Keyboard.GetState().IsKeyDown(Keys.OemPlus))
 			{

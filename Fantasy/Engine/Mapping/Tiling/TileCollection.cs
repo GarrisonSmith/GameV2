@@ -50,7 +50,7 @@ namespace Fantasy.Engine.Mapping.Tiling
 		/// <param name="tile">The tile.</param>
 		public void AddSubComponent(Tile tile)
 		{
-			this.Tiles.Add(new Location(tile.CameraViewPosition.VectorPosition), tile);
+			this.Tiles.Add(new Location(tile.Position.VectorPosition), tile);
 			this.AddSubComponent((ISubComponent)tile);
 		}
 		/// <summary>
