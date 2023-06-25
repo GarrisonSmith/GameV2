@@ -1,4 +1,5 @@
 ﻿using Fantasy.Engine.Drawing.View.Tasks.interfaces;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace Fantasy.Engine.Drawing.View.Tasks
@@ -78,9 +79,10 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// <summary>
 		/// Updates the task stack by progressing the top task and popping it from <cref>Tasks</cref> if the task is complete. 
 		/// </summary>
-		public void Update() 
+		/// <param name="gameTime">The game time.</param>
+		public void Update(GameTime gameTime) 
 		{
-			if (Tasks.Peek().ProgressTask())
+			if (Tasks.Peek().ProgressTask(gameTime))
 			{
 				Tasks.Pop();
 				Tasks.Peek().StartTask();

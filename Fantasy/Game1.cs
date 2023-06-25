@@ -1,43 +1,46 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Fantasy.Engine.ContentManagement;
-using Fantasy.Engine.Mapping;
+﻿using Fantasy.Engine.ContentManagement;
 using Fantasy.Engine.Drawing;
 using Fantasy.Engine.Drawing.View;
 using Fantasy.Engine.Drawing.View.Tasks;
+using Fantasy.Engine.Mapping;
+using Fantasy.Engine.Physics;
+using Fantasy.Engine.Physics.enums;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 //System.Diagnostics.Debug.WriteLine(); <--GREATEST DEBUG
 namespace Fantasy
 {
-    public class Game1 : Game
+	public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
 
-        public GraphicsDeviceManager _Graphics
+        public GraphicsDeviceManager Graphics
         { 
             get => _graphics;
+            private set => _graphics = value;
         }
-
 
         public Game1()
         {
-            _graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
+            this.Graphics = new GraphicsDeviceManager(this);
+			this.Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
 
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-			_graphics.PreferredBackBufferHeight = 1000;
-			_graphics.PreferredBackBufferWidth = 1500;
-			_graphics.ApplyChanges();
+			Graphics.PreferredBackBufferHeight = 1000;
+			Graphics.PreferredBackBufferWidth = 1500;
+			Graphics.ApplyChanges();
 
-            SpriteBatchHandler.Initialize(_graphics.GraphicsDevice);
+            SpriteBatchHandler.Initialize(Graphics.GraphicsDevice);
             Camera camera = Camera.GetCamera(this, new Engine.Physics.Position(new Vector2()));
             TextureManager.Initialize(this);
             XmlManager.Initialize(this);
+            MoveSpeed.Initialize();
 
 			ActiveGameMap activeGameMap = ActiveGameMap.GetActiveGameMap(this, "animated_test_map");
 			this.Components.Add(activeGameMap);
@@ -89,9 +92,9 @@ namespace Fantasy
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Q))
             {
-				Camera.GetCamera().TaskStack.Push(new ZoomOutPanZoomIn(1, 7f, new Vector2(900, 200)));
-				Camera.GetCamera().TaskStack.Push(new PanToTask(7f, new Vector2(0, 0)));
-				Camera.GetCamera().TaskStack.Push(new PanToTask(7f, new Vector2(500, 500)));
+				Camera.GetCamera().TaskStack.Push(new ZoomOutPanZoomIn(1, new MoveSpeed(.0005f, TimeTypes.Ticks), new Vector2(900, 200)));
+				Camera.GetCamera().TaskStack.Push(new PanToTask(new MoveSpeed(.128f, TimeTypes.Milliseconds), new Vector2(0, 0)));
+				Camera.GetCamera().TaskStack.Push(new PanToTask(new MoveSpeed(64f, TimeTypes.Seconds), new Vector2(500, 500)));
 			}
             if (Keyboard.GetState().IsKeyDown(Keys.J))
             {
@@ -103,6 +106,7 @@ namespace Fantasy
 			}
 
 			base.Update(gameTime);
+            MoveSpeed.LastTotalGameTime = gameTime.TotalGameTime;
         }
 
         protected override void Draw(GameTime gameTime)

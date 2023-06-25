@@ -19,7 +19,7 @@ namespace Fantasy.Engine.Drawing.Animating
 		protected readonly SpriteSheetFrame[] frames;
 
 		/// <summary>
-		/// Describes if the <c>Animation</c> is paused.
+		/// Gets or sets a value indicating if the <c>Animation</c> is paused.
 		/// Initialized to false when all <c>Animation</c> objects are created.
 		/// </summary>
 		public new bool IsPaused

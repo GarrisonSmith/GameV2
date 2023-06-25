@@ -1,5 +1,6 @@
 ﻿using Fantasy.Engine.Drawing.View.Tasks.enums;
 using Fantasy.Engine.Drawing.View.Tasks.interfaces;
+using Fantasy.Engine.Physics;
 using Microsoft.Xna.Framework;
 
 namespace Fantasy.Engine.Drawing.View.Tasks
@@ -35,10 +36,10 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// Creates a new zoom out, pan, zoom in task.
 		/// </summary>
 		/// <param name="zoomSpeed">The speed the task will zoom with.</param>
-		/// <param name="panSpeed">The speed the task will pan with.</param>
+		/// <param name="panSpeed">The move speed the task will pan with.</param>
 		/// <param name="destination">The destination of the panning.</param>
 		/// <param name="camera">The camera.</param>
-		public ZoomOutPanZoomIn(byte zoomSpeed, float panSpeed, Vector2 destination, Camera camera = null)
+		public ZoomOutPanZoomIn(byte zoomSpeed, MoveSpeed panSpeed, Vector2 destination, Camera camera = null)
 		{
 			this.camera = camera ?? Camera.GetCamera();
 			originalZoom = this.camera.Zoom;
@@ -52,10 +53,10 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// </summary>
 		/// <param name="zoomSpeed">The speed the task will zoom with.</param>
 		/// <param name="destinationZoom">The zoom the first zoom task will reach.</param>
-		/// <param name="panSpeed">The speed the task will pan with.</param>
+		/// <param name="panSpeed">The move speed the task will pan with.</param>
 		/// <param name="destination">The destination of the panning.</param>
 		/// <param name="camera">The camera.</param>
-		public ZoomOutPanZoomIn(byte zoomSpeed, byte destinationZoom, byte panSpeed, Vector2 destination, Camera camera = null)
+		public ZoomOutPanZoomIn(byte zoomSpeed, byte destinationZoom, MoveSpeed panSpeed, Vector2 destination, Camera camera = null)
 		{
 			this.camera = camera ?? Camera.GetCamera();
 			originalZoom = this.camera.Zoom;
@@ -79,15 +80,16 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// <summary>
 		/// Progress the task by zooming the camera in or out by one or panning the camera toward the destination by one increment.
 		/// </summary>
+		/// <param name="gameTime">The game time.</param>
 		/// <returns>True if the Camera zoom is the original zoom and the camera pan to it's destination, False if not.</returns>
-		public bool ProgressTask()
+		public bool ProgressTask(GameTime gameTime)
 		{
 			if (Camera.AreaBox.Center == ((PanToTask)ComponentTasks[2]).Destination && Camera.Zoom == OriginalZoom)
 			{
 				return true;
 			}
 
-			if (ComponentTasks[0].ProgressTask())
+			if (ComponentTasks[0].ProgressTask(gameTime))
 			{
 				if (ComponentTasks[0] is ZoomByIncrementsTask && Camera.AreaBox.Center != ((PanToTask)ComponentTasks[2]).Destination)
 				{

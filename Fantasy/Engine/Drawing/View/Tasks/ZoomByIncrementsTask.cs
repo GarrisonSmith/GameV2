@@ -72,8 +72,9 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// <summary>
 		/// Progress the task by zooming the camera in or out by one.
 		/// </summary>
+		/// <param name="gameTime">The game time.</param>
 		/// <returns>True if the Camera zoom has reached the destination zoom, False if not.</returns>
-		public bool ProgressTask()
+		public bool ProgressTask(GameTime gameTime)
 		{
 			if (ViewPoint != null)
 			{

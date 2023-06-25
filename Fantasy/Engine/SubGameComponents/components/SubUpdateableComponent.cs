@@ -4,10 +4,10 @@ using Microsoft.Xna.Framework;
 
 namespace Fantasy.Engine.SubGameComponents.components
 {
-    /// <summary>
-    /// Represents a subcomponent that can updated inside a <c>ISubUpdateableCollection</c>
-    /// </summary>
-    public abstract class SubUpdateableComponent : SubComponent, ISubUpdateable, ISubUpdateableComponent
+	/// <summary>
+	/// Represents a subcomponent that can updated inside a <c>ISubUpdateableCollection</c>
+	/// </summary>
+	public abstract class SubUpdateableComponent : SubComponent, ISubUpdateable, ISubUpdateableComponent
 	{
 		protected bool isActive;
 		protected byte updateOrder;

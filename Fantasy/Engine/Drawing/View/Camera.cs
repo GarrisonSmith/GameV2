@@ -157,7 +157,7 @@ namespace Fantasy.Engine.Drawing.View
 		/// <param name="gameTime">The game time.</param>
 		public override void Update(GameTime gameTime)
 		{
-			this.TaskStack.Update();
+			this.TaskStack.Update(gameTime);
 		}
 
 		/// <summary>

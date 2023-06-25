@@ -1,6 +1,7 @@
 ﻿using Fantasy.Engine.Drawing.View.Tasks.enums;
 using Fantasy.Engine.Drawing.View.Tasks.interfaces;
 using Fantasy.Engine.Physics;
+using Microsoft.Xna.Framework;
 
 namespace Fantasy.Engine.Drawing.View.Tasks
 {
@@ -46,8 +47,9 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// <summary>
 		/// Centers the camera on the center of the current locatable. 
 		/// </summary>
+        /// <param name="gameTime">The game time.</param>
 		/// <returns>False as this task never auto completes.</returns>
-		public bool ProgressTask() {
+		public bool ProgressTask(GameTime gameTime) {
             this.Camera.CenterCamera(positionRef.VectorPosition);
             return false;
         }

@@ -1,5 +1,6 @@
 ﻿using Fantasy.Engine.Drawing.View.Tasks.enums;
 using Fantasy.Engine.Drawing.View.Tasks.interfaces;
+using Fantasy.Engine.Physics;
 using Microsoft.Xna.Framework;
 using System;
 
@@ -11,8 +12,7 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 	public struct PanToTask : ICameraTask
 	{
 		private double theta;
-		private readonly float speed;
-		private Vector2 delta;
+		private readonly MoveSpeed moveSpeed;
 		private readonly Vector2 destination;
 		private readonly Camera camera;
 
@@ -23,11 +23,7 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// <summary>
 		/// The speed of the camera will pan with.
 		/// </summary>
-		public float Speed { get => speed; }
-		/// <summary>
-		/// The delta X and Y values the task will pan with. 
-		/// </summary>
-		public Vector2 Delta { get => delta; }
+		public MoveSpeed MoveSpeed { get => moveSpeed; }
 		/// <summary>
 		/// The destination of this pan to task.
 		/// </summary>
@@ -44,16 +40,15 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// <summary>
 		/// Creates a new pan to task.
 		/// </summary>
-		/// <param name="speed">The speed the task will pan with.</param>
+		/// <param name="moveSpeed">The move speed the task will pan with.</param>
 		/// <param name="destination">The destination for this pan to task.</param>
 		/// <param name="camera">The camera.</param>
-		public PanToTask(float speed, Vector2 destination, Camera camera = null)
+		public PanToTask(MoveSpeed moveSpeed, Vector2 destination, Camera camera = null)
 		{
 			this.camera = camera ?? Camera.GetCamera();
-			this.speed = speed;
+			this.moveSpeed = moveSpeed;
 			this.destination = destination;
 			theta = 0;
-			delta = new Vector2();
 		}
 
 		/// <summary>
@@ -64,27 +59,29 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 			theta = Math.Atan(
 				((this.Camera.AreaBox.Center.Y == 0 ? .001 : this.Camera.AreaBox.Center.Y) - destination.Y) /
 				((this.Camera.AreaBox.Center.X == 0 ? .001 : this.Camera.AreaBox.Center.X) - destination.X));
-
-			float deltaX = (float)Math.Abs(speed * Math.Cos((double)Theta));
-			float deltaY = (float)Math.Abs(speed * Math.Sin((double)Theta));
-			delta = new Vector2(
-				destination.X > this.Camera.AreaBox.Center.X ? deltaX : -deltaX,
-				destination.Y > this.Camera.AreaBox.Center.Y ? deltaY : -deltaY);
 		}
 		/// <summary>
 		/// Moves the camera toward the destination by a single speed step.
 		/// </summary>
+		/// <param name="gameTime">The game time.</param>
 		/// <returns>True if the camera has reach the destination, False if not.</returns>
-		public bool ProgressTask()
+		public bool ProgressTask(GameTime gameTime)
 		{
-			if (Math.Abs(this.Camera.AreaBox.Center.X - Destination.X) <= Math.Abs(Delta.X) &&
-				Math.Abs(this.Camera.AreaBox.Center.Y - Destination.Y) <= Math.Abs(Delta.Y))
+			float movementAmount = this.MoveSpeed.GetMovementAmount(gameTime);
+			float deltaX = (float)Math.Abs(movementAmount * Math.Cos((double)Theta));
+			float deltaY = (float)Math.Abs(movementAmount * Math.Sin((double)Theta));
+			Vector2 delta = new Vector2(
+				destination.X > this.Camera.AreaBox.Center.X ? deltaX : -deltaX,
+				destination.Y > this.Camera.AreaBox.Center.Y ? deltaY : -deltaY);
+
+			if (Math.Abs(this.Camera.AreaBox.Center.X - Destination.X) <= Math.Abs(delta.X) &&
+				Math.Abs(this.Camera.AreaBox.Center.Y - Destination.Y) <= Math.Abs(delta.Y))
 			{
 				this.Camera.CenterCamera(destination);
 				return true;
 			}
 
-			this.Camera.Position.VectorPosition += Delta;
+			this.Camera.Position.VectorPosition += delta;
 			return false;
 		}
 	}

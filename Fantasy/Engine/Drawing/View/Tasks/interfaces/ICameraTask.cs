@@ -1,4 +1,5 @@
 ﻿using Fantasy.Engine.Drawing.View.Tasks.enums;
+using Microsoft.Xna.Framework;
 
 namespace Fantasy.Engine.Drawing.View.Tasks.interfaces
 {
@@ -24,7 +25,8 @@ namespace Fantasy.Engine.Drawing.View.Tasks.interfaces
         /// <summary>
         /// Carries out the camera task.
         /// </summary>
+        /// <param name="gameTime">The game time.</param>
         /// <returns>True if the task is completed, False if not.</returns>
-        bool ProgressTask();
+        bool ProgressTask(GameTime gameTime);
     }
 }

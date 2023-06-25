@@ -1,7 +1,4 @@
-﻿using Fantasy.Engine.Drawing.Animating;
-using Fantasy.Engine.SubGameComponents.components;
-using Fantasy.Engine.SubGameComponents.interfaces;
-using Fantasy.Engine.SubGameComponents.interfaces.collections;
+﻿using Fantasy.Engine.SubGameComponents.interfaces.collections;
 using Fantasy.Engine.SubGameComponents.interfaces.components;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;

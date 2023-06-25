@@ -1,5 +1,7 @@
 ﻿using Fantasy.Engine.Drawing.View.Tasks.enums;
 using Fantasy.Engine.Drawing.View.Tasks.interfaces;
+using Fantasy.Engine.Physics;
+using Microsoft.Xna.Framework;
 
 namespace Fantasy.Engine.Drawing.View.Tasks
 {
@@ -8,13 +10,13 @@ namespace Fantasy.Engine.Drawing.View.Tasks
     /// </summary>
     public struct FreeMovementTask : ICameraTask
     {
-        private readonly float speed;
+        private readonly MoveSpeed moveSpeed;
         private readonly Camera camera;
 
         /// <summary>
-        /// The speed the camera will move with.
+        /// The move speed the camera will move with.
         /// </summary>
-        public float Speed { get => speed; }
+        public MoveSpeed MoveSpeed { get => moveSpeed; }
         /// <summary>
         /// Gets the camera tasks type of this tasks.
         /// </summary>
@@ -27,12 +29,12 @@ namespace Fantasy.Engine.Drawing.View.Tasks
         /// <summary>
         /// Creates a new free movement task.
         /// </summary>
-        /// <param name="speed">The speed the task will move with.</param>
+        /// <param name="moveSpeed">The move speed the task will move with.</param>
         /// <param name="camera">The camera.</param>
-        public FreeMovementTask(float speed, Camera camera = null) 
+        public FreeMovementTask(MoveSpeed moveSpeed, Camera camera = null) 
         {
 			this.camera = camera ?? Camera.GetCamera();
-			this.speed = speed;
+			this.moveSpeed = moveSpeed;
 		}
 
 		/// <summary>
@@ -45,8 +47,9 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// <summary>
 		/// Moves the camera freely based off user input.
 		/// </summary>
+        /// <param name="gameTime">The game time.</param>
 		/// <returns>False as this task never auto completes.</returns>
-		public bool ProgressTask()
+		public bool ProgressTask(GameTime gameTime)
         {
             //TODO
             return false;

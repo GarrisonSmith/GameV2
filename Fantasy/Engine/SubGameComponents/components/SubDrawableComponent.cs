@@ -7,10 +7,10 @@ using Microsoft.Xna.Framework;
 
 namespace Fantasy.Engine.SubGameComponents.components
 {
-    /// <summary>
-    /// Represents a subcomponent that can drawn inside a <c>ISubDrawableCollection</c>.
-    /// </summary>
-    public abstract class SubDrawableComponent : SubComponent, ISubDrawable, ISubDrawableComponent
+	/// <summary>
+	/// Represents a subcomponent that can drawn inside a <c>ISubDrawableCollection</c>.
+	/// </summary>
+	public abstract class SubDrawableComponent : SubComponent, ISubDrawable, ISubDrawableComponent
 	{
 		protected bool isVisible;
 		protected bool isAnimated;
