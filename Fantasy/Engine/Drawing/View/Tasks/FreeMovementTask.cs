@@ -18,7 +18,7 @@ namespace Fantasy.Engine.Drawing.View.Tasks
         /// <summary>
         /// Gets the camera tasks type of this tasks.
         /// </summary>
-        public CameraTaskTypes CameraTaskTypes { get => CameraTaskTypes.FreeMovement; }
+        public CameraTaskTypes CameraTaskType { get => CameraTaskTypes.FreeMovement; }
         /// <summary>
         /// Gets the camera.
         /// </summary>
@@ -29,11 +29,11 @@ namespace Fantasy.Engine.Drawing.View.Tasks
         /// </summary>
         /// <param name="speed">The speed the task will move with.</param>
         /// <param name="camera">The camera.</param>
-        public FreeMovementTask(float speed, Camera camera) 
+        public FreeMovementTask(float speed, Camera camera = null) 
         {
-            this.speed = speed;
-            this.camera = camera;
-        }
+			this.camera = camera ?? Camera.GetCamera();
+			this.speed = speed;
+		}
 
 		/// <summary>
 		/// Configures internal values for the task. 

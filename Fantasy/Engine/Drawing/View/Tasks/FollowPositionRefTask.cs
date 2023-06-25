@@ -19,7 +19,7 @@ namespace Fantasy.Engine.Drawing.View.Tasks
         /// <summary>
         /// Gets the camera tasks type of this tasks.
         /// </summary>
-        public CameraTaskTypes CameraTaskTypes { get => CameraTaskTypes.FollowIPosition; }
+        public CameraTaskTypes CameraTaskType { get => CameraTaskTypes.FollowIPosition; }
         /// <summary>
         /// Gets the camera.
         /// </summary>
@@ -30,11 +30,11 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// </summary>
 		/// <param name="positionRef">The PositionRef object for the task to follow.</param>
         /// <param name="camera">The camera.</param>
-		public FollowPositionRefTask(PositionRef positionRef, Camera camera)
-        { 
-            this.positionRef = positionRef;
-            this.camera = camera;
-        }
+		public FollowPositionRefTask(PositionRef positionRef, Camera camera = null)
+        {
+			this.camera = camera ?? Camera.GetCamera();
+			this.positionRef = positionRef;
+		}
 
         /// <summary>
         /// Configures internal values for the task. 

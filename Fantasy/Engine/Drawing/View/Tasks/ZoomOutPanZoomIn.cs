@@ -25,7 +25,7 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// <summary>
 		/// Gets the camera tasks type of this tasks.
 		/// </summary>
-		public CameraTaskTypes CameraTaskTypes { get => CameraTaskTypes.ZoomOutPanZoomIn; }
+		public CameraTaskTypes CameraTaskType { get => CameraTaskTypes.ZoomOutPanZoomIn; }
 		/// <summary>
 		/// Gets the camera.
 		/// </summary>
@@ -38,10 +38,10 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// <param name="panSpeed">The speed the task will pan with.</param>
 		/// <param name="destination">The destination of the panning.</param>
 		/// <param name="camera">The camera.</param>
-		public ZoomOutPanZoomIn(byte zoomSpeed, float panSpeed, Vector2 destination, Camera camera)
+		public ZoomOutPanZoomIn(byte zoomSpeed, float panSpeed, Vector2 destination, Camera camera = null)
 		{
-			originalZoom = camera.Zoom;
-			this.camera = camera;
+			this.camera = camera ?? Camera.GetCamera();
+			originalZoom = this.camera.Zoom;
 			componentTasks = new ICameraTask[4];
 			ComponentTasks[0] = ComponentTasks[1] = new ZoomByIncrementsTask(zoomSpeed, destination, camera);
 			ComponentTasks[2] = new PanToTask(panSpeed, destination, camera);
@@ -55,10 +55,10 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// <param name="panSpeed">The speed the task will pan with.</param>
 		/// <param name="destination">The destination of the panning.</param>
 		/// <param name="camera">The camera.</param>
-		public ZoomOutPanZoomIn(byte zoomSpeed, byte destinationZoom, byte panSpeed, Vector2 destination, Camera camera)
+		public ZoomOutPanZoomIn(byte zoomSpeed, byte destinationZoom, byte panSpeed, Vector2 destination, Camera camera = null)
 		{
-			originalZoom = camera.Zoom;
-			this.camera = camera;
+			this.camera = camera ?? Camera.GetCamera();
+			originalZoom = this.camera.Zoom;
 			componentTasks = new ICameraTask[4];
 			ComponentTasks[0] = ComponentTasks[1] = new ZoomByIncrementsTask(zoomSpeed, destinationZoom, camera);
 			ComponentTasks[2] = new PanToTask(panSpeed, destination, camera);

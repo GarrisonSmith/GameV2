@@ -89,14 +89,18 @@ namespace Fantasy
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Q))
             {
-				Camera.GetCamera().TaskStack.Push(new ZoomOutPanZoomIn(1, 7f, new Vector2(900, 200), Camera.GetCamera()));
-				//Camera.TaskStack.Push(new PanToTask(7f, new Vector2(0, 0)));
-				//Camera.TaskStack.Push(new PanToTask(7f, new Vector2(500, 500)));
+				Camera.GetCamera().TaskStack.Push(new ZoomOutPanZoomIn(1, 7f, new Vector2(900, 200)));
+				Camera.GetCamera().TaskStack.Push(new PanToTask(7f, new Vector2(0, 0)));
+				Camera.GetCamera().TaskStack.Push(new PanToTask(7f, new Vector2(500, 500)));
 			}
             if (Keyboard.GetState().IsKeyDown(Keys.J))
             {
                 ActiveGameMap.GetActiveGameMap().CreateCombinedTextures();
             }
+			if (Keyboard.GetState().IsKeyDown(Keys.K))
+			{
+				Camera.GetCamera().CenterCamera(new Vector2(900, 200));
+			}
 
 			base.Update(gameTime);
         }

@@ -10,7 +10,7 @@ namespace Fantasy.Engine.Drawing.View.Tasks.interfaces
         /// <summary>
         /// Gets the Camera Task Type of this Task.
         /// </summary>
-        CameraTaskTypes CameraTaskTypes { get; }
+        CameraTaskTypes CameraTaskType { get; }
         /// <summary>
         /// Gets the Camera.
         /// </summary>

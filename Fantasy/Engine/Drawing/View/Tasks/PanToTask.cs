@@ -35,7 +35,7 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// <summary>
 		/// Gets the camera tasks type of this tasks.
 		/// </summary>
-		public CameraTaskTypes CameraTaskTypes { get => CameraTaskTypes.PanTo; }
+		public CameraTaskTypes CameraTaskType { get => CameraTaskTypes.PanTo; }
 		/// <summary>
 		/// Gets the camera.
 		/// </summary>
@@ -47,13 +47,13 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// <param name="speed">The speed the task will pan with.</param>
 		/// <param name="destination">The destination for this pan to task.</param>
 		/// <param name="camera">The camera.</param>
-		public PanToTask(float speed, Vector2 destination, Camera camera)
+		public PanToTask(float speed, Vector2 destination, Camera camera = null)
 		{
+			this.camera = camera ?? Camera.GetCamera();
 			this.speed = speed;
 			this.destination = destination;
 			theta = 0;
 			delta = new Vector2();
-			this.camera = camera;
 		}
 
 		/// <summary>

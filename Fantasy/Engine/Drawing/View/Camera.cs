@@ -1,4 +1,5 @@
 ﻿using Fantasy.Engine.Drawing.View.Tasks;
+using Fantasy.Engine.Drawing.View.Tasks.enums;
 using Fantasy.Engine.Mapping.Tiling;
 using Fantasy.Engine.Physics;
 using Fantasy.Engine.Physics.interfaces;
@@ -49,6 +50,10 @@ namespace Fantasy.Engine.Drawing.View
 		/// </summary>
 		public bool HorizontalMovementLocked { get => this.horizontalMovementLocked; set => this.horizontalMovementLocked = value; }
 		/// <summary>
+		/// Gets or sets a value indicating whether this <c>Camera</c> is accepting inputs.
+		/// </summary>
+		public bool AcceptingInput { get => this.TaskStack.Peek().CameraTaskType == CameraTaskTypes.FreeMovement; }
+		/// <summary>
 		/// Gets or sets the current zoom level of this <c>Camera</c>. Describes the pixel dimensions of a tile.
 		/// </summary>
 		public byte Zoom
@@ -60,8 +65,10 @@ namespace Fantasy.Engine.Drawing.View
 				{
 					zoom = value;
 					Stretch = Zoom / (float)Tile.TILE_DIMENSION;
+					Vector2 originalCenter = this.AreaBox.Center;
 					AreaBox.Width = (int)Math.Ceiling(Game.GraphicsDevice.Viewport.Width / Stretch);
 					AreaBox.Height = (int)Math.Ceiling(Game.GraphicsDevice.Viewport.Height / Stretch);
+					this.CenterCamera(originalCenter);
 				}
 			}
 		}
@@ -177,7 +184,7 @@ namespace Fantasy.Engine.Drawing.View
 				return;
 			}
 
-			this.position.VectorPosition = new Vector2(foo.X + this.AreaBox.Width / 2, foo.Y + this.AreaBox.Height / 2);
+			this.position.VectorPosition = new Vector2(foo.X - this.AreaBox.Width / 2, foo.Y - this.AreaBox.Height / 2);
 		}
 
 		/// <summary>

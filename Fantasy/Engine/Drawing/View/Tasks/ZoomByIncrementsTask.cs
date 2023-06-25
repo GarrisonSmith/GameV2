@@ -29,7 +29,7 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// <summary>
 		/// Gets the camera tasks type of this tasks.
 		/// </summary>
-		public CameraTaskTypes CameraTaskTypes { get => CameraTaskTypes.ZoomByIncrements; }
+		public CameraTaskTypes CameraTaskType { get => CameraTaskTypes.ZoomByIncrements; }
 		/// <summary>
 		/// Gets the camera.
 		/// </summary>
@@ -41,12 +41,12 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// <param name="speed">The speed the task will zoom with.</param>
 		/// <param name="destinationZoom">The destination zoom of the task.</param>
 		/// <param name="camera">The camera.</param>
-		public ZoomByIncrementsTask(byte speed, byte destinationZoom, Camera camera)
-		{ 
+		public ZoomByIncrementsTask(byte speed, byte destinationZoom, Camera camera = null)
+		{
+			this.camera = camera ?? Camera.GetCamera();
 			this.zoomSpeed = speed;
 			this.destinationZoom = destinationZoom;
 			this.viewPoint = null;
-			this.camera = camera;
 		}
 		/// <summary>
 		/// Creates a new zoom by increments tasks.
@@ -54,12 +54,12 @@ namespace Fantasy.Engine.Drawing.View.Tasks
 		/// <param name="speed">The speed the task will zoom with.</param>
 		/// <param name="viewPoint">The point which the camera will zoom out to until it is within the view of the camera or the camera's max zoom is reached.</param>
 		/// <param name="camera">The camera.</param>
-		public ZoomByIncrementsTask(byte speed, Vector2 viewPoint, Camera camera)
+		public ZoomByIncrementsTask(byte speed, Vector2 viewPoint, Camera camera = null)
 		{
+			this.camera = camera ?? Camera.GetCamera();
 			this.zoomSpeed = speed;
 			this.destinationZoom = null;
 			this.viewPoint = viewPoint;
-			this.camera = camera;
 		}
 
 		/// <summary>
