@@ -153,7 +153,7 @@ namespace Fantasy.Engine.Mapping
 						}
 						else
 						{
-							definedDrawable = new SpriteSheetAnimation(sheetBox.Value, spriteSheet, positionRef, animationElement);
+							definedDrawable = new SpriteSheetRowAnimation(sheetBox.Value, spriteSheet, positionRef, animationElement);
 						}
 
 						if (definedDrawable == null)

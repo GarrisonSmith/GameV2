@@ -11,7 +11,7 @@ namespace Fantasy.Engine.Drawing.Animating
 	public abstract class Animation : DefinedDrawable
 	{
 		protected bool isPaused;
-		protected byte activeFrameIndex;
+		protected byte activeFrameColumn;
 		protected TimeSpan currentFrameDuration;
 		protected TimeSpan currentFrameMaxDuration;
 
@@ -19,11 +19,11 @@ namespace Fantasy.Engine.Drawing.Animating
 		/// Gets or sets a value indicating if the <c>Animation</c> is paused.
 		/// Initialized to false when all <c>Animation</c> objects are created.
 		/// </summary>
-		public bool IsPaused { get => this.isPaused; set => this.isPaused = value; }
+		public abstract bool IsPaused { get; set; }
 		/// <summary>
-		/// Gets the index of the currently drawn frame in the <c>Animation</c>.
+		/// Gets the column of the currently drawn frame in the spritesheet of the <c>Animation</c>.
 		/// </summary>
-		public byte ActiveFrameIndex { get => this.activeFrameIndex; protected set => this.activeFrameIndex = value; }
+		public byte ActiveFrameColumn { get => this.activeFrameColumn; protected set => this.activeFrameColumn = value; }
 		/// <summary>
 		/// Gets the amount of time the current frame has been drawn for.
 		/// </summary>
@@ -36,7 +36,7 @@ namespace Fantasy.Engine.Drawing.Animating
 		/// <summary>
 		/// Creates a new <c>Animation</c> with the provided parameters.
 		/// </summary>
-		/// <param name="sheetBox">The sheet box.</param>
+		/// <param name="sheetBox">The sheet box. The most top left frame in the <c>Animation</c>.</param>
 		/// <param name="spriteSheet">The spriteSheet.</param>
 		/// <param name="position">The location.</param>
 		public Animation(Rectangle sheetBox, Texture2D spriteSheet, PositionRef position) : base(sheetBox, spriteSheet, position)
